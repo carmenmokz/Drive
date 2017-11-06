@@ -58,9 +58,9 @@ public class xmlStuff {
         
         Node staff = doc.getElementsByTagName(Root).item(0);
         
-        Element age = doc.createElement(fileName);
-	age.appendChild(doc.createTextNode(content));
-	staff.appendChild(age);
+        Element element = doc.createElement(fileName);
+	element.appendChild(doc.createTextNode(content));
+	staff.appendChild(element);
                 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
@@ -70,6 +70,12 @@ public class xmlStuff {
         StreamResult streamResult = new StreamResult(new File(xmlfile));
         
         transformer.transform(source, streamResult);
+    }
+    
+    
+    //LEE XML
+    public static void readingXML()throws Exception{
+        
     }
     
     
