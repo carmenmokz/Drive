@@ -64,7 +64,7 @@ public class Directorio {
         //cuando en la interfaz quiere agregar algo llamar a esta funcion para saber si 
         //quiere reemplazarlo o no, si no quiere preguntarle por nuevo nombre
         for (Archivo archivo1 : archivos) {
-            if (archivo.nombre.equals(archivo1.getNombre()) && archivo.extension.equals(archivo1.getExtension())){
+            if (archivo.getNombre().equals(archivo1.getNombre()) && archivo.getExtension().equals(archivo1.getExtension())){
                 return archivo1; 
             }
         }
@@ -98,6 +98,15 @@ public class Directorio {
     public void setUbicacionDireccion(String ubicacionDireccion) {
         this.ubicacionDireccion = ubicacionDireccion;
     }
+
+    public ArrayList<Directorio> getDirectorios() {
+        return directorios;
+    }
+
+    public void setDirectorios(ArrayList<Directorio> directorios) {
+        this.directorios = directorios;
+    }
+    
     
     
     public void quitarArchivo(Archivo arc){

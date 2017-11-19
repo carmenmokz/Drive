@@ -5,21 +5,28 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author bermu
  */
 public class Archivo {
-    String nombre; 
-    String extension; 
-    String contenido; 
-    int tamanio; 
+    private String nombre; 
+    private String extension; 
+    private String contenido; 
+    private int tamanio; 
+    private Date creacion; 
+    private Date modificacion; 
 
     public Archivo(String nombre, String extension, String contenido) {
         this.nombre = nombre;
         this.extension = extension;
         this.contenido = contenido;
         tamanio = contenido.length(); 
+        Date dia = new Date();          //lo hago asi para que tengan el mismo milisegundo
+        creacion = dia; 
+        modificacion = dia; 
     }
 
     public String getNombre() {
@@ -46,6 +53,21 @@ public class Archivo {
         this.contenido = contenido;
     }
 
+    public Date getCreacion() {
+        return creacion;
+    }
+
+
+    public Date getModificacion() {
+        return modificacion;
+    }
+
+    public void setModificacion(Date modificacion) {
+        this.modificacion = modificacion;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Archivo{" + "nombre=" + nombre + ", extension=" + extension + ", contenido=" + contenido + ", tamanio=" + tamanio + '}';
