@@ -7,6 +7,7 @@ package driveoficial;
 
 import model.Directorio;
 import model.Archivo; 
+import model.Usuario;
 
 /**
  *
@@ -19,14 +20,14 @@ public class DriveOficial {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Directorio dir = new Directorio("prueba"); 
-        Archivo arc = new Archivo("holi", "quak", "el patito lleva caquita express"); 
-        Directorio dir2 = new Directorio("pruebaw"); 
-        Archivo arc2 = new Archivo("adios", "buuu", "el patito no lleva caquita express"); 
-        dir.agregarArchivo(arc); 
-        dir2.agregarArchivo(arc2); 
-        dir.agregarDirectorio(dir2); 
-        System.out.println(dir.toString());
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("CUAL"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        user.getFileSystem().cambiarDirActual("D");
+        user.getFileSystem().eliminarDirectorio("Compartido");
+        System.out.println(user.toString());
         
     }
     

@@ -5,6 +5,8 @@
  */
 package model;
 
+import controller.RaizFS;
+
 /**
  *
  * @author bermu
@@ -19,6 +21,17 @@ public class Usuario {
         this.username = username;
         this.password = password;
     }
+
+    public RaizFS getFileSystem() {
+        return FileSystem;
+    }
+        
+    @Override
+    public String toString() {
+        return "Usuario{" + "FileSystem=" + FileSystem + ", username=" + username + ", password=" + password + '}';
+    }
+    
+    
    
     
 }

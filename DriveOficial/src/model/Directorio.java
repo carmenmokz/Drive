@@ -106,6 +106,11 @@ public class Directorio {
     public void setDirectorios(ArrayList<Directorio> directorios) {
         this.directorios = directorios;
     }
+
+    public ArrayList<Archivo> getArchivos() {
+        return archivos;
+    }
+    
     
     
     
