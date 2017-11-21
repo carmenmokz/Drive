@@ -7,6 +7,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,6 +74,22 @@ public class RaizFS {
     }
     public boolean compartirArchivo(){return false;}
     public boolean compartirDir(){return false;}
+    public Archivo conseguirArchivo(String directorio, String nombreArchExt){
+        Directorio dirBase = encontrarDirectorio(directorio); 
+        String[] nombreArcStrings = nombreArchExt.split("\\.");
+        String nombreArch = "";
+        String extension = nombreArcStrings[nombreArcStrings.length-1]; 
+        for (int i = 0; i < nombreArcStrings.length-1; i++) {
+            nombreArch += nombreArcStrings[i]; 
+        }
+        ArrayList<Archivo> archivos = dirBase.getArchivos(); 
+        for (Archivo archivo : archivos) {
+            if(archivo.getNombre().equals(nombreArch) && archivo.getExtension().equals(extension)){
+                return archivo;
+            }
+        }
+        return null; 
+    }
     public boolean copiarRV(String dirReal, String dirVirtual){
       
         String dirVirtualProcesada = verificacionVirtual_a_Real(dirVirtual); 
@@ -128,8 +145,7 @@ public class RaizFS {
             return true; 
         }
         return false; 
-    }
-    
+    } 
     public boolean copiarRVArchivos(String dirReal) {
         /*
             Diferencia entre funcion archivo y archivos es que
@@ -152,7 +168,6 @@ public class RaizFS {
         }
         return true; 
     }
-
     public boolean copiarRVDirectorio(String dirReal, String dirVirtual) {
         String dirOriginal = dirActual;
         System.out.println("dir Actual 1:" + dirActual);
@@ -172,7 +187,90 @@ public class RaizFS {
         }
     }
     
-    public boolean copiarVR(){return false;}
+    public boolean copiarVR(String dirVirtual, String dirReal){
+        String dirOficial = verificacionVirtual_a_Real(dirVirtual); 
+        String[] dirOficialArray = dirOficial.split("\\/"); 
+        String nombre = dirOficialArray[dirOficialArray.length-1]; 
+        String dirA = "";
+        for (int i = 0; i < dirOficialArray.length-1; i++) {
+            dirA += dirOficialArray[i]; 
+        }
+        boolean existeArc = existeArchEnDir(dirA, nombre); 
+        boolean existeDir = existeDirEnDir(dirA, nombre); 
+        if(existeArc && existeDir){
+            Archivo arc = conseguirArchivo(dirA, nombre); 
+            return (copiarVRArchivo(arc, dirReal) & copiarVRDirectorio(dirVirtual, dirReal));
+        }
+        else if(existeArc){
+            Archivo arc = conseguirArchivo(dirA, nombre); 
+            return copiarVRArchivo(arc, dirReal); 
+        }
+        else if(existeDir){
+            return copiarVRDirectorio(dirVirtual, dirReal); 
+        }
+        return false;
+    }
+    
+    public boolean copiarVR(String dirVirtual, String dirReal, int type){
+        String dirOficial = verificacionVirtual_a_Real(dirVirtual); 
+        String[] dirOficialArray = dirOficial.split("\\/"); 
+        String nombre = dirOficialArray[dirOficialArray.length-1]; 
+        String dirA = ""; // es el directorio donde va a estar lo nuevo
+        for (int i = 0; i < dirOficialArray.length-1; i++) {
+            dirA += dirOficialArray[i]; 
+        }
+       
+        if(type == 0 && existeDirEnDir(dirA, nombre)){
+            return copiarVRDirectorio(dirVirtual, dirReal); 
+        }
+        else if(type == 1 && existeArchEnDir(dirA, nombre)){
+            Archivo arc = conseguirArchivo(dirA, nombre);
+            return copiarVRArchivo(arc, dirReal); 
+        }
+        return false;
+    }
+    
+    
+    public boolean copiarVRDirectorio(String dirVirtual, String dirReal) {
+        String dirOriginal = dirActual;
+        cambiarDirActual(dirVirtual);
+        Directorio dirNuevo = encontrarDirectorio(dirActual); 
+        String dirRealNueva = dirReal+"\\"+dirNuevo.getNombre();
+        File carpeta = new File(dirRealNueva);
+        carpeta.mkdirs(); 
+        boolean exito = copiarVRArchivos(dirRealNueva); 
+        cambiarDirActual(dirOriginal);
+        return exito;
+    }
+
+    public boolean copiarVRArchivo(Archivo a, String dirReal) {
+        Directorio dirBase = encontrarDirectorio(dirActual); 
+        try {
+            String dirNomArchivo = dirReal + "/" + a.getNombre() + "." + a.getExtension(); 
+            PrintWriter escritor = new PrintWriter(dirNomArchivo, "UTF-8"); 
+            escritor.println(a.getContenido());
+            escritor.close();
+            return true; 
+        } catch (Exception e) {
+            return false; 
+        }
+    }
+    
+    
+    public boolean copiarVRArchivos(String dirReal) {
+        boolean exito = false; 
+        Directorio dirBase = encontrarDirectorio(dirActual); 
+        ArrayList<Directorio> directorios = dirBase.getDirectorios(); 
+        ArrayList<Archivo> archivos = dirBase.getArchivos(); 
+        for (Directorio directorio : directorios) {
+            copiarVRDirectorio(dirActual+"/"+directorio.getNombre(), dirReal); 
+        }
+        for (Archivo archivo : archivos) {
+            copiarVRArchivo(archivo, dirReal); 
+        }
+        exito = true; 
+        return exito; 
+    }
     public boolean copiarVV(){return false;}
     
     public boolean eliminarArchivo(String nombre, String extension){
@@ -241,6 +339,35 @@ public class RaizFS {
             return null; 
         }
     }
+    
+    public boolean existeDirEnDir(String directorio, String dirABuscar){
+        Directorio dirBase = encontrarDirectorio(directorio); 
+        ArrayList<Directorio> directorios = dirBase.getDirectorios(); 
+        for (Directorio directorio1 : directorios) {
+            if(directorio1.getNombre().equals(dirABuscar)){
+                return true; 
+            }
+        }
+        return false; 
+    }
+    
+    public boolean existeArchEnDir(String directorio, String nombreArchExt){
+        Directorio dirBase = encontrarDirectorio(directorio); 
+        String[] nombreArcStrings = nombreArchExt.split("\\.");
+        String nombreArch = "";
+        String extension = nombreArcStrings[nombreArcStrings.length-1]; 
+        for (int i = 0; i < nombreArcStrings.length-1; i++) {
+            nombreArch += nombreArcStrings[i]; 
+        }
+        ArrayList<Archivo> archivos = dirBase.getArchivos(); 
+        for (Archivo archivo : archivos) {
+            if(archivo.getNombre().equals(nombreArch) && archivo.getExtension().equals(extension)){
+                return true; 
+            }
+        }
+        return false; 
+    }
+    
     public boolean moverArchivo(){return false;}
     public boolean moverCarpeta(){return false;}
     public boolean modificarArchivo(){return false;}
@@ -315,6 +442,8 @@ public class RaizFS {
     public String toString() {
         return "RaizFS{" + "nombreRaiz=" + nombreRaiz + ", consumido=" + consumido + ", limiteTamanio=" + limiteTamanio + ", dir=" + dir + '}';
     }
+
+   
     
     
   
