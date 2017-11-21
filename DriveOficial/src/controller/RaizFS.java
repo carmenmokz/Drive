@@ -5,7 +5,15 @@
  */
 package controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Archivo;
 import model.Directorio;
 import model.Directorio;
@@ -44,7 +52,7 @@ public class RaizFS {
     }
     
     public void cambiarDirActual(String dir){
-        dirActual = dir; 
+        dirActual = verificacionVirtual_a_Real(dir);
     }
     public boolean crearArchivo(String nombreArchivo, String extension, String contenido){
         Archivo archivo = new Archivo(nombreArchivo, extension, contenido); 
@@ -65,7 +73,105 @@ public class RaizFS {
     }
     public boolean compartirArchivo(){return false;}
     public boolean compartirDir(){return false;}
-    public boolean copiarRV(){return false;}
+    public boolean copiarRV(String dirReal, String dirVirtual){
+      
+        String dirVirtualProcesada = verificacionVirtual_a_Real(dirVirtual); 
+        if(verificarDirectorioExiste(dirVirtualProcesada)){
+            System.out.println("dir real" + dirReal);
+            Path path = Paths.get(dirReal); 
+            File file = path.toFile(); 
+            if(file.isDirectory()){
+                /*
+                    En vez de enviar la carpeta de un solo, decidi
+                mejor enviar otra vez el string porque si es una
+                carpeta muy grande dura mucho
+                */
+                copiarRVDirectorio(dirReal, dirVirtualProcesada); 
+            }
+            else{
+                copiarRVArchivo(dirReal, dirVirtualProcesada); 
+            }
+            return true; 
+        }
+        else{
+            System.out.println("El directorio Virtual no existe");
+            return false;
+        }
+    }
+    public boolean copiarRVArchivo(String dirReal, String dirVirtual) {
+        String dirOriginal = dirActual;
+        System.out.println("dirvirtual" + dirVirtual);
+        Path path = Paths.get(dirReal); 
+        File file = path.toFile(); 
+        String[] nombreArchivo = file.getName().split("\\.");
+        String nombreDrive = ""; 
+        String contenidoArchivo = ""; 
+        for (int i = 0; i < (nombreArchivo.length-1); i++) {
+            // que tome todo lo que esta antes del punto
+            nombreDrive += nombreArchivo[i];
+        }
+        List<String> contenido_a_copiar; 
+        try {
+            contenido_a_copiar = Files.readAllLines(path);
+            for (int i = 0; i < contenido_a_copiar.size(); i++) {
+                contenidoArchivo += contenido_a_copiar.get(i); 
+            }
+        } catch (IOException ex) {
+            System.out.println("Error copiando contenido, revisar direccion");
+            return false;
+        }
+        cambiarDirActual(dirVirtual);
+        System.out.println("dirVirtual: "+ dirVirtual + " \n Archivo: nombre: " + nombreDrive + " ext: " + nombreArchivo[nombreArchivo.length-1] + " contenido: "+ contenidoArchivo );
+        boolean exito = crearArchivo(nombreDrive, nombreArchivo[nombreArchivo.length-1], contenidoArchivo); 
+        if(exito){
+            cambiarDirActual(dirOriginal);
+            return true; 
+        }
+        return false; 
+    }
+    
+    public boolean copiarRVArchivos(String dirReal) {
+        /*
+            Diferencia entre funcion archivo y archivos es que
+        archivos copia todos los archivos que haya en el dir
+        */
+        Path path = Paths.get(dirReal); 
+        File dirNuevo = path.toFile(); 
+        File[] archivos = dirNuevo.listFiles(); 
+        for (File archivo : archivos) {
+            if(archivo.isDirectory()){
+                System.out.println("arhcivo abs" + dirActual);
+                boolean exito = copiarRVDirectorio(archivo.getAbsolutePath(), dirActual); 
+                if(!exito){return false;}               
+            }
+            else if(archivo.isFile()){
+                System.out.println("arhcivo abs" + dirActual);
+                boolean exito = copiarRVArchivo(archivo.getAbsolutePath(), dirActual); 
+                if(!exito){return false;}  
+            }
+        }
+        return true; 
+    }
+
+    public boolean copiarRVDirectorio(String dirReal, String dirVirtual) {
+        String dirOriginal = dirActual;
+        System.out.println("dir Actual 1:" + dirActual);
+        cambiarDirActual(dirVirtual);
+        
+        Path path = Paths.get(dirReal); 
+        File dirNuevo = path.toFile(); 
+        crearDirectorio(dirNuevo.getName()); 
+        cambiarDirActual(dirNuevo.getName());
+        if(copiarRVArchivos(dirReal)){
+            //significa que si se copiaron bien
+            cambiarDirActual(dirOriginal);
+            return true; 
+        }
+        else{
+            return false; 
+        }
+    }
+    
     public boolean copiarVR(){return false;}
     public boolean copiarVV(){return false;}
     
@@ -101,6 +207,8 @@ public class RaizFS {
         }
         return false; 
     }
+    
+    
     public Directorio encontrarDirectorio (String directorioSolicitado){ 
     /* 
         @sumary: es navegar al directorio que me piden, y devuelvo el  
@@ -137,6 +245,17 @@ public class RaizFS {
     public boolean moverCarpeta(){return false;}
     public boolean modificarArchivo(){return false;}
     public void verArchivo(){}
+   
+    public boolean verificarDirectorioExiste(String direccion){
+        Directorio dir = encontrarDirectorio(direccion); 
+        if(dir == null){
+            return false;
+        }
+        else{
+            return true; 
+        }
+    }   
+    
     public String virtual_a_real(String dirBase, String direccionVirtual){
         String[] virtualArray = direccionVirtual.split("\\/"); 
         for (String virtualSegmento : virtualArray) {
@@ -191,11 +310,14 @@ public class RaizFS {
             return virtual_a_real(dirActual, direccion); 
         }
     }
+    
     @Override
     public String toString() {
         return "RaizFS{" + "nombreRaiz=" + nombreRaiz + ", consumido=" + consumido + ", limiteTamanio=" + limiteTamanio + ", dir=" + dir + '}';
     }
     
+    
+  
   
 }
     

@@ -40,9 +40,24 @@ public class DriveOficial {
         user.getFileSystem().verificacionVirtual_a_Real("D/Compartido/CUAL"); 
         System.out.println(user.toString());
     }
+    
+    public static void prueba3(){
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Personal");
+        user.getFileSystem().copiarRV("C:\\Users\\bermu\\Desktop\\pruebita", "D/Personal"); 
+        System.out.println(user.toString());
+    }
+    
+    public static void prueba4(){
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Personal");
+        user.getFileSystem().copiarRV("C:\\Users\\bermu\\Desktop\\pruebita\\nani.txt", "D/Personal"); 
+        System.out.println(user.toString());
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here
-        prueba2(); 
+        prueba4(); 
         
     }
     
