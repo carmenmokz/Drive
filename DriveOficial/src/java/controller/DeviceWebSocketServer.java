@@ -73,6 +73,21 @@ public class DeviceWebSocketServer {
                 sessionHandler.getUsers();
                 System.out.println("Salio");
             }
+            if ("getUsers".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.getUsers();
+                System.out.println("Salio");
+            }
+            if ("getMainFolder".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.getMainFolder(jsonMessage.getString("username"));
+                System.out.println("Salio");
+            }
+            if ("getShareFolder".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.getShareFolder(jsonMessage.getString("username"));
+                System.out.println("Salio");
+            }
             
           
 

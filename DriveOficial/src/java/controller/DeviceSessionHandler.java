@@ -28,6 +28,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
+import model.Archivo;
+import model.Directorio;
 import model.Usuario;
 
 @ApplicationScoped
@@ -95,8 +97,8 @@ public class DeviceSessionHandler {
         }
         return null;
     }
-
-    private JsonObject createAddMessage(Usuario usuario) {
+   
+   private JsonObject createAddMessage(Usuario usuario) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "add")
@@ -140,13 +142,89 @@ public class DeviceSessionHandler {
                 .build();
         return addMessage;
     }
-    void getUsers() {
+    public void getUsers() {
         
         JsonObject addMessage = createAddMessageAllUsers();
         System.out.println(addMessage);
         sendToAllConnectedSessions(addMessage);
       
     }
+    public void getMainFolder(String username){
+       Usuario usuario=getUsuarioByUsername(username);
+       JsonProvider provider = JsonProvider.provider();
+        // create Json array with only values
+        JsonArrayBuilder files = Json.createArrayBuilder();
+        usuario.getFileSystem().cambiarDirActual("D/Personal");
+        usuario.getFileSystem().crearDirectorio("CUAL"); 
+        usuario.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+         System.out.println(usuario.toString());
+        for(Archivo a: usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getArchivos()){
+            files.add(Json.createObjectBuilder()
+                    .add("name", a.getNombre())
+                    .add("ext", a.getExtension())
+                    .add("size",a.getTamanio())
+                    .add("cont",a.getContenido())
+                    .build());
+        }
+
+        JsonArray arr = files.build();
+        JsonArrayBuilder folders = Json.createArrayBuilder();
+        System.out.println(usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getDirectorios());
+        for(Directorio d: usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getDirectorios()){
+            System.out.println(d.getNombre());
+            folders.add(Json.createObjectBuilder()
+                    .add("name",d.getNombre())
+                    .build());
+        }
+
+        JsonArray arr2 = folders.build();
+    
+        JsonObject addMessage = provider.createObjectBuilder()
+                .add("action", "getMainFolder")
+                .add("folders", arr2)
+                .add("archivos",arr)
+                .build();
+        System.out.println(addMessage);
+        sendToAllConnectedSessions(addMessage);
+       
+   }
+   public void getShareFolder(String username){
+        Usuario usuario=getUsuarioByUsername(username);
+       JsonProvider provider = JsonProvider.provider();
+        // create Json array with only values
+        JsonArrayBuilder files = Json.createArrayBuilder();
+        usuario.getFileSystem().cambiarDirActual("D/Compartido");
+         usuario.getFileSystem().crearDirectorio("CUAL"); 
+        usuario.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        for(Archivo a: usuario.getFileSystem().getDir().getArchivos()){
+            files.add(Json.createObjectBuilder()
+                    .add("name", a.getNombre())
+                    .add("ext", a.getExtension())
+                    .add("size",a.getTamanio())
+                    .add("cont",a.getContenido())
+                    .build());
+        }
+
+        JsonArray arr = files.build();
+        JsonArrayBuilder folders = Json.createArrayBuilder();
+        for(Directorio d: usuario.getFileSystem().getDir().getDirectorios()){
+            files.add(Json.createObjectBuilder()
+                    .add("name",d.getNombre())
+                    .add("dir", d.getUbicacionDireccion())
+                    
+                    .build());
+        }
+
+        JsonArray arr2 = folders.build();
+    
+        JsonObject addMessage = provider.createObjectBuilder()
+                .add("action", "getMainFolder")
+                .add("folders", arr2)
+                .add("archivos",arr)
+                .build();
+        sendToAllConnectedSessions(addMessage);
+       
+   }
     
     public boolean guardarUsuarios(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

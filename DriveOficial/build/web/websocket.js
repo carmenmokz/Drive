@@ -14,10 +14,33 @@ function onMessage(event) {
     if (usuario.action === "getUsers") {
         users = usuario.users;
     }
+    if (usuario.action === "getMainFolder") {
+       alert("Si llego");
+       alert(usuario.folders);
+       refreshFiles();
+       alert("Si llego2");
+    }
+    
+    if (usuario.action === "getShareFolder") {
+        users = usuario.users;
+    }
 
 
 }
+function refreshFolders() {
+    
+    
 
+}
+function refreshFiles(){
+   alert("holi");
+   document.getElementById("file-system").empty();
+   alert("holi");
+
+                                          
+                                           
+                                        
+}
 function getUsers() {
    
     var UsuarioAction = {
@@ -28,7 +51,25 @@ function getUsers() {
     socket.send(JSON.stringify(UsuarioAction));
 
 }
+function getMainFolder(){
+    var UsuarioAction = {
+            action: "getMainFolder",
+            username: document.getElementById("menu-name").innerHTML
+          
+        };
+    alert("si entre");
+    socket.send(JSON.stringify(UsuarioAction));
+    alert("si lo envie");
+}
+function getShareFolder(){
+    var UsuarioAction = {
+            action: "getShareFolder",
+            username: document.getElementById("menu-name").innerHTML
+          
+        };
 
+    socket.send(JSON.stringify(UsuarioAction));
+}
 function addUsuario(username, pass, bytes) {
     getUsers();
     var i;

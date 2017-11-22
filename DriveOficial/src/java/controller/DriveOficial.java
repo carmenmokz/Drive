@@ -39,6 +39,7 @@ public class DriveOficial {
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Compartido");
         user.getFileSystem().crearDirectorio("CUAL"); 
+        System.out.println(user.getFileSystem().getDir().getDirectorios());
         user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
         user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
         user.getFileSystem().crearDirectorio("Me miau"); 
