@@ -185,8 +185,7 @@ public class RaizFS {
         else{
             return false; 
         }
-    }
-    
+    }  
     public boolean copiarVR(String dirVirtual, String dirReal){
         String dirOficial = verificacionVirtual_a_Real(dirVirtual); 
         String[] dirOficialArray = dirOficial.split("\\/"); 
@@ -209,8 +208,7 @@ public class RaizFS {
             return copiarVRDirectorio(dirVirtual, dirReal); 
         }
         return false;
-    }
-    
+    }   
     public boolean copiarVR(String dirVirtual, String dirReal, int type){
         String dirOficial = verificacionVirtual_a_Real(dirVirtual); 
         String[] dirOficialArray = dirOficial.split("\\/"); 
@@ -229,20 +227,6 @@ public class RaizFS {
         }
         return false;
     }
-    
-    
-    public boolean copiarVRDirectorio(String dirVirtual, String dirReal) {
-        String dirOriginal = dirActual;
-        cambiarDirActual(dirVirtual);
-        Directorio dirNuevo = encontrarDirectorio(dirActual); 
-        String dirRealNueva = dirReal+"\\"+dirNuevo.getNombre();
-        File carpeta = new File(dirRealNueva);
-        carpeta.mkdirs(); 
-        boolean exito = copiarVRArchivos(dirRealNueva); 
-        cambiarDirActual(dirOriginal);
-        return exito;
-    }
-
     public boolean copiarVRArchivo(Archivo a, String dirReal) {
         Directorio dirBase = encontrarDirectorio(dirActual); 
         try {
@@ -255,8 +239,6 @@ public class RaizFS {
             return false; 
         }
     }
-    
-    
     public boolean copiarVRArchivos(String dirReal) {
         boolean exito = false; 
         Directorio dirBase = encontrarDirectorio(dirActual); 
@@ -271,8 +253,73 @@ public class RaizFS {
         exito = true; 
         return exito; 
     }
-    public boolean copiarVV(){return false;}
-    
+    public boolean copiarVRDirectorio(String dirVirtual, String dirReal) {
+        String dirOriginal = dirActual;
+        cambiarDirActual(dirVirtual);
+        Directorio dirNuevo = encontrarDirectorio(dirActual); 
+        String dirRealNueva = dirReal+"\\"+dirNuevo.getNombre();
+        File carpeta = new File(dirRealNueva);
+        carpeta.mkdirs(); 
+        boolean exito = copiarVRArchivos(dirRealNueva); 
+        cambiarDirActual(dirOriginal);
+        return exito;
+    }
+    public boolean copiarVV(String dirVirtualDe, String dirVirtualA){
+        String dirOficial = verificacionVirtual_a_Real(dirVirtualDe);
+        String dirFinal = verificacionVirtual_a_Real(dirVirtualA);
+        String[] dirOficialArray = dirOficial.split("\\/"); 
+        String nombre = dirOficialArray[dirOficialArray.length-1]; 
+        String dirA = "";
+        for (int i = 0; i < dirOficialArray.length-1; i++) {
+            dirA += dirOficialArray[i]; 
+        }
+        boolean existeArc = existeArchEnDir(dirA, nombre); 
+        boolean existeDir = existeDirEnDir(dirA, nombre); 
+        if(existeArc){
+            Archivo arc = conseguirArchivo(dirA, nombre); 
+            return copiarVVArchivo(arc, dirFinal); 
+        }
+        else if(existeDir){
+            return copiarVVDirectorio(dirOficial, dirFinal); 
+        }
+        return false;
+    }
+    public boolean copiarVVArchivo(Archivo arc, String dirFinal){
+        String dirOriginal = dirActual; 
+        cambiarDirActual(dirFinal);
+        boolean exito = crearArchivo(arc.getNombre(), arc.getExtension(), arc.getContenido()); 
+        cambiarDirActual(dirOriginal);
+        return exito; 
+    }
+    public boolean copiarVVArchivos(String dirInicio, String dirFinal){
+        Directorio dirACopiar = encontrarDirectorio(dirInicio);
+        ArrayList<Directorio> directorios = dirACopiar.getDirectorios(); 
+        for (Directorio directorio : directorios) {
+            boolean exito = copiarVVDirectorio(dirInicio + "/" +directorio.getNombre(), dirFinal);
+            if(!exito){System.out.println("error copiando dir en copiarVV");return false;}
+        }
+        ArrayList<Archivo> archivos = dirACopiar.getArchivos();
+        for (Archivo archivo : archivos) {
+            boolean exito = copiarVVArchivo(archivo, dirFinal);
+            if(!exito){System.out.println("error copiando archivo en copiarVV");return false;}
+        }
+        return true; 
+    }
+    public boolean copiarVVDirectorio(String dirInicio, String dirFinal){
+        System.out.println("jejejee");
+        Directorio dirInicioD = encontrarDirectorio(dirInicio); 
+        Directorio dirFinalD = encontrarDirectorio(dirFinal); 
+        if(dirInicioD != null && dirFinalD != null){
+            String dirOriginal = dirActual; 
+            cambiarDirActual(dirFinal);
+            crearDirectorio(dirInicioD.getNombre());
+            System.out.println("crear dir de:" + dirInicioD.getNombre());
+            cambiarDirActual(dirOriginal);
+            copiarVVArchivos(dirInicio,dirFinal+"/"+dirInicioD.getNombre()); 
+            return true; 
+        }
+        return false;
+    }
     public boolean eliminarArchivo(String nombre, String extension){
         Directorio dir = encontrarDirectorio(dirActual); 
         ArrayList<Archivo> archivos = dir.getArchivos();
@@ -312,6 +359,7 @@ public class RaizFS {
         @sumary: es navegar al directorio que me piden, y devuelvo el  
         directorio para que ya con eso haga lo que ocupa, copiar, mover, etc 
     */ 
+        System.out.println("string solicitado: " + directorioSolicitado);
         String[] carpetasDeDirSolicitado = directorioSolicitado.split("\\/"); // son las carpetas de la direccion separadas 
         Directorio temp = dir;                                                          // se situa en la pura raiz, con ese temp vamos a navegar 
         if(carpetasDeDirSolicitado.length == 1 && carpetasDeDirSolicitado[0].equals(dir.getNombre())){ 
