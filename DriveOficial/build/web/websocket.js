@@ -23,7 +23,13 @@ function onMessage(event) {
     }
     
     if (usuario.action === "getShareFolder") {
-        refreshFolders(usuario);
+       refreshFolders(usuario);
+       refreshFiles(usuario);
+    }
+    if (usuario.action === "changeFolder") {
+      
+       refreshFolder(usuario);
+       refreshFolders(usuario);
        refreshFiles(usuario);
     }
 
@@ -97,6 +103,21 @@ function removeDevice(element) {
         id: id
     };
     socket.send(JSON.stringify(DeviceAction));
+}
+function changeFolder(name)
+{
+    var UsuarioAction = {
+            action: "changeFolder",
+            username: document.getElementById("menu-name").innerHTML,
+            folder: document.getElementById("current-folder").innerHTML+name
+          
+        };
+
+    socket.send(JSON.stringify(UsuarioAction));
+    var current=document.getElementById("current-folder").innerHTML+name;
+    alert(current);
+    
+    
 }
 
 

@@ -154,11 +154,11 @@
 
         <div class="content">
 
-                  <div class="col-md-12">
+                   <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">D/Compartido</h4>
-                                <p class="category">Creado por:</p>
+                                <h4 class="title" id="current-folder">D/Compartido</h4>
+                                <p class="category">Creado por:<a id="created-by"></a></p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover table-striped">
@@ -169,34 +169,8 @@
                                         <th>Último en modificarla</th>
                                     
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><i class="pe-7s-folder"></i></td>
-                                            <td>Carpeta 1</td>
-                                            <td>Pedrito</td>
-                                            <td>Juanito</td>
-                                            <td>
-                                                    <div class="checkbox">
-                                                        <input id="checkbox1" type="checkbox">
-                                                        <label for="checkbox1"></label>
-
-                                                    </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="pe-7s-file"></i></td>
-                                            <td>Archivo 1</td>
-                                            <td>Josesito</td>
-                                            <td>Juanito</td>
-                                           
-                                            <td>
-                                                    <div class="checkbox">
-                                                        <input id="checkbox2" type="checkbox">
-                                                        <label for="checkbox2"></label>
-
-                                                    </div>
-                                            </td>
-                                        </tr>
+                                    <tbody  id="file-system">
+                                      
                                         
                                     </tbody>
                                 </table>
@@ -264,9 +238,11 @@
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
     <script src="assets/js/demo.js"></script>
     <script src="assets/js/index.js"></script>
+     <script src="websocket.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             refresh_PageShareF();
+            getShareFolder();
             demo.initChartist();
 
         });

@@ -12,13 +12,13 @@ function refreshFiles(json){
 
            td1.innerHTML="<i class=\"pe-7s-file\"></i>";
            var td2= document.createElement("td");
-           td2.innerHTML=files[i].name+"."+files[0].ext;
+           td2.innerHTML=files[i].name+"."+files[i].ext;
            var td4= document.createElement("td");
            td4.innerHTML=files[i].name;
            var td5= document.createElement("td");
            td5.innerHTML=files[i].name;
            var td6= document.createElement("td");
-           td6.innerHTML="<div class=\"checkbox\"><input id=\"checkbox1\" type=\"checkbox\"><label for=\"checkbox1\"></label></div>";
+           td6.innerHTML="<div class=\"checkbox\"><input id=\"ck"+files[i].name+"\" type=\"checkbox\"><label for=\"ck"+files[i].name+"\"></label></div>";
            tr1.appendChild(td1);
            tr1.appendChild(td2);
            tr1.appendChild(td4);
@@ -32,11 +32,15 @@ function refreshFiles(json){
 function refreshFolders(json){
      $("#file-system").empty();
     var folders=json.folders;
-    alert(folders[0].name);
+
     for (i in folders){
            var tr1 = document.createElement("tr");
+           
+           tr1.id="/"+folders[i].name;
+           
+           tr1.setAttribute("onclick","changeFolder(this.id)");
            var td1= document.createElement("td");
-           td1.innerHTML="<i class=\"pe-7s-folder\"></i>";
+           td1.innerHTML="<i class=\"pe-7s-folder\" ></i>";
            var td2= document.createElement("td");
            td2.innerHTML="\\"+folders[i].name;
            var td4= document.createElement("td");
@@ -44,7 +48,7 @@ function refreshFolders(json){
            var td5= document.createElement("td");
            td5.innerHTML=folders[i].name;
            var td6= document.createElement("td");
-           td6.innerHTML="<div class=\"checkbox\"><input id=\"checkbox1\" type=\"checkbox\"><label for=\"checkbox1\"></label></div>";
+           td6.innerHTML="<div class=\"checkbox\"><input id=\"ck"+folders[i].name+"\" type=\"checkbox\"><label for=\"ck"+folders[i].name+"\"></label></div>";
            tr1.appendChild(td1);
            tr1.appendChild(td2);
            tr1.appendChild(td4);
@@ -54,6 +58,10 @@ function refreshFolders(json){
     
     }
                                         
+}
+function refreshFolder(usuario){
+    alert("si me llamaron");
+    document.getElementById("current-folder").innerHTML=usuario.dir;
 }
 $("#login-button").click(function(event){
         getUsers();
@@ -106,6 +114,7 @@ function refresh_Page(){
     [key, value] = mySearch.split("=");
     document.getElementById("current-username").innerHTML=value;
     document.getElementById("menu-name").innerHTML=value;
+    document.getElementById("created-by").innerHTML=value;
     
     demo.initChartist();
 }

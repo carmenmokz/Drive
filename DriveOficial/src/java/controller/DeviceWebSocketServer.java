@@ -88,6 +88,11 @@ public class DeviceWebSocketServer {
                 sessionHandler.getShareFolder(jsonMessage.getString("username"));
                 System.out.println("Salio");
             }
+             if ("changeFolder".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.changeFolder(jsonMessage.getString("username"),jsonMessage.getString("folder"));
+                System.out.println("Salio");
+            }
             
           
 
