@@ -1,6 +1,60 @@
 
 /* global False, users, prop, True, parseUri, current_user, value, key */
 
+function refreshFiles(json){
+    
+    var files=json.archivos;
+   
+    
+    for (i in files){
+           var tr1 = document.createElement("tr");
+           var td1= document.createElement("td");
+
+           td1.innerHTML="<i class=\"pe-7s-file\"></i>";
+           var td2= document.createElement("td");
+           td2.innerHTML=files[i].name+"."+files[0].ext;
+           var td4= document.createElement("td");
+           td4.innerHTML=files[i].name;
+           var td5= document.createElement("td");
+           td5.innerHTML=files[i].name;
+           var td6= document.createElement("td");
+           td6.innerHTML="<div class=\"checkbox\"><input id=\"checkbox1\" type=\"checkbox\"><label for=\"checkbox1\"></label></div>";
+           tr1.appendChild(td1);
+           tr1.appendChild(td2);
+           tr1.appendChild(td4);
+           tr1.appendChild(td5);
+           tr1.appendChild(td6);
+           document.getElementById("file-system").appendChild(tr1);
+    
+    }
+                                        
+}
+function refreshFolders(json){
+     $("#file-system").empty();
+    var folders=json.folders;
+    alert(folders[0].name);
+    for (i in folders){
+           var tr1 = document.createElement("tr");
+           var td1= document.createElement("td");
+           td1.innerHTML="<i class=\"pe-7s-folder\"></i>";
+           var td2= document.createElement("td");
+           td2.innerHTML="\\"+folders[i].name;
+           var td4= document.createElement("td");
+           td4.innerHTML=folders[i].name;
+           var td5= document.createElement("td");
+           td5.innerHTML=folders[i].name;
+           var td6= document.createElement("td");
+           td6.innerHTML="<div class=\"checkbox\"><input id=\"checkbox1\" type=\"checkbox\"><label for=\"checkbox1\"></label></div>";
+           tr1.appendChild(td1);
+           tr1.appendChild(td2);
+           tr1.appendChild(td4);
+           tr1.appendChild(td5);
+           tr1.appendChild(td6);
+           document.getElementById("file-system").appendChild(tr1);
+    
+    }
+                                        
+}
 $("#login-button").click(function(event){
         getUsers();
 	event.preventDefault();
@@ -59,13 +113,12 @@ function refresh_PageMainF(){
     var mySearch =document.location.search.substring(1);
     [key, value] = mySearch.split("=");
     document.getElementById("menu-name").innerHTML=value;
-    
+    document.getElementById("created-by").innerHTML=value;
     demo.initChartist();
 }
 function refresh_PageShareF(){
     var mySearch =document.location.search.substring(1);
     [key, value] = mySearch.split("=");
     document.getElementById("menu-name").innerHTML=value;
-    
     demo.initChartist();
 }

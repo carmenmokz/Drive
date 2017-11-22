@@ -15,32 +15,22 @@ function onMessage(event) {
         users = usuario.users;
     }
     if (usuario.action === "getMainFolder") {
-       alert("Si llego");
-       alert(usuario.folders);
-       refreshFiles();
-       alert("Si llego2");
+
+       refreshFolders(usuario);
+       refreshFiles(usuario);
+       
+  
     }
     
     if (usuario.action === "getShareFolder") {
-        users = usuario.users;
+        refreshFolders(usuario);
+       refreshFiles(usuario);
     }
 
 
 }
-function refreshFolders() {
-    
-    
 
-}
-function refreshFiles(){
-   alert("holi");
-   document.getElementById("file-system").empty();
-   alert("holi");
 
-                                          
-                                           
-                                        
-}
 function getUsers() {
    
     var UsuarioAction = {
@@ -57,9 +47,9 @@ function getMainFolder(){
             username: document.getElementById("menu-name").innerHTML
           
         };
-    alert("si entre");
+   
     socket.send(JSON.stringify(UsuarioAction));
-    alert("si lo envie");
+
 }
 function getShareFolder(){
     var UsuarioAction = {
