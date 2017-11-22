@@ -64,6 +64,11 @@ public class DeviceWebSocketServer {
                 String username = jsonMessage.getString("username");
                 sessionHandler.removeUsuario(username);
             }
+            if ("getUsers".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.getUsers();
+                System.out.println("Salio");
+            }
 
             
         }

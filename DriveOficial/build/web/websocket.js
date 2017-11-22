@@ -1,30 +1,62 @@
 window.onload = init;
 var socket = new WebSocket("ws://localhost:8080/DriveOficial/actions");
 socket.onmessage = onMessage;
-
+var users;
 function onMessage(event) {
     var usuario = JSON.parse(event.data);
-    alert("Entro");
-    if (device.action === "add") {
-        printUsuarioNuevo(usuario);
+    if (usuario.action === "add") {
+        getUsers();
     }
-    if (device.action === "remove") {
-        document.getElementById(device.id).remove();
+    if (usuario.action === "remove") {
+        //document.getElementById(device.id).remove();
         //device.parentNode.removeChild(device);
     }
+    if (usuario.action === "getUsers") {
+        users = usuario.users;
+    }
+
+
+}
+
+function getUsers() {
+   
+    var UsuarioAction = {
+        action: "getUsers"
+     
+    };
+  
+    socket.send(JSON.stringify(UsuarioAction));
 
 }
 
 function addUsuario(username, pass, bytes) {
-    alert("Si entro");
-    var UsuarioAction = {
-        action: "add",
-        username: username,
-        pass: pass,
-        bytes: bytes
-    };
-    alert( UsuarioAction.action +  UsuarioAction.username + UsuarioAction.pass );
-    socket.send(JSON.stringify(UsuarioAction));
+    getUsers();
+    var i;
+    var exist=0;
+    var userC=users;
+   
+  
+    for(i in userC){
+      
+        
+        if ((userC[i].username).localeCompare(username)===0){
+            alert("El Usuario Escogido, ya existe.");
+            exist=1;
+            break;
+        }
+    }
+
+    if(exist===0||userC===null){
+        var UsuarioAction = {
+            action: "add",
+            username: username,
+            pass: pass,
+            bytes: bytes
+        };
+
+        socket.send(JSON.stringify(UsuarioAction));
+        alert("Se ha creado el Usuario: "+ username);
+    }
 }
 
 function removeDevice(element) {
@@ -38,9 +70,7 @@ function removeDevice(element) {
 
 
 
-function printDeviceElement(usuario) {
-   alert(usuario.username);
-}
+
 
 
 
@@ -51,9 +81,11 @@ function formSubmit() {
 
     document.location.href = 'index.html';
     addUsuario(username, pass, bytes);
+    
 }
 
 function init() {
-    alert("init");
-    hideForm();
+    
+    //getUsers();
+    //hideForm();
 }

@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
@@ -96,5 +99,31 @@ public class DeviceSessionHandler {
             sessions.remove(session);
             Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+     private JsonObject createAddMessageAllUsers() {
+        JsonProvider provider = JsonProvider.provider();
+        // create Json array with only values
+        JsonArrayBuilder array = Json.createArrayBuilder();
+        for(Usuario u: usuarios){
+            array.add(Json.createObjectBuilder()
+                    .add("username", u.getUsername())
+                    .add("pass", u.getPassword())
+                    .build());
+        }
+
+        JsonArray arr = array.build();
+    
+        JsonObject addMessage = provider.createObjectBuilder()
+                .add("action", "getUsers")
+                .add("users", arr)
+                .build();
+        return addMessage;
+    }
+    void getUsers() {
+        
+        JsonObject addMessage = createAddMessageAllUsers();
+        System.out.println(addMessage);
+        sendToAllConnectedSessions(addMessage);
+      
     }
 }

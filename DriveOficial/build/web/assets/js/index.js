@@ -1,15 +1,26 @@
- $("#login-button").click(function(event){
-	event.preventDefault();
-	
 
+/* global False, users, prop, True */
+
+$("#login-button").click(function(event){
+        getUsers();
+	event.preventDefault();
          var user=document.getElementById("user-index").value;
          var pass=document.getElementById("pass-index").value;
-        
-         if(user.localeCompare("admin")===0 && pass.localeCompare("1234")===0){
-             document.location.href = 'initPage.html';
-         }else{
-             alert("No existe ese usuario.");
+         var userC=users;
+         var find=0;
+         var prop;
+         for (prop in userC) {
+            if(user.localeCompare(userC[prop].username)===0 && pass.localeCompare(userC[prop].pass)===0){
+                document.location.href = 'initPage.html';
+                find=1;
+                break;
+            }
+         
          }
+        if(find===0){
+            alert("¡Usuario o Contraseña Incorreto!")
+        }
+         
          
 });
 
