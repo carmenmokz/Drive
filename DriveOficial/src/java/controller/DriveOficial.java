@@ -146,7 +146,7 @@ public class DriveOficial {
     }
     public static void main(String[] args) {
         // TODO code application logic here
-        prueba10(); 
+        prueba2(); 
         
     }
     

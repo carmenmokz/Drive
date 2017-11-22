@@ -118,7 +118,7 @@
                             <div class="content">
 
                                 
-                                    <h1>¡Bienvenido al Nuevo Drive! </h1><br><br>
+                                <h1>¡Bienvenido al Nuevo Drive<a id="current_username"> dssdf </a>!</h1><br><br>
 
                                     <h4>En este momento puedes acceder a:</h4>
                                     <br><br><br>
@@ -202,20 +202,22 @@
         <script src="assets/js/index.js"></script>
 
 	<script type="text/javascript">
+       
     	$(document).ready(function(){
 
         	demo.initChartist();
-
+                
         	$.notify({
             	icon: 'pe-7s-gift',
             	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
+                
             },{
                 type: 'info',
                 timer: 4000
             });
 
     	});
+        refresh_Page();
 	</script>
 
 </html>

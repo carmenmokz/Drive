@@ -69,6 +69,8 @@ public class DeviceWebSocketServer {
                 sessionHandler.getUsers();
                 System.out.println("Salio");
             }
+            
+          
 
             
         }
