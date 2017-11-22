@@ -5,8 +5,16 @@
  */
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
@@ -24,9 +32,16 @@ import model.Usuario;
 
 @ApplicationScoped
 public class DeviceSessionHandler {
-     private int deviceId = 0;
+    private int deviceId = 0;
     private final Set<Session> sessions = new HashSet<>();
-    private final Set<Usuario> usuarios = new HashSet<>();
+    private Set<Usuario> usuarios = new HashSet<>();
+
+    public DeviceSessionHandler() {
+        cargarUsuarios(); 
+    }
+    
+    
+    
     
       public void addSession(Session session) {
         sessions.add(session);
@@ -46,9 +61,15 @@ public class DeviceSessionHandler {
 
     public void addUsuario(Usuario usuario) {
        
+        
+        cargarUsuarios(); 
         usuarios.add(usuario);
+        guardarUsuarios();
+        cargarUsuarios(); 
+        System.out.println(usuarios.toString());
         JsonObject addMessage = createAddMessage(usuario);
         sendToAllConnectedSessions(addMessage);
+         
     }
 
     public void removeUsuario(String username) {
@@ -126,4 +147,49 @@ public class DeviceSessionHandler {
         sendToAllConnectedSessions(addMessage);
       
     }
+    
+    public boolean guardarUsuarios(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonEjemplo = gson.toJson(usuarios);
+        String basePath = new File("").getAbsolutePath() + "\\users.json" ;
+        System.out.println("this is? " + basePath);
+        System.out.println(jsonEjemplo); 
+        try (FileWriter file = new FileWriter(basePath)) {
+			file.write(jsonEjemplo);
+			System.out.println("Successfully Copied JSON Object to File...");		
+	
+        } catch (IOException ex) {
+             Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+             return false; 
+         }
+        return true; 
+    }
+    
+    public boolean cargarUsuarios(){
+        Gson gson1 = new Gson();  
+        String basePath = new File("").getAbsolutePath() + "\\users.json" ;
+        Path path = Paths.get(basePath);
+        File file = path.toFile(); 
+        List<String> contenido_a_copiar; 
+        String contenidoArchivo = ""; 
+        try {
+            contenido_a_copiar = Files.readAllLines(path);
+            for (int i = 0; i < contenido_a_copiar.size(); i++) {
+                contenidoArchivo += contenido_a_copiar.get(i); 
+            }
+        } catch (IOException ex) {
+             Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+             return false; 
+        }
+        usuarios = gson1.fromJson(contenidoArchivo, new TypeToken<Set<Usuario>>(){}.getType());     
+        if( usuarios!= null ){
+            for(Usuario object : usuarios){
+                System.out.println(object.toString());    
+            }    
+        }else{
+            return false; 
+        }
+        return true; 
+    }
+    
 }

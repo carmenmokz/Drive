@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.StringReader;
 import static java.lang.Integer.parseInt;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ public class DeviceWebSocketServer {
     @OnClose
     public void close(Session session) {
         sessionHandler.removeSession(session);
+        sessionHandler.guardarUsuarios(); 
     }
 
     @OnError
@@ -51,6 +53,8 @@ public class DeviceWebSocketServer {
             JsonObject jsonMessage = reader.readObject();
 
             if ("add".equals(jsonMessage.getString("action"))) {
+                String basePath = new File("").getAbsolutePath();
+                System.out.println("base path: " + basePath);
                 System.out.println("Entro a handleMessage");
                 System.out.println(jsonMessage.getString("username"));
                 System.out.println(jsonMessage.getString("pass"));

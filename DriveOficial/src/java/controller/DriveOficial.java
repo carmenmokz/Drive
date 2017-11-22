@@ -5,10 +5,17 @@
  */
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 import model.Usuario;
 
 /**
- *
+ *http://localhost:8080/DriveOficial/
  * @author bermu
  */
 public class DriveOficial {
@@ -22,6 +29,7 @@ public class DriveOficial {
         user.getFileSystem().crearDirectorio("CUAL"); 
         user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
         user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        System.out.println(user.getFileSystem().getDir().getArchivos());
         user.getFileSystem().cambiarDirActual("D");
         user.getFileSystem().eliminarDirectorio("Compartido");
         System.out.println(user.toString());
@@ -123,9 +131,10 @@ public class DriveOficial {
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Compartido");
         user.getFileSystem().crearDirectorio("CUAL"); 
-        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        //user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
         user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
-        System.out.println(user.getFileSystem().moverArchivo("D/Compartido/CUAL/ari.pdf", "D/Personal"));
+        //System.out.println(user.getFileSystem().moverArchivo("D/Compartido/CUAL/ari.pdf", "D/Personal"));
+        System.out.println(user.getFileSystem().encontrarDirectorio(user.getFileSystem().getDirActual()).getDirectorios().toString());
         System.out.println(user.toString());
     }
 
@@ -144,9 +153,45 @@ public class DriveOficial {
         System.out.println(user.getFileSystem().modificarArchivoExt("fois.pdf", "txt"));
         System.out.println(user.toString());
     }
-    public static void main(String[] args) {
+    
+    public static void prueba11() throws IOException{
+        //mod archivo
+        ArrayList<Usuario> users = new ArrayList(); 
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("CUAL"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        Usuario user1 = new Usuario("patito", "1234", 50000);
+        user1.getFileSystem().cambiarDirActual("D/Compartido");
+        user1.getFileSystem().crearDirectorio("CUAL"); 
+        user1.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user1.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        users.add(user); 
+        users.add(user1);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonEjemplo = gson.toJson(users);
+        System.out.println(jsonEjemplo); 
+        try (FileWriter file = new FileWriter("src\\java\\jsons\\users.json")) {
+			file.write(jsonEjemplo);
+			System.out.println("Successfully Copied JSON Object to File...");
+                        Gson gson1 = new Gson();                
+                        users = new ArrayList();
+                        Set<Usuario> listAlumnos = gson1.fromJson(jsonEjemplo, new TypeToken<Set<Usuario>>(){}.getType());     
+                        if( listAlumnos!= null ){
+                            for(Usuario object : listAlumnos){
+                                System.out.println(object.toString());    
+                            }
+                            
+                }
+			
+	
+        }
+        
+    }
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        prueba2(); 
+        prueba9(); 
         
     }
     
