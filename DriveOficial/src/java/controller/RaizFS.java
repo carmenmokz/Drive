@@ -8,16 +8,19 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Archivo;
 import model.Directorio;
 import model.Directorio;
+import model.Usuario;
 
 /**
  *
@@ -118,8 +121,7 @@ public class RaizFS {
         Directorio dir = new Directorio(nombreCarpeta);
         return encontrarDirectorio(dirActual).agregarDirectorio(dir); 
     }
-    public boolean compartirArchivo(){return false;}
-    public boolean compartirDir(){return false;}
+    
     public Archivo conseguirArchivo(String directorio, String nombreArchExt){
         Directorio dirBase = encontrarDirectorio(directorio); 
         String[] nombreArcStrings = nombreArchExt.split("\\.");
@@ -538,13 +540,22 @@ public class RaizFS {
         Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
         if(arc == null){return false;}
         arc.setContenido(contenido);
+        arc.setModificacion(new Date());
         return true; 
+    }
+    
+    public String enlistar(String dir){
+        Directorio dirOficial = encontrarDirectorio(verificacionVirtual_a_Real(dir)); 
+        if(dirOficial==null){return "error";}
+        //aqui armar como le sirva a xime 
+        return "goli"; 
     }
     
     public boolean modificarArchivoNombre(String nombreCompleto, String nombre){
         Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
         if(arc == null){return false;}
         arc.setNombre(nombre);
+        arc.setModificacion(new Date());
         return true; 
     }
     
@@ -552,6 +563,7 @@ public class RaizFS {
         Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
         if(arc == null){return false;}
         arc.setExtension(ext);
+        arc.setModificacion(new Date());
         return true; 
     }
     
@@ -621,6 +633,12 @@ public class RaizFS {
             return virtual_a_real(dirActual, direccion); 
         }
     }
+    
+    public void verPropiedadesArchivo(Archivo arc){
+        System.out.println(arc.toString());
+    }
+    
+    
     
     @Override
     public String toString() {
