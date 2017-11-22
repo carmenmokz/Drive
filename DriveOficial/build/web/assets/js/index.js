@@ -28,20 +28,44 @@ $("#login-button").click(function(event){
 
  $("#mainFolder-button").click(function(event){
 		
-	 document.location.href = 'mainFolder.html';
+	 document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
 });
 
 $("#shareFolder-button").click(function(event){
 		
-	 document.location.href = 'shareFolder.html';
+	 document.location.href = 'shareFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
 });
-
+$("#initPage").click(function(event){
+		
+	 document.location.href = 'initPage.html?current_user='+document.getElementById("menu-name").innerHTML;
+});
+$("#shareFolder").click(function(event){
+		
+	 document.location.href = 'shareFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
+});
+$("#mainFolder").click(function(event){
+		
+	 document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
+});
 function refresh_Page(){
-    alert("Si entre jeje");
-    
     var mySearch =document.location.search.substring(1);
     [key, value] = mySearch.split("=");
-    alert(document.getElementById("current_username").value);
-    document.getElementById("current_username").value=value;
-    alert("Si sali jeje");
+    document.getElementById("current-username").innerHTML=value;
+    document.getElementById("menu-name").innerHTML=value;
+    
+    demo.initChartist();
+}
+function refresh_PageMainF(){
+    var mySearch =document.location.search.substring(1);
+    [key, value] = mySearch.split("=");
+    document.getElementById("menu-name").innerHTML=value;
+    
+    demo.initChartist();
+}
+function refresh_PageShareF(){
+    var mySearch =document.location.search.substring(1);
+    [key, value] = mySearch.split("=");
+    document.getElementById("menu-name").innerHTML=value;
+    
+    demo.initChartist();
 }

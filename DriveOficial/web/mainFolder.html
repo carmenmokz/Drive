@@ -45,26 +45,26 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a class="simple-text">
+                <a class="simple-text" id="menu-name">
                     Bienvenido!
                 </a>
             </div>
 
             <ul class="nav">
-                <li >
-                    <a href="initPage.html">
+                <li id='initPage'>
+                    <a >
                         <i class="pe-7s-user"></i>
                         <p>Inicio</p>
                     </a>
                 </li>
-                <li class="active">
-                    <a href="mainFolder.html">
+                <li class="active" id='mainFolder'>
+                    <a>
                         <i class="pe-7s-folder"></i>
                         <p>Carpetas Propias</p>
                     </a>
                 </li>
-                <li>
-                    <a href="shareFolder.html">
+                <li id='shareFolder'>
+                    <a>
                         <i class="pe-7s-users"></i>
                         <p>Compartido Conmigo</p>
                     </a>
@@ -254,10 +254,10 @@
 
     <!--   Core JS Files   -->
     <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+    <!--  Charts Plugin -->
+    <script src="assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -270,10 +270,10 @@
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
-
+        <script src="assets/js/index.js"></script>
 	<script type="text/javascript">
     	$(document).ready(function(){
-
+                refresh_PageMainF();
         	demo.initChartist();
 
         	$.notify({
