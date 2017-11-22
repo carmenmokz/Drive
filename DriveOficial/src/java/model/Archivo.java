@@ -66,6 +66,15 @@ public class Archivo {
         this.modificacion = modificacion;
     }
 
+    public int getTamanio() {
+        return tamanio;
+    }
+
+    public void setTamanio(int tamanio) {
+        this.tamanio = tamanio;
+    }
+
+    
     
     
     @Override

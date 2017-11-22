@@ -85,10 +85,16 @@ public class RaizFS {
         for (Directorio dir1 : dirs) {
             borrarEnHijos(dir1); 
         }
+        String dirOriginal = dirActual; 
+        cambiarDirActual(dirActual + "/" + dir.getNombre());
         ArrayList<Archivo> archivos = dir.getArchivos(); 
-        for (Archivo archivo : archivos) {
-            eliminarArchivo(archivo.getNombre(), archivo.getExtension()); 
+        for (int i = 0; i < archivos.size(); i++){
+            System.out.println("!");
+            eliminarArchivo(archivos.get(i).getNombre(), archivos.get(i).getExtension()); 
+            System.out.println("?");
+            archivos = dir.getArchivos();
         }
+        cambiarDirActual(dirOriginal);
         return false;
     }
     
@@ -324,6 +330,25 @@ public class RaizFS {
         }
         return false;
     }
+    
+    public boolean copiarVV(String dirVirtualDe, String dirVirtualA, int tipo){
+        String dirOficial = verificacionVirtual_a_Real(dirVirtualDe);
+        String dirFinal = verificacionVirtual_a_Real(dirVirtualA);
+        String[] dirOficialArray = dirOficial.split("\\/"); 
+        String nombre = dirOficialArray[dirOficialArray.length-1]; 
+        String dirA = "";
+        for (int i = 0; i < dirOficialArray.length-1; i++) {
+            dirA += dirOficialArray[i]; 
+        }
+        if(tipo == 0){
+            Archivo arc = conseguirArchivo(dirA, nombre); 
+            return copiarVVArchivo(arc, dirFinal); 
+        }
+        else if(tipo == 1){
+            return copiarVVDirectorio(dirOficial, dirFinal); 
+        }
+        return false;
+    }
     public boolean copiarVVArchivo(Archivo arc, String dirFinal){
         String dirOriginal = dirActual; 
         cambiarDirActual(dirFinal);
@@ -365,8 +390,13 @@ public class RaizFS {
         ArrayList<Archivo> archivos = dir.getArchivos();
         for (Archivo archivo : archivos) {
             if(archivo.getNombre().equals(nombre) && archivo.getExtension().equals(extension)){
-                consumido -= archivo.getContenido().length(); 
+                
+                System.out.println(archivo.toString());
+                System.out.println("consumido " + consumido);
+                consumido = consumido - archivo.getTamanio(); 
+                System.out.println("consumido 2" + consumido);
                 dir.quitarArchivo(archivo);
+                System.out.println("esto es lo que tira eeror");
                 return true;
             }
         }
@@ -389,6 +419,7 @@ public class RaizFS {
                     return true;
                 }
             }
+            
         }
         return false; 
     }
@@ -456,9 +487,74 @@ public class RaizFS {
         return false; 
     }
     
-    public boolean moverArchivo(){return false;}
-    public boolean moverCarpeta(){return false;}
-    public boolean modificarArchivo(){return false;}
+    public boolean moverArchivo(String dirOrigen, String dirFinal){
+        String dirNuevo = conseguirPadre(verificacionVirtual_a_Real(dirOrigen));
+        String nombreArch = conseguirUltimo(dirOrigen); 
+        String vFinal = verificacionVirtual_a_Real(dirFinal); 
+        Directorio dNuevo = encontrarDirectorio(dirNuevo); 
+        Directorio dFinal = encontrarDirectorio(vFinal); 
+        if(dNuevo == null && dFinal == null){
+            return false;
+        }
+        Archivo arc = conseguirArchivo(dirNuevo, nombreArch); 
+        copiarVVArchivo(arc, vFinal); 
+        cambiarDirActual(dirNuevo);
+        eliminarArchivo(arc.getNombre(), arc.getExtension()); 
+        return true; 
+    }
+    public boolean moverCarpeta(String dirOrigen, String dirFinal){
+        String vOrigen = verificacionVirtual_a_Real(dirOrigen); 
+        String vFinal = verificacionVirtual_a_Real(dirFinal); 
+        Directorio origen = encontrarDirectorio(vOrigen);
+        Directorio finalD = encontrarDirectorio(vFinal); 
+        if(origen == null || finalD == null){
+            return false;
+        }
+        copiarVV(vOrigen, vFinal, 1);
+        System.out.println("vOrigen: " + conseguirPadre(vOrigen) + "-" + conseguirUltimo(vOrigen));
+        cambiarDirActual(conseguirPadre(vOrigen));
+        eliminarDirectorio(conseguirUltimo(vOrigen)); 
+        return true; 
+    }
+    
+    public String conseguirPadre(String dir){
+        String[] dirArray = dir.split("\\/"); 
+        String papa = ""; 
+        for (int i = 0; i < dirArray.length-1; i++) {
+            if(papa.equals("")){
+                 papa += dirArray[i];
+            }
+            else{
+                 papa += "/" + dirArray[i];
+            }
+        }
+        return papa;
+    }
+    public String conseguirUltimo(String dir){
+        String[] dirArray = dir.split("\\/"); 
+        return dirArray[dirArray.length-1]; 
+    }
+    public boolean modificarArchivo(String nombreCompleto, String contenido){
+        Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
+        if(arc == null){return false;}
+        arc.setContenido(contenido);
+        return true; 
+    }
+    
+    public boolean modificarArchivoNombre(String nombreCompleto, String nombre){
+        Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
+        if(arc == null){return false;}
+        arc.setNombre(nombre);
+        return true; 
+    }
+    
+    public boolean modificarArchivoExt(String nombreCompleto, String ext){
+        Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
+        if(arc == null){return false;}
+        arc.setExtension(ext);
+        return true; 
+    }
+    
     public void verArchivo(){}
    
     public boolean verificarDirectorioExiste(String direccion){

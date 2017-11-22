@@ -42,6 +42,7 @@ public class DriveOficial {
     }
     
     public static void prueba3(){
+        //copia RV
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Personal");
         user.getFileSystem().copiarRV("C:\\Users\\bermu\\Desktop\\pruebita", "D/Personal"); 
@@ -56,6 +57,7 @@ public class DriveOficial {
     }
     
     public static void prueba5(){
+        //existe en DIR o arch en dir
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Compartido");
         user.getFileSystem().crearDirectorio("CUAL"); 
@@ -76,6 +78,7 @@ public class DriveOficial {
     }
     
     public static void prueba6(){
+        //copia VR
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Compartido");
         user.getFileSystem().crearDirectorio("CUAL"); 
@@ -94,6 +97,7 @@ public class DriveOficial {
     }
     
     public static void prueba7(){
+        //copia VV 
         Usuario user = new Usuario("bermudezari", "1234", 50000);
         user.getFileSystem().cambiarDirActual("D/Compartido");
         user.getFileSystem().crearDirectorio("CUAL"); 
@@ -103,9 +107,46 @@ public class DriveOficial {
         System.out.println(user.toString());
     }
     
+    public static void prueba8(){
+        //mover carpeta 
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("CUAL"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        System.out.println(user.getFileSystem().moverCarpeta("D/Compartido/CUAL", "D/Personal"));
+        System.out.println(user.toString());
+    }
+    
+    public static void prueba9(){
+        //mover archivo
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("CUAL"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        System.out.println(user.getFileSystem().moverArchivo("D/Compartido/CUAL/ari.pdf", "D/Personal"));
+        System.out.println(user.toString());
+    }
+
+
+    public static void prueba10(){
+        //mod archivo
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("CUAL"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/CUAL");
+        user.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+        System.out.println(user.getFileSystem().modificarArchivo("ari.pdf", "bueno no se que poner"));
+        System.out.println(user.toString());
+        System.out.println(user.getFileSystem().modificarArchivoNombre("ari.pdf", "fois"));
+        System.out.println(user.toString());
+        System.out.println(user.getFileSystem().modificarArchivoExt("fois.pdf", "txt"));
+        System.out.println(user.toString());
+    }
     public static void main(String[] args) {
         // TODO code application logic here
-        prueba7(); 
+        prueba10(); 
         
     }
     
