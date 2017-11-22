@@ -29,6 +29,46 @@ public class RaizFS {
     private int limiteTamanio; 
     private Directorio dir;         //a quien apunta ya para trabajar normal 
     private String dirActual;       //como pasare navegando en el FileSystem si quiero agregar una carpeta o archivo sera donde estoy
+
+    public String getNombreRaiz() {
+        return nombreRaiz;
+    }
+
+    public void setNombreRaiz(String nombreRaiz) {
+        this.nombreRaiz = nombreRaiz;
+    }
+
+    public int getConsumido() {
+        return consumido;
+    }
+
+    public void setConsumido(int consumido) {
+        this.consumido = consumido;
+    }
+
+    public int getLimiteTamanio() {
+        return limiteTamanio;
+    }
+
+    public void setLimiteTamanio(int limiteTamanio) {
+        this.limiteTamanio = limiteTamanio;
+    }
+
+    public Directorio getDir() {
+        return dir;
+    }
+
+    public void setDir(Directorio dir) {
+        this.dir = dir;
+    }
+
+    public String getDirActual() {
+        return dirActual;
+    }
+
+    public void setDirActual(String dirActual) {
+        this.dirActual = dirActual;
+    }
     
     public RaizFS(int maxBytes){
         nombreRaiz = "D"; // D de DRIVE ajajjaja entienden xD kill me
