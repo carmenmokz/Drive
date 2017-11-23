@@ -39,7 +39,26 @@ public class DeviceSessionHandler {
     private Set<Usuario> usuarios = new HashSet<>();
 
     public DeviceSessionHandler() {
-        cargarUsuarios(); 
+        verificarExisteJson();
+        
+    }
+    
+    public void verificarExisteJson(){
+        String basePath = new File("").getAbsolutePath();
+        boolean check = new File(basePath, "users.json").exists();
+        System.out.println("Existe  Json: "+ check);
+        if(!check){
+            try (FileWriter file = new FileWriter(basePath+"//users.json")) {
+                file.write("[]");
+                System.out.println("Successfully Copied JSON Object to File...");		
+            } catch (IOException ex) {
+                 Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+
+             }
+        }
+        else{
+            cargarUsuarios(); 
+        }
     }
     
     
