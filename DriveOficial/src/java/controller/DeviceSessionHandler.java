@@ -378,9 +378,9 @@ public class DeviceSessionHandler {
          System.out.println(dirShared.getNombre());
          ArrayList<Directorio> directorios = dirShared.getDirectorios(); 
         ArrayList<Archivo> archivos = dirShared.getArchivos(); 
-        Directorio dirActual = userWhoRecivies.encontrarDirectorio(userWhoRecivies.getDirActual()); 
+        Directorio dirActual = userWhoRecivies.encontrarDirectorio(userWhoRecivies.getDirActual());
+        userWhoRecivies.cambiarDirActual(userWhoRecivies.getDirActual()+"/"+dirShared.getNombre());
         for (Archivo archivo : archivos) {
-            userWhoRecivies.cambiarDirActual(userWhoRecivies.getDirActual()+"/"+dirShared.getNombre());
             shareFileSimplified(archivo, userWhoRecivies);
         }
         for (Directorio directorio : directorios) {
@@ -448,8 +448,9 @@ public class DeviceSessionHandler {
         changeFolder(username, dir,session);
         
     }
-    public void deleteFolder(String username,String dir,String file,Session session){
-        System.out.println(dir);
+    public void deleteFolder(String username,String dir,String file, Session session){
+        System.out.println(dir + " file: " + file);
+        
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().eliminarDirectorio(file);

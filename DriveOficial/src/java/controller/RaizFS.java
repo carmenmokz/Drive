@@ -92,7 +92,7 @@ public class RaizFS {
             borrarEnHijos(dir1); 
         }
         String dirOriginal = dirActual; 
-        cambiarDirActual(dirActual + "/" + dir.getNombre());
+        System.out.println("dir antes: " + dirOriginal);
         ArrayList<Archivo> archivos = dir.getArchivos(); 
         for (int i = 0; i < archivos.size(); i++){
             System.out.println("!");
@@ -432,7 +432,9 @@ public class RaizFS {
     
     
     public boolean eliminarDirectorio(String nombre){
+        System.out.println("llega a eliminar directorio");
         Directorio dir = encontrarDirectorio(dirActual); 
+        String dirOriginal = dirActual; 
         if(dir == null){
             return false;
         }
@@ -440,7 +442,9 @@ public class RaizFS {
             ArrayList<Directorio> dirs = dir.getDirectorios(); 
             for (Directorio dir1 : dirs) {
                 if (dir1.getNombre().equals(nombre)){
+                    cambiarDirActual(dirActual + "/" + dir1.getNombre());
                     borrarEnHijos(dir1); 
+                    cambiarDirActual(dirOriginal);
                     dir.quitarCarpeta(dir1);
                     return true;
                 }

@@ -112,7 +112,7 @@ public class DeviceWebSocketServer {
                  sessionHandler.shareFile(username, currentPath+"/"+nameFile, currentPath, toUser, "", session);
             }
             else if("shareDir".equals(jsonMessage.getString("action"))) {
-                System.out.println("Shareeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                System.out.println("Share");
                 String username = jsonMessage.getString("username"); 
                 String nameFile = jsonMessage.getString("path"); 
                 String toUser = jsonMessage.getString("toUser"); 
