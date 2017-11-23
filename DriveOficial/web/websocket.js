@@ -278,9 +278,12 @@ function moveAll(){
 }
 
 function shareDirectory(){
-    var username = document.getElementById("username").value; 
-    var path = document.getElementById("currentPath").value;  //ocupo el path realmente entero, con el nombre del mismo dir
-    var toUser = document.getElementById("toUser").value; 
+    alert("quak1"); 
+    var username = document.getElementById("menu-name").innerHTML; 
+    alert(username);
+    var toUser = document.getElementById("user-share").value; 
+    var path = document.getElementById("current-folder").innerHTML; 
+    alert(toUser);
     var tbody = document.getElementById('file-system'); 
     var rowLength = tbody.rows.length;
     alert("Mo llega");
@@ -293,8 +296,9 @@ function shareDirectory(){
        
       
         var file=row.cells[2].innerHTML;
+        
         var finalpath=path+"/"+file;
-    
+        alert(finalpath);
     
         var exist = 0; 
         exist = isUserAlready(toUser);
@@ -356,14 +360,15 @@ function shareFile(){
 }
 
 function shareAll(){
-    switch(typeShare){
+    alert(typeShare);
+    switch(typeShare){    
         case 0:
             alert("1 llega");
             shareFile();
             break;
         case 1:
             alert("1 llega");
-            shareFolder();
+            shareDirectory();
             break;
     }
 }

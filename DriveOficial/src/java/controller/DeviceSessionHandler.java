@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools |sd Templates
  * and open the template in the editor.
  */
 package controller;
@@ -373,8 +373,8 @@ public class DeviceSessionHandler {
     
     
     
-     public void sharedAllFiles(Directorio dirShared, RaizFS userWhoRecivies) {
-         System.out.println("entra a dir shared");
+     public void sharedAllFiles(Directorio dirShared, RaizFS userWhoRecivies,Session session) {
+         System.out.println("eentra a dir shared");
          System.out.println(dirShared.getNombre());
          ArrayList<Directorio> directorios = dirShared.getDirectorios(); 
         ArrayList<Archivo> archivos = dirShared.getArchivos(); 
@@ -384,7 +384,7 @@ public class DeviceSessionHandler {
             shareFileSimplified(archivo, userWhoRecivies);
         }
         for (Directorio directorio : directorios) {
-            shareDirectory(directorio, userWhoRecivies);
+            shareDirectory(directorio, userWhoRecivies, session);
         }
         
         
@@ -396,39 +396,29 @@ public class DeviceSessionHandler {
         
     }
     
-    public void shareFile(String user, String file, String path, String toUser, String toCopyPath){
-        System.out.println("share fileO ufser: "+ user + " file: " + file + " pathTO: " + path + " toUserTO: " + toUser);
+    public void shareFile(String user, String file, String path, String toUser, String toCopyPath,Session session){
         Usuario usuarioManda = getUsuarioByUsername(user); 
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
         RaizFS FileSystem = usuarioRecibe.getFileSystem(); 
         RaizFS FileSystemShared = usuarioManda.getFileSystem(); 
-        //System.out.println(usuarioManda);
-        System.out.println(path);
-        System.out.println("000");
-        System.out.println(FileSystemShared.getDirActual());
-        System.out.println("000");
         String altfile =FileSystem.conseguirUltimo(file); 
-        System.out.println(altfile);
         Archivo archivo = FileSystemShared.conseguirArchivo(path, altfile); 
         if(toCopyPath.equals("")){
-            System.out.println("21");
-            System.out.println(archivo.getNombre());
             FileSystem.encontrarDirectorio("D/Compartido");
             FileSystem.cambiarDirActual("D/Compartido");
-            System.out.println("2");
-            System.out.println(FileSystem.getDirActual());
             FileSystem.copiarVVArchivo(archivo, FileSystem.getDirActual()); 
-            System.out.println("3");
         }
         System.out.println(usuarios.toString());
     }
     
-    public void shareDirectory(String user, String directory, String toUser, String toCopyPath){
+    public void shareDirectory(String user, String directory, String toUser, String toCopyPath,Session session){
+        System.out.println(user + directory+toUser);
         Usuario usuarioManda = getUsuarioByUsername(user); 
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
         RaizFS FileSystemOf = usuarioManda.getFileSystem(); 
         RaizFS FileSystemS = usuarioRecibe.getFileSystem();
         Directorio dirShared = FileSystemOf.encontrarDirectorio(FileSystemOf.verificacionVirtual_a_Real(directory)); 
+        System.out.println("dirShAAARED:" +dirShared.toString());
         Directorio dirRecibe; 
         String dirOriginalS = FileSystemS.getDirActual(); 
         if(toCopyPath.equals("")){
@@ -440,15 +430,15 @@ public class DeviceSessionHandler {
             FileSystemS.cambiarDirActual(toCopyPath);
         }
         FileSystemS.crearDirectorio(dirShared.getNombre());
-        sharedAllFiles(dirShared, FileSystemS);
+        sharedAllFiles(dirShared, FileSystemS, session);
         FileSystemS.cambiarDirActual(dirOriginalS);
         
     }
     
-    public void shareDirectory(Directorio directory, RaizFS filesystem){
+    public void shareDirectory(Directorio directory, RaizFS filesystem, Session session){
         String dirOriginalS = filesystem.getDirActual();
         filesystem.crearDirectorio(directory.getNombre());
-        sharedAllFiles(directory, filesystem);
+        sharedAllFiles(directory, filesystem, session);
         filesystem.cambiarDirActual(dirOriginalS);
     }
     public void deleteFile(String username,String dir,String file, String ext,Session session){
@@ -459,6 +449,7 @@ public class DeviceSessionHandler {
         
     }
     public void deleteFolder(String username,String dir,String file,Session session){
+        System.out.println(dir);
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().eliminarDirectorio(file);

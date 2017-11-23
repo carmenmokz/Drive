@@ -205,7 +205,7 @@ public class DriveOficial {
         dev.getUsuarios().add(user);
         dev.getUsuarios().add(user2);
         
-        dev.shareDirectory("bermudezari", "D/Compartido", "q", "");
+        // ahora le falta el session dev.shareDirectory("bermudezari", "D/Compartido", "q", "");
         System.out.println(dev.toString());
     }
     public static void main(String[] args) throws IOException {
