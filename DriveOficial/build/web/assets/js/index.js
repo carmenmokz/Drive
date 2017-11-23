@@ -62,7 +62,7 @@ function refreshFolders(json){
                                         
 }
 function refreshFolder(usuario){
-    alert("si me llamaron");
+  
     document.getElementById("current-folder").innerHTML=usuario.dir;
 }
 function refreshView(usuario){
@@ -197,11 +197,11 @@ btnCopyVV.onclick = function() {
     typeCopy=2;
 };
 btnDeleteFiles.onclick = function() {
-   alert("Ya funco");
+   
    deleteFile();
 };
 btnDeleteFolders.onclick = function() {
-   alert("Ya funco");
+
    deleteFolder();
 };
 btnMoveFiles.onclick = function() {

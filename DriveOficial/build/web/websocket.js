@@ -68,7 +68,7 @@ function verFolder(usuario){
 
             socket.send(JSON.stringify(UsuarioAction));
         } else {
-            alert('Why did you press cancel? You should have confirmed');
+           
         }
 }
 function verFile(usuario){
@@ -92,7 +92,7 @@ function verFile(usuario){
 
                 socket.send(JSON.stringify(UsuarioAction));
         } else {
-            alert('Why did you press cancel? You should have confirmed');
+            
         }
 }
 function getUsers() {
@@ -181,7 +181,7 @@ function changeFolder(name)
 
     socket.send(JSON.stringify(UsuarioAction));
     var current=document.getElementById("current-folder").innerHTML+name;
-    alert(current);
+  
     
     
 }
@@ -233,10 +233,7 @@ function copyAll(){
     var destiny =document.getElementById("destiny-copy").value;
     
     
-    alert("Entre");
-    alert("Tipo "+typeCopy);
-    alert(origin);
-    alert(destiny);
+   
     var UsuarioAction = {
         action: "copy",
         username: document.getElementById("menu-name").innerHTML,
@@ -244,21 +241,21 @@ function copyAll(){
         destiny: destiny,
         type: typeCopy
     };
-    alert("Si la guarde:"+UsuarioAction.type);
+   
     socket.send(JSON.stringify(UsuarioAction));
     copy.style.display = "none";
 }
 function deleteFile(){
     var tbody = document.getElementById('file-system');
     var rowLength = tbody.rows.length;
-    alert(rowLength);
+
     for(var i=0; i<rowLength; i+=1){   
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
       
       if(state===true){
         [file,ext]=row.cells[1].innerHTML.split(".");
-        alert(ext);
+     
         var UsuarioAction = {
         action: "deleteFile",
         username: document.getElementById("menu-name").innerHTML,
@@ -277,7 +274,7 @@ function deleteFile(){
 function deleteFolder(){
     var tbody = document.getElementById('file-system');
     var rowLength = tbody.rows.length;
-    alert(rowLength);
+
     for(var i=0; i<rowLength; i+=1){   
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
@@ -299,13 +296,13 @@ function deleteFolder(){
 }
 
 function moveAll(){
-   alert("Entro al move");
+ 
    var destiny =document.getElementById("destiny-move").value;
    var tbody = document.getElementById('file-system'); 
    var rowLength = tbody.rows.length;
-   alert("Mo llega");
+   
    for(var i=0; i<rowLength; i+=1){   
-      alert("Entro al for");
+    
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
       if(state===true){
@@ -331,22 +328,22 @@ function moveAll(){
   
   
     
-    alert("Sale");
+
     move.style.display = "none";
 }
 
 function shareDirectory(){
-    alert("quak1"); 
+ 
     var username = document.getElementById("menu-name").innerHTML; 
-    alert(username);
+ 
     var toUser = document.getElementById("user-share").value; 
     var path = document.getElementById("current-folder").innerHTML; 
-    alert(toUser);
+
     var tbody = document.getElementById('file-system'); 
     var rowLength = tbody.rows.length;
-    alert("Mo llega");
+
     for(var i=0; i<rowLength; i+=1){   
-        alert("Entro al for");
+    
     var row = tbody.rows[i];
     var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
       
@@ -356,8 +353,7 @@ function shareDirectory(){
         var file=row.cells[2].innerHTML;
         
         var finalpath=path+"/"+file;
-        alert(finalpath);
-    
+  
         var exist = 0; 
         exist = isUserAlready(toUser);
 
@@ -378,28 +374,28 @@ function shareDirectory(){
 }
 
 function shareFile(){
-    alert("quak 1");
+  
     var username = document.getElementById("menu-name").innerHTML; 
-    alert(username);
+
      
     
     var currentPath = document.getElementById("current-folder").innerHTML; 
-    alert(currentPath);
+
     var toUser = document.getElementById("user-share").value; 
-    alert(toUser);
+
     var tbody = document.getElementById('file-system'); 
-    alert(tbody);
+    
     var rowLength = tbody.rows.length;
-    alert("Mo llega");
+
     for(var i=0; i<rowLength; i+=1){   
         
         var row = tbody.rows[i];
-        alert(row);
+       
         var state= document.getElementById("ck"+row.cells[2].innerHTML).checked;
 
         if(state===true){
             var file = row.cells[1].innerHTML;
-            alert(file); 
+             
             var exist = 0; 
             exist = isUserAlready(toUser); 
             if(exist===1){
@@ -417,13 +413,13 @@ function shareFile(){
     };   
 }
 function editFile(){
-   alert("Entro al move");
+  
    
    var tbody = document.getElementById('file-system'); 
    var rowLength = tbody.rows.length;
-   alert("Mo llega");
+
    for(var i=0; i<rowLength; i+=1){   
-      alert("Entro al for");
+
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
       
@@ -448,8 +444,7 @@ function editFile(){
     };
   
   
-    
-    alert("Sale");
+
     edit.style.display = "none";
 }
 
@@ -460,7 +455,7 @@ function viewFile(){
    var rowLength = tbody.rows.length;
   
    for(var i=0; i<rowLength; i+=1){   
-      alert("Entro al for");
+     
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
       
@@ -484,18 +479,18 @@ function viewFile(){
   
   
     
-    alert("Sale");
+    
     
 }
 function shareAll(){
-    alert(typeShare);
+   
     switch(typeShare){    
         case 0:
-            alert("1 llega");
+            
             shareFile();
             break;
         case 1:
-            alert("1 llega");
+          
             shareDirectory();
             break;
     }
