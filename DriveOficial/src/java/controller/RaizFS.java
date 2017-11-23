@@ -319,7 +319,13 @@ public class RaizFS {
         String nombre = dirOficialArray[dirOficialArray.length-1]; 
         String dirA = "";
         for (int i = 0; i < dirOficialArray.length-1; i++) {
-            dirA += dirOficialArray[i]; 
+            if(dirA.equals("")){
+                dirA += dirOficialArray[i]; 
+            }
+            else{
+                dirA += "/" + dirOficialArray[i]; 
+            }
+            
         }
         boolean existeArc = existeArchEnDir(dirA, nombre); 
         boolean existeDir = existeDirEnDir(dirA, nombre); 

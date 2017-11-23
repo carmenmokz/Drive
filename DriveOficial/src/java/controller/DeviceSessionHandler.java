@@ -117,6 +117,7 @@ public class DeviceSessionHandler {
          
     }
     public void copy(String username, int type,String origin,String destiny) {
+        System.out.println("en copy" + " origin: "+ origin + " destiny: "+ destiny);
         Usuario usuario=getUsuarioByUsername(username);
         switch(type){
                 case 0:
