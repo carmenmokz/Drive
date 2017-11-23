@@ -142,6 +142,8 @@ var addFolderDisp = document.getElementById('addFolder');
 var copy = document.getElementById('copyWindow');
 var move = document.getElementById('moveWindow');
 var share=document.getElementById('shareWindow');
+var edit=document.getElementById('editWindow');
+var info=document.getElementById('infoWindow');
 // Get the button that opens the modal
 var btnFile = document.getElementById("btnAddFile");
 var btnFolder = document.getElementById("btnAddFolder");
@@ -196,7 +198,14 @@ btnShareFolders.onclick = function() {
   share.style.display = "block";  
   typeShare=1;
 };
+btnViewFiles.onclick = function() {
+  info.style.display = "block";  
+ 
+};
+btnEditFiles.onclick = function() {
+  edit.style.display = "block";  
 
+};
 window.onclick = function(event) {
      if (event.target === addFileDisp) {
          addFileDisp.style.display = "none";
@@ -212,6 +221,12 @@ window.onclick = function(event) {
      }
      else if (event.target === share) {
          share.style.display = "none";
+     }
+     else if (event.target === info) {
+         info.style.display = "none";
+     }
+     else if (event.target === edit) {
+         edit.style.display = "none";
      }
  };
 // When the user clicks on <span> (x), close the modal

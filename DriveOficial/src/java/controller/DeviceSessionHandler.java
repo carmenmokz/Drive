@@ -469,6 +469,16 @@ public class DeviceSessionHandler {
         
         changeFolder(username, destiny,session);
     }
+    
+     public void edit(String username,String dir, String oldfile,String file,String ext,String cont, Session session){
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        usuario.getFileSystem().modificarArchivo(oldfile, cont);
+        usuario.getFileSystem().modificarArchivoExt(oldfile, ext);
+        usuario.getFileSystem().modificarArchivoNombre(oldfile, file);
+        
+        changeFolder(username, dir,session);
+    }
 
     @Override
     public String toString() {

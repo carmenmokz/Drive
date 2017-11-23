@@ -163,8 +163,12 @@
                                 <i class="pe-7s-help1"></i>
                                 <p class="hidden-lg hidden-md">Información</p>
                             </a>
-
+                            <ul class="dropdown-menu">
+                            <li><a href="#" id="btnViewFiles" >Propiedades</a></li>
+                            <li><a href="#" id="btnEditFiles" >Modificar Archivo</a></li>
+                          </ul>
                         </li>
+                          
                       
                     </ul>
 
@@ -281,6 +285,49 @@
               <div class="modal-footer">
                 
                   <button  type="submit" onclick="shareAll();" >Compartir</button><br>
+              </div>
+            </div>
+
+        </div>
+        <div id="editWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Modificar a:</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text" id="name-file-mod" placeholder="Nombre del Archivo"><br><br>
+                <input type="text" id="ext-file-mod" placeholder="Extensión"><br><br>
+                <textarea rows="10"  id="cont-file-mod" placeholder="Contenido"></textarea>
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit" onclick="editFile();" >Modificar</button><br>
+              </div>
+            </div>
+
+        </div>
+        <div id="infoWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Información</h2>
+              </div>
+              <div class="modal-body">
+                 <h3>Nombre:</h3><a id="name-info"></a>
+                <h3>Extensión:</h3><a id="ext-info"></a>
+                 <h3>Fecha de Creación:</h3><a id="initd-info"></a>
+                 <h3>Fecha de Modificación:</h3><a id="modd-info"></a>
+                 <h3>Tamaño:</h3><a id="size-info"></a>
+               </div>
+              <div class="modal-footer">
+                
+               
               </div>
             </div>
 
