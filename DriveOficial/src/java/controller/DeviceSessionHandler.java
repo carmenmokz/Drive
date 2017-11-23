@@ -100,23 +100,23 @@ public class DeviceSessionHandler {
         sendToAllConnectedSessions(addMessage);
          
     }
-     public void addFolder(String username,String dir, String nombre) {
+     public void addFolder(String username,String dir, String nombre, Session session) {
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().crearDirectorio(nombre);
-        changeFolder(username,dir);
+        changeFolder(username,dir, session);
        
          
     }
-    public void addFile(String username,String dir, String nombre, String ext, String cont) {
+    public void addFile(String username,String dir, String nombre, String ext, String cont,Session session) {
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().crearArchivo(nombre,ext,cont);
-        changeFolder(username,dir);
+        changeFolder(username,dir,session);
        
          
     }
-    public void copy(String username, int type,String origin,String destiny) {
+    public void copy(String username, int type,String origin,String destiny,Session session) {
         System.out.println("en copy" + " origin: "+ origin + " destiny: "+ destiny);
         Usuario usuario=getUsuarioByUsername(username);
         switch(type){
@@ -134,7 +134,7 @@ public class DeviceSessionHandler {
                     break;
         }  
         System.out.println(destiny);
-        changeFolder(username,destiny);
+        changeFolder(username,destiny, session);
        
          
     }
@@ -213,7 +213,7 @@ public class DeviceSessionHandler {
         sendToAllConnectedSessions(addMessage);
       
     }
-    public void getMainFolder(String username){
+    public void getMainFolder(String username, Session session){
        Usuario usuario=getUsuarioByUsername(username);
        JsonProvider provider = JsonProvider.provider();
         // create Json array with only values
@@ -248,10 +248,11 @@ public class DeviceSessionHandler {
                 .add("archivos",arr)
                 .build();
         System.out.println(addMessage);
-        sendToAllConnectedSessions(addMessage);
+        sendToSession(session, addMessage);
+       
        
    }
-   public void getShareFolder(String username){
+   public void getShareFolder(String username,Session session){
         Usuario usuario=getUsuarioByUsername(username);
        JsonProvider provider = JsonProvider.provider();
         // create Json array with only values
@@ -284,10 +285,10 @@ public class DeviceSessionHandler {
                 .add("folders", arr2)
                 .add("archivos",arr)
                 .build();
-        sendToAllConnectedSessions(addMessage);
+        sendToSession(session, addMessage);
        
    }
-     public void changeFolder(String username,String folder){
+     public void changeFolder(String username,String folder, Session session){
         Usuario usuario=getUsuarioByUsername(username);
        JsonProvider provider = JsonProvider.provider();
         // create Json array with only values
@@ -322,7 +323,7 @@ public class DeviceSessionHandler {
                 .add("archivos",arr)
                 .build();
         System.out.println("Me paso a:" + folder);
-        sendToAllConnectedSessions(addMessage);
+        sendToSession(session, addMessage);
        
    }
     
@@ -439,21 +440,21 @@ public class DeviceSessionHandler {
         sharedAllFiles(directory, filesystem);
         filesystem.cambiarDirActual(dirOriginalS);
     }
-    public void deleteFile(String username,String dir,String file, String ext){
+    public void deleteFile(String username,String dir,String file, String ext,Session session){
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().eliminarArchivo(file, ext);
-        changeFolder(username, dir);
+        changeFolder(username, dir,session);
         
     }
-    public void deleteFolder(String username,String dir,String file){
+    public void deleteFolder(String username,String dir,String file,Session session){
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().eliminarDirectorio(file);
-        changeFolder(username, dir);
+        changeFolder(username, dir,session);
         
     }
-    public void move(String username,int type, String file,String destiny){
+    public void move(String username,int type, String file,String destiny,Session session){
         Usuario usuario=getUsuarioByUsername(username);
         switch(type){
             case 0:
@@ -464,7 +465,7 @@ public class DeviceSessionHandler {
                 break;
         }
         
-        changeFolder(username, destiny);
+        changeFolder(username, destiny,session);
     }
 
     @Override

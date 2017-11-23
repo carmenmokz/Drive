@@ -80,27 +80,27 @@ public class DeviceWebSocketServer {
             }
             else if ("getMainFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
-                sessionHandler.getMainFolder(jsonMessage.getString("username"));
+                sessionHandler.getMainFolder(jsonMessage.getString("username"),session);
                 System.out.println("Salio");
             }
             else if ("getShareFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
-                sessionHandler.getShareFolder(jsonMessage.getString("username"));
+                sessionHandler.getShareFolder(jsonMessage.getString("username"),session);
                 System.out.println("Salio");
             }
             else if ("changeFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
-                sessionHandler.changeFolder(jsonMessage.getString("username"),jsonMessage.getString("folder"));
+                sessionHandler.changeFolder(jsonMessage.getString("username"),jsonMessage.getString("folder"),session);
                 System.out.println("Salio");
             }
             else if ("addFile".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
-                sessionHandler.addFile(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"),jsonMessage.getString("ext"),jsonMessage.getString("cont"));
+                sessionHandler.addFile(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"),jsonMessage.getString("ext"),jsonMessage.getString("cont"),session);
                 System.out.println("Salio");
             }
             else if ("addFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
-                sessionHandler.addFolder(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"));
+                sessionHandler.addFolder(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"),session);
                 System.out.println("Salio");
             }
             else if("shareFile".equals(jsonMessage.getString("action"))) {
@@ -121,19 +121,19 @@ public class DeviceWebSocketServer {
             }
             else if("copy".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.copy(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("origin"),jsonMessage.getString("destiny"));
+                sessionHandler.copy(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("origin"),jsonMessage.getString("destiny"),session);
             }
              else if("deleteFile".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.deleteFile(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"), jsonMessage.getString("ext"));
+                sessionHandler.deleteFile(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"), jsonMessage.getString("ext"),session);
             }
             else if("deleteFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.deleteFolder(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"));
+                sessionHandler.deleteFolder(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"),session);
             }
              else if("move".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.move(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("dir")+"/"+jsonMessage.getString("file"),jsonMessage.getString("destiny"));
+                sessionHandler.move(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("dir")+"/"+jsonMessage.getString("file"),jsonMessage.getString("destiny"),session);
             }
 
         }
