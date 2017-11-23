@@ -235,12 +235,18 @@ public class RaizFS {
         }
     }  
     public boolean copiarVR(String dirVirtual, String dirReal){
+        
         String dirOficial = verificacionVirtual_a_Real(dirVirtual); 
         String[] dirOficialArray = dirOficial.split("\\/"); 
         String nombre = dirOficialArray[dirOficialArray.length-1]; 
         String dirA = "";
         for (int i = 0; i < dirOficialArray.length-1; i++) {
-            dirA += dirOficialArray[i]; 
+            if(dirA.equals("")){
+                dirA += dirOficialArray[i]; 
+            }
+            else{
+                dirA += "/" + dirOficialArray[i]; 
+            }
         }
         boolean existeArc = existeArchEnDir(dirA, nombre); 
         boolean existeDir = existeDirEnDir(dirA, nombre); 
@@ -263,7 +269,13 @@ public class RaizFS {
         String nombre = dirOficialArray[dirOficialArray.length-1]; 
         String dirA = ""; // es el directorio donde va a estar lo nuevo
         for (int i = 0; i < dirOficialArray.length-1; i++) {
-            dirA += dirOficialArray[i]; 
+            if(dirA.equals("")){
+                dirA += dirOficialArray[i]; 
+            }
+            else{
+                dirA += "/" + dirOficialArray[i]; 
+            }
+            
         }
        
         if(type == 0 && existeDirEnDir(dirA, nombre)){
@@ -289,6 +301,8 @@ public class RaizFS {
     }
     public boolean copiarVRArchivos(String dirReal) {
         boolean exito = false; 
+        System.out.println("cuando entro a archivos dirActual: "+ dirActual);
+        System.out.println("cuando entro a archivos dirReal: "+ dirReal);
         Directorio dirBase = encontrarDirectorio(dirActual); 
         ArrayList<Directorio> directorios = dirBase.getDirectorios(); 
         ArrayList<Archivo> archivos = dirBase.getArchivos(); 
@@ -305,7 +319,9 @@ public class RaizFS {
         String dirOriginal = dirActual;
         cambiarDirActual(dirVirtual);
         Directorio dirNuevo = encontrarDirectorio(dirActual); 
+        System.out.println("nombre de directorio creo q es el error: " + dirNuevo.getNombre());
         String dirRealNueva = dirReal+"\\"+dirNuevo.getNombre();
+        System.out.println("errorrrrrrrrrrrrrrrrrr 2 " + dirRealNueva);
         File carpeta = new File(dirRealNueva);
         carpeta.mkdirs(); 
         boolean exito = copiarVRArchivos(dirRealNueva); 

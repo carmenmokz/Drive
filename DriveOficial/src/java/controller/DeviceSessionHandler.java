@@ -123,13 +123,13 @@ public class DeviceSessionHandler {
                 case 0:
                    
                     usuario.getFileSystem().copiarVR(origin, destiny);
+                    destiny=origin; 
                     break;
                 case 1:
                     usuario.getFileSystem().copiarRV(origin, destiny);
                     break;
                 case 2:
                     System.out.println("Vine a copiar");
-                    usuario.getFileSystem().copiarVV(origin, destiny);
                     System.out.println(usuario.getFileSystem().copiarVV(origin, destiny));
                     break;
         }  
