@@ -5,7 +5,10 @@
  */
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.FileSystem;
@@ -568,8 +571,10 @@ public class RaizFS {
     public String enlistar(String dir){
         Directorio dirOficial = encontrarDirectorio(verificacionVirtual_a_Real(dir)); 
         if(dirOficial==null){return "error";}
-        //aqui armar como le sirva a xime 
-        return "goli"; 
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonEjemplo = gson.toJson(dirOficial);
+        System.out.println(jsonEjemplo); 
+        return jsonEjemplo;
     }
     
     public boolean modificarArchivoNombre(String nombreCompleto, String nombre){
@@ -588,7 +593,15 @@ public class RaizFS {
         return true; 
     }
     
-    public void verArchivo(){}
+    public String verArchivo(String directorio, String nombreArchExt){
+        Archivo archivo = conseguirArchivo(directorio, nombreArchExt);
+        if(archivo==null){return "Archivo vacio";}
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonEjemplo = gson.toJson(archivo);
+        System.out.println(jsonEjemplo); 
+        return jsonEjemplo;
+    }
+    
    
     public boolean verificarDirectorioExiste(String direccion){
         Directorio dir = encontrarDirectorio(direccion); 
