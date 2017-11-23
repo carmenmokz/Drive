@@ -190,11 +190,11 @@ btnMoveFolders.onclick = function() {
 };
 btnShareFiles.onclick = function() {
    share.style.display = "block";
-   typeMove=0;
+   typeShare=0;
 };
 btnShareFolders.onclick = function() {
   share.style.display = "block";  
-  typeMove=1;
+  typeShare=1;
 };
 
 window.onclick = function(event) {

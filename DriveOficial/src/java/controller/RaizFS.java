@@ -126,13 +126,12 @@ public class RaizFS {
         Directorio dirBase = encontrarDirectorio(directorio); 
         String[] nombreArcStrings = nombreArchExt.split("\\.");
         String nombreArch = "";
-        String extension = nombreArcStrings[nombreArcStrings.length-1]; 
         for (int i = 0; i < nombreArcStrings.length-1; i++) {
             nombreArch += nombreArcStrings[i]; 
         }
         ArrayList<Archivo> archivos = dirBase.getArchivos(); 
         for (Archivo archivo : archivos) {
-            if(archivo.getNombre().equals(nombreArch) && archivo.getExtension().equals(extension)){
+            if(archivo.getNombre().equals(nombreArch)){
                 return archivo;
             }
         }

@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor.dfd
  */
 package controller;
 
@@ -106,7 +106,7 @@ public class DeviceWebSocketServer {
             else if("shareFile".equals(jsonMessage.getString("action"))) {
                 System.out.println("Share");
                 String username = jsonMessage.getString("username"); 
-                String nameFile = jsonMessage.getString("nameFile"); 
+                String nameFile = jsonMessage.getString("file"); 
                 String currentPath = jsonMessage.getString("currentPath"); 
                 String toUser = jsonMessage.getString("toUser"); 
                  sessionHandler.shareFile(username, currentPath+"/"+nameFile, currentPath, toUser, "");

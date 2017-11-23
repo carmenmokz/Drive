@@ -397,19 +397,30 @@ public class DeviceSessionHandler {
     }
     
     public void shareFile(String user, String file, String path, String toUser, String toCopyPath){
+        System.out.println("share fileO ufser: "+ user + " file: " + file + " pathTO: " + path + " toUserTO: " + toUser);
         Usuario usuarioManda = getUsuarioByUsername(user); 
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
         RaizFS FileSystem = usuarioRecibe.getFileSystem(); 
         RaizFS FileSystemShared = usuarioManda.getFileSystem(); 
-        System.out.println(usuarioManda);
+        //System.out.println(usuarioManda);
         System.out.println(path);
+        System.out.println("000");
         System.out.println(FileSystemShared.getDirActual());
-        Archivo archivo = FileSystemShared.conseguirArchivo(path, file); 
+        System.out.println("000");
+        String altfile =FileSystem.conseguirUltimo(file); 
+        System.out.println(altfile);
+        Archivo archivo = FileSystemShared.conseguirArchivo(path, altfile); 
         if(toCopyPath.equals("")){
+            System.out.println("21");
+            System.out.println(archivo.getNombre());
             FileSystem.encontrarDirectorio("D/Compartido");
             FileSystem.cambiarDirActual("D/Compartido");
+            System.out.println("2");
+            System.out.println(FileSystem.getDirActual());
             FileSystem.copiarVVArchivo(archivo, FileSystem.getDirActual()); 
+            System.out.println("3");
         }
+        System.out.println(usuarios.toString());
     }
     
     public void shareDirectory(String user, String directory, String toUser, String toCopyPath){

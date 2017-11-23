@@ -316,27 +316,35 @@ function shareDirectory(){
 }
 
 function shareFile(){
-    var username = document.getElementById("username").value; 
-    var nameFile = document.getElementById("nameFile").value; 
-    var currentPath = document.getElementById("currentPath").value; 
-    var toUser = document.getElementById("toUser").value; 
+    alert("quak 1");
+    var username = document.getElementById("menu-name").innerHTML; 
+    alert(username);
+     
+    
+    var currentPath = document.getElementById("current-folder").innerHTML; 
+    alert(currentPath);
+    var toUser = document.getElementById("user-share").value; 
+    alert(toUser);
     var tbody = document.getElementById('file-system'); 
+    alert(tbody);
     var rowLength = tbody.rows.length;
     alert("Mo llega");
     for(var i=0; i<rowLength; i+=1){   
-        alert("Entro al for");
+        
         var row = tbody.rows[i];
+        alert(row);
         var state= document.getElementById("ck"+row.cells[2].innerHTML).checked;
 
         if(state===true){
-            var file = row.cells[2].innerHTML;
+            var file = row.cells[1].innerHTML;
+            alert(file); 
             var exist = 0; 
             exist = isUserAlready(toUser); 
             if(exist===1){
                 var share = {
                     action: "shareFile",
                     username: username,
-                    nameFile: nameFile, 
+                    file: file, 
                     currentPath: currentPath, 
                     toUser: toUser
                 };
@@ -350,9 +358,11 @@ function shareFile(){
 function shareAll(){
     switch(typeShare){
         case 0:
+            alert("1 llega");
             shareFile();
             break;
         case 1:
+            alert("1 llega");
             shareFolder();
             break;
     }
