@@ -64,50 +64,56 @@ public class DeviceWebSocketServer {
                 sessionHandler.addUsuario(usuario);
             }
 
-            if ("remove".equals(jsonMessage.getString("action"))) {
+            else if ("remove".equals(jsonMessage.getString("action"))) {
                 String username = jsonMessage.getString("username");
                 sessionHandler.removeUsuario(username);
             }
-            if ("getUsers".equals(jsonMessage.getString("action"))) {
+            else if ("getUsers".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.getUsers();
                 System.out.println("Salio");
             }
-            if ("getUsers".equals(jsonMessage.getString("action"))) {
+            else if ("getUsers".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.getUsers();
                 System.out.println("Salio");
             }
-            if ("getMainFolder".equals(jsonMessage.getString("action"))) {
+            else if ("getMainFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.getMainFolder(jsonMessage.getString("username"));
                 System.out.println("Salio");
             }
-            if ("getShareFolder".equals(jsonMessage.getString("action"))) {
+            else if ("getShareFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.getShareFolder(jsonMessage.getString("username"));
                 System.out.println("Salio");
             }
-             if ("changeFolder".equals(jsonMessage.getString("action"))) {
+            else if ("changeFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.changeFolder(jsonMessage.getString("username"),jsonMessage.getString("folder"));
                 System.out.println("Salio");
             }
-            if ("addFile".equals(jsonMessage.getString("action"))) {
+            else if ("addFile".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.addFile(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"),jsonMessage.getString("ext"),jsonMessage.getString("cont"));
                 System.out.println("Salio");
             }
-            if ("addFolder".equals(jsonMessage.getString("action"))) {
+            else if ("addFolder".equals(jsonMessage.getString("action"))) {
                 System.out.println("Entro");
                 sessionHandler.addFolder(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"));
                 System.out.println("Salio");
             }
-            if("shareFile".equals(jsonMessage.getString("action"))) {
+            else if("shareFile".equals(jsonMessage.getString("action"))) {
                 System.out.println("Share");
                 String username = jsonMessage.getString("username"); 
                 String nameFile = jsonMessage.getString("nameFile"); 
                 String currentPath = jsonMessage.getString("currentPath"); 
+                String toUser = jsonMessage.getString("toUser"); 
+            }
+            else if("shareDir".equals(jsonMessage.getString("action"))) {
+                System.out.println("Share");
+                String username = jsonMessage.getString("username"); 
+                String nameFile = jsonMessage.getString("path"); 
                 String toUser = jsonMessage.getString("toUser"); 
             }
 

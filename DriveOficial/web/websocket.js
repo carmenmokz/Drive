@@ -128,8 +128,23 @@ function changeFolder(name)
     
 }
 
-
-
+function shareDirectory(){
+    var username = document.getElementById("username").value; 
+    var path = document.getElementById("path").value;  //ocupo el path realmente entero, con el nombre del mismo dir
+    var toUser = document.getElementById("toUser").value; 
+    var exist = 0; 
+    exist = isUserAlready(toUser); 
+    if(exist===1){
+        var share = {
+            action: "shareDir",
+            username: username,
+            path: path, 
+            toUser: toUser
+        };
+        socket.send(JSON.stringify(share));
+        alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
+    }
+}
 function shareFile(){
     var username = document.getElementById("username").value; 
     var nameFile = document.getElementById("nameFile").value; 

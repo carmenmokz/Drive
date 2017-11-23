@@ -39,7 +39,7 @@ public class DeviceSessionHandler {
     private Set<Usuario> usuarios = new HashSet<>();
 
     public DeviceSessionHandler() {
-        //cargarUsuarios(); 
+        cargarUsuarios(); 
     }
     
     
