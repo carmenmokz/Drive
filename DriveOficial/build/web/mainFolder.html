@@ -151,6 +151,10 @@
                                 <i class="pe-7s-share"></i>
                                 <p class="hidden-lg hidden-md">Compartir</p>
                             </a>
+                            <ul class="dropdown-menu">
+                            <li><a href="#" id="btnShareFiles" >Compartir Archivo</a></li>
+                            <li><a href="#" id="btnShareFolders" >Compartir Carpeta</a></li>
+                            </ul>
 
                         </li>
 
@@ -257,6 +261,26 @@
               <div class="modal-footer">
                 
                   <button  type="submit" onclick="moveAll();" >Mover</button><br>
+              </div>
+            </div>
+
+        </div>
+         <div id="shareWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Compartir a:</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text"  id="user-share" placeholder="Usuario Destino"><br><br>
+               
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit" onclick="shareAll();" >Compartir</button><br>
               </div>
             </div>
 

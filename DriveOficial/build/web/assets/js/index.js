@@ -141,6 +141,7 @@ var addFileDisp = document.getElementById('addFile');
 var addFolderDisp = document.getElementById('addFolder');
 var copy = document.getElementById('copyWindow');
 var move = document.getElementById('moveWindow');
+var share=document.getElementById('shareWindow');
 // Get the button that opens the modal
 var btnFile = document.getElementById("btnAddFile");
 var btnFolder = document.getElementById("btnAddFolder");
@@ -151,6 +152,7 @@ var btnDelete= document.getElementById("btnDelete");
 // Get the <span> element that closes the modal
 var typeCopy=0;
 var typeMove=0;
+var typeShare=0;
 // When the user clicks the button, open the modal 
 btnFile.onclick = function() {
     addFileDisp.style.display = "block";
@@ -186,8 +188,32 @@ btnMoveFolders.onclick = function() {
   move.style.display = "block";  
   typeMove=1;
 };
+btnShareFiles.onclick = function() {
+   share.style.display = "block";
+   typeMove=0;
+};
+btnShareFolders.onclick = function() {
+  share.style.display = "block";  
+  typeMove=1;
+};
 
-
+window.onclick = function(event) {
+     if (event.target === addFileDisp) {
+         addFileDisp.style.display = "none";
+     }
+     else if (event.target === addFolderDisp) {
+         addFolderDisp.style.display = "none";
+     }
+     else if (event.target === copy) {
+         copy.style.display = "none";
+     }
+     else if (event.target === move) {
+         move.style.display = "none";
+     }
+     else if (event.target === share) {
+         share.style.display = "none";
+     }
+ };
 // When the user clicks on <span> (x), close the modal
 
 

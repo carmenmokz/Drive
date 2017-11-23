@@ -128,44 +128,6 @@ function changeFolder(name)
     
 }
 
-function shareDirectory(){
-    var username = document.getElementById("username").value; 
-    var path = document.getElementById("path").value;  //ocupo el path realmente entero, con el nombre del mismo dir
-    var toUser = document.getElementById("toUser").value; 
-    var exist = 0; 
-    exist = isUserAlready(toUser); 
-    if(exist===1){
-        var share = {
-            action: "shareDir",
-            username: username,
-            path: path, 
-            toUser: toUser
-        };
-        socket.send(JSON.stringify(share));
-        alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
-    }
-}
-function shareFile(){
-    var username = document.getElementById("username").value; 
-    var nameFile = document.getElementById("nameFile").value; 
-    var currentPath = document.getElementById("currentPath").value; 
-    var toUser = document.getElementById("toUser").value; 
-    var exist = 0; 
-    exist = isUserAlready(toUser); 
-    if(exist===1){
-        var share = {
-            action: "shareFile",
-            username: username,
-            nameFile: nameFile, 
-            currentPath: currentPath, 
-            toUser: toUser
-        };
-        socket.send(JSON.stringify(share));
-        alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
-    }
-}
-
-
 
 
 
@@ -283,13 +245,12 @@ function moveAll(){
    var destiny =document.getElementById("destiny-move").value;
    var tbody = document.getElementById('file-system'); 
    var rowLength = tbody.rows.length;
-    alert("Mo llega");
-    for(var i=0; i<rowLength; i+=1){   
-        alert("Entro al for");
+   alert("Mo llega");
+   for(var i=0; i<rowLength; i+=1){   
+      alert("Entro al for");
       var row = tbody.rows[i];
       var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
-      
-    if(state===true){
+      if(state===true){
        
         var file;
         if(typeMove===0){
@@ -315,23 +276,91 @@ function moveAll(){
     alert("Sale");
     move.style.display = "none";
 }
+
+function shareDirectory(){
+    var username = document.getElementById("username").value; 
+    var path = document.getElementById("currentPath").value;  //ocupo el path realmente entero, con el nombre del mismo dir
+    var toUser = document.getElementById("toUser").value; 
+    var tbody = document.getElementById('file-system'); 
+    var rowLength = tbody.rows.length;
+    alert("Mo llega");
+    for(var i=0; i<rowLength; i+=1){   
+        alert("Entro al for");
+    var row = tbody.rows[i];
+    var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+    if(state===true){
+       
+      
+        var file=row.cells[2].innerHTML;
+        var finalpath=path+"/"+file;
+    
+    
+        var exist = 0; 
+        exist = isUserAlready(toUser);
+
+        if(exist===1){
+            var share = {
+                action: "shareDir",
+                username: username,
+                path: finalpath, 
+                toUser: toUser
+
+            };
+            socket.send(JSON.stringify(share));
+            alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
+            }
+        }
+    };
+    
+}
+
+function shareFile(){
+    var username = document.getElementById("username").value; 
+    var nameFile = document.getElementById("nameFile").value; 
+    var currentPath = document.getElementById("currentPath").value; 
+    var toUser = document.getElementById("toUser").value; 
+    var tbody = document.getElementById('file-system'); 
+    var rowLength = tbody.rows.length;
+    alert("Mo llega");
+    for(var i=0; i<rowLength; i+=1){   
+        alert("Entro al for");
+        var row = tbody.rows[i];
+        var state= document.getElementById("ck"+row.cells[2].innerHTML).checked;
+
+        if(state===true){
+            var file = row.cells[2].innerHTML;
+            var exist = 0; 
+            exist = isUserAlready(toUser); 
+            if(exist===1){
+                var share = {
+                    action: "shareFile",
+                    username: username,
+                    nameFile: nameFile, 
+                    currentPath: currentPath, 
+                    toUser: toUser
+                };
+            socket.send(JSON.stringify(share));
+            alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
+            }
+        }
+    };   
+}
+
+function shareAll(){
+    switch(typeShare){
+        case 0:
+            shareFile();
+            break;
+        case 1:
+            shareFolder();
+            break;
+    }
+}
+
 function init() {
     
     //getUsers();
     //hideForm();
 }
 
-window.onclick = function(event) {
-     if (event.target === addFileDisp) {
-         addFileDisp.style.display = "none";
-     }
-     else if (event.target === addFolderDisp) {
-         addFolderDisp.style.display = "none";
-     }
-     else if (event.target === copy) {
-         copy.style.display = "none";
-     }
-     else if (event.target === move) {
-         move.style.display = "none";
-     }
- };

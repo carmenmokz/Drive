@@ -109,12 +109,15 @@ public class DeviceWebSocketServer {
                 String nameFile = jsonMessage.getString("nameFile"); 
                 String currentPath = jsonMessage.getString("currentPath"); 
                 String toUser = jsonMessage.getString("toUser"); 
+                 sessionHandler.shareFile(username, currentPath+"/"+nameFile, currentPath, toUser, "");
             }
             else if("shareDir".equals(jsonMessage.getString("action"))) {
                 System.out.println("Share");
                 String username = jsonMessage.getString("username"); 
                 String nameFile = jsonMessage.getString("path"); 
                 String toUser = jsonMessage.getString("toUser"); 
+           
+                sessionHandler.shareDirectory(username, nameFile, toUser,"" );
             }
             else if("copy".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
