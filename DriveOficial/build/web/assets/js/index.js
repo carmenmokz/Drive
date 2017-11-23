@@ -36,11 +36,13 @@ function refreshFolders(json){
     for (i in folders){
            var tr1 = document.createElement("tr");
            
-           tr1.id="/"+folders[i].name;
            
-           tr1.setAttribute("onclick","changeFolder(this.id)");
+           
+           
            var td1= document.createElement("td");
            td1.innerHTML="<i class=\"pe-7s-folder\" ></i>";
+           td1.id="/"+folders[i].name;
+           td1.setAttribute("onclick","changeFolder(this.id)");
            var td2= document.createElement("td");
            td2.innerHTML="\\"+folders[i].name;
            var td4= document.createElement("td");
@@ -144,8 +146,7 @@ var btnCopyVR = document.getElementById("btnCopyVR");
 var btnCopyRV = document.getElementById("btnCopyRV");
 var btnCopyVV = document.getElementById("btnCopyVV");
 // Get the <span> element that closes the modal
-
-
+var typeCopy=0;
 // When the user clicks the button, open the modal 
 btnFile.onclick = function() {
     addFileDisp.style.display = "block";
@@ -155,12 +156,15 @@ btnFolder.onclick = function() {
 };
 btnCopyVR.onclick = function() {
     copy.style.display = "block";
+    typeCopy=0;
 };
 btnCopyRV.onclick = function() {
     copy.style.display = "block";
+    typeCopy=1;
 };
 btnCopyVV.onclick = function() {
     copy.style.display = "block";
+    typeCopy=2;
 };
 // When the user clicks on <span> (x), close the modal
 

@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -107,7 +108,7 @@ public class DeviceSessionHandler {
        
          
     }
-      public void addFile(String username,String dir, String nombre, String ext, String cont) {
+    public void addFile(String username,String dir, String nombre, String ext, String cont) {
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         usuario.getFileSystem().crearArchivo(nombre,ext,cont);
@@ -115,7 +116,27 @@ public class DeviceSessionHandler {
        
          
     }
-
+    public void copy(String username, int type,String origin,String destiny) {
+        Usuario usuario=getUsuarioByUsername(username);
+        switch(type){
+                case 0:
+                   
+                    usuario.getFileSystem().copiarVR(origin, destiny);
+                    break;
+                case 1:
+                    usuario.getFileSystem().copiarRV(origin, destiny);
+                    break;
+                case 2:
+                    System.out.println("Vine a copiar");
+                    usuario.getFileSystem().copiarVV(origin, destiny);
+                    System.out.println(usuario.getFileSystem().copiarVV(origin, destiny));
+                    break;
+        }  
+        System.out.println(destiny);
+        changeFolder(username,destiny);
+       
+         
+    }
     public void removeUsuario(String username) {
         Usuario usuario = getUsuarioByUsername(username);
         if (usuario != null) {
@@ -197,9 +218,8 @@ public class DeviceSessionHandler {
         // create Json array with only values
         JsonArrayBuilder files = Json.createArrayBuilder();
         usuario.getFileSystem().cambiarDirActual("D/Personal");
-        usuario.getFileSystem().crearDirectorio("CUAL"); 
-        usuario.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
-        System.out.println(usuario.toString());
+   
+    
         for(Archivo a: usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getArchivos()){
             files.add(Json.createObjectBuilder()
                     .add("name", a.getNombre())
@@ -236,8 +256,7 @@ public class DeviceSessionHandler {
         // create Json array with only values
         JsonArrayBuilder files = Json.createArrayBuilder();
         usuario.getFileSystem().cambiarDirActual("D/Compartido");
-         usuario.getFileSystem().crearDirectorio("CUAL"); 
-        usuario.getFileSystem().crearArchivo("ari", "pdf", "salsa a la 1 am");
+
         for(Archivo a: usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getArchivos()){
             files.add(Json.createObjectBuilder()
                     .add("name", a.getNombre())
@@ -273,8 +292,7 @@ public class DeviceSessionHandler {
         // create Json array with only values
         JsonArrayBuilder files = Json.createArrayBuilder();
         usuario.getFileSystem().cambiarDirActual(folder);
-         usuario.getFileSystem().crearDirectorio("blub"); 
-        usuario.getFileSystem().crearArchivo("xime", "pdf", "salsa a la 2 am");
+
         for(Archivo a: usuario.getFileSystem().encontrarDirectorio(usuario.getFileSystem().getDirActual()).getArchivos()){
             files.add(Json.createObjectBuilder()
                     .add("name", a.getNombre())

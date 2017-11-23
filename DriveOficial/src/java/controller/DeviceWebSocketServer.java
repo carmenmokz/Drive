@@ -116,6 +116,10 @@ public class DeviceWebSocketServer {
                 String nameFile = jsonMessage.getString("path"); 
                 String toUser = jsonMessage.getString("toUser"); 
             }
+            else if("copy".equals(jsonMessage.getString("action"))) {
+                System.out.println("LLegue aqui");
+                sessionHandler.copy(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("origin"),jsonMessage.getString("destiny"));
+            }
 
         }
     }
