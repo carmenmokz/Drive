@@ -34,7 +34,7 @@ function onMessage(event) {
     }
      if (usuario.action === "view") {
       
-      alert("SI ENTRE");
+      
        refreshView(usuario);
     }
 
@@ -386,7 +386,8 @@ function editFile(){
             oldfile: file,
             file: document.getElementById("name-file-mod").value,
             content: document.getElementById("cont-file-mod").value,
-            ext: document.getElementById("ext-file-mod").value
+            ext: document.getElementById("ext-file-mod").value,
+            
         }
 
         socket.send(JSON.stringify(UsuarioAction));
@@ -420,6 +421,7 @@ function viewFile(){
             username: document.getElementById("menu-name").innerHTML,
             dir:document.getElementById("current-folder").innerHTML,
             file: file,
+            type:typeView
        
         }
 

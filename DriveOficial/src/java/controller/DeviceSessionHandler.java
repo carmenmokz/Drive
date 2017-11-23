@@ -481,7 +481,7 @@ public class DeviceSessionHandler {
         
         changeFolder(username, dir,session);
     }
-     public void view(String username,String dir, String file, Session session){
+     public void view(String username,String dir, String file, Session session, int type){
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
         String fileStr=usuario.getFileSystem().verArchivo(dir, file);
@@ -491,6 +491,7 @@ public class DeviceSessionHandler {
         JsonProvider provider = JsonProvider.provider();
         JsonObject removeMessage = provider.createObjectBuilder()
                     .add("action", "view")
+                    .add("type", type)
                     .add("file", body)
                     .build();
         System.out.println(removeMessage);

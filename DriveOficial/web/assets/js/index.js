@@ -66,16 +66,24 @@ function refreshFolder(usuario){
     document.getElementById("current-folder").innerHTML=usuario.dir;
 }
 function refreshView(usuario){
+    if(usuario.type===0){
+        var json=usuario.file;
+        document.getElementById("name-info").innerHTML=json.nombre;
+        document.getElementById("ext-info").innerHTML=json.extension;
 
-    var json=usuario.file;
-    document.getElementById("name-info").innerHTML=json.nombre;
-    document.getElementById("ext-info").innerHTML=json.extension;
+        document.getElementById("size-info").innerHTML=json.tamanio;
+        document.getElementById("cont-info").innerHTML=json.contenido;
+        document.getElementById("modd-info").innerHTML=json.modificacion;
+        document.getElementById("initd-info").innerHTML=json.creacion;
+    }else{
+        var json=usuario.file;
+        document.getElementById("name-file-mod").value=json.nombre;
+        document.getElementById("ext-file-mod").value=json.extension;
 
-    document.getElementById("size-info").innerHTML=json.tamanio;
-    document.getElementById("cont-info").innerHTML=json.contenido;
-    document.getElementById("modd-info").innerHTML=json.modificacion;
-    document.getElementById("initd-info").innerHTML=json.creacion;
-    
+      
+        document.getElementById("cont-file-mod").value=json.contenido;
+
+    }
     
 }
 $("#login-button").click(function(event){
@@ -168,6 +176,7 @@ var btnDelete= document.getElementById("btnDelete");
 var typeCopy=0;
 var typeMove=0;
 var typeShare=0;
+var typeView=0;
 // When the user clicks the button, open the modal 
 btnFile.onclick = function() {
     addFileDisp.style.display = "block";
@@ -213,11 +222,16 @@ btnShareFolders.onclick = function() {
 };
 btnViewFiles.onclick = function() {
   info.style.display = "block";  
+  typeView=0;
   viewFile();
+  
  
 };
 btnEditFiles.onclick = function() {
   edit.style.display = "block";  
+  typeView=1;
+  viewFile();
+  
 
 };
 window.onclick = function(event) {

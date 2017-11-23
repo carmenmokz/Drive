@@ -137,11 +137,11 @@ public class DeviceWebSocketServer {
             }
             else if("edit".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.edit(jsonMessage.getString("username"), jsonMessage.getString("dir"), jsonMessage.getString("oldfile"), jsonMessage.getString("file"), jsonMessage.getString("ext"), jsonMessage.getString("dir"), session);
+                sessionHandler.edit(jsonMessage.getString("username"), jsonMessage.getString("dir"), jsonMessage.getString("oldfile"), jsonMessage.getString("file"), jsonMessage.getString("ext"), jsonMessage.getString("content"), session);
             }
             else if("view".equals(jsonMessage.getString("action"))) {
                 System.out.println("LLegue aqui");
-                sessionHandler.view(jsonMessage.getString("username"), jsonMessage.getString("dir"), jsonMessage.getString("file"), session);
+                sessionHandler.view(jsonMessage.getString("username"), jsonMessage.getString("dir"), jsonMessage.getString("file"), session, jsonMessage.getInt("type"));
             }
 
         }
