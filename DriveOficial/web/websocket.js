@@ -37,11 +37,64 @@ function onMessage(event) {
       
        refreshView(usuario);
     }
+    if(usuario.action==="verFolder"){
+        verFolder(usuario);
+
+    }
+    if(usuario.action==="verFile"){
+        verFile(usuario);
+
+    }
 
 
 }
 
+function verFolder(usuario){
+    if (confirm('El directorio ya existe. ¿Desea caerle encima?')) {
+            var UsuarioAction = {
+                action: "deleteFolder",
+                username: document.getElementById("menu-name").innerHTML,
+                file: usuario.nombre,
+                dir: document.getElementById("current-folder").innerHTML,
 
+            };
+            socket.send(JSON.stringify(UsuarioAction));
+             var UsuarioAction = {
+                action: "addFolder",
+                username: document.getElementById("menu-name").innerHTML,
+                dir: document.getElementById("current-folder").innerHTML,
+                name:usuario.nombre
+            };
+
+            socket.send(JSON.stringify(UsuarioAction));
+        } else {
+            alert('Why did you press cancel? You should have confirmed');
+        }
+}
+function verFile(usuario){
+    if (confirm('El archivo ya existe. ¿Desea caerle encima?')) {
+            var UsuarioAction = {
+                action: "deleteFile",
+                username: document.getElementById("menu-name").innerHTML,
+                file: usuario.nombre,
+                dir: document.getElementById("current-folder").innerHTML,
+                ext: usuario.ext
+            };
+            socket.send(JSON.stringify(UsuarioAction));
+              var UsuarioAction = {
+                    action: "addFile",
+                    username: document.getElementById("menu-name").innerHTML,
+                    dir:document.getElementById("current-folder").innerHTML,
+                    name:usuario.nombre,
+                    cont:usuario.cont,
+                    ext:usuario.ext
+                };
+
+                socket.send(JSON.stringify(UsuarioAction));
+        } else {
+            alert('Why did you press cancel? You should have confirmed');
+        }
+}
 function getUsers() {
    
     var UsuarioAction = {
@@ -148,7 +201,7 @@ function formSubmit() {
 }
 
 function addFolder() {
-   
+    
     var UsuarioAction = {
         action: "addFolder",
         username: document.getElementById("menu-name").innerHTML,

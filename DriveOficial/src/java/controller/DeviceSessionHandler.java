@@ -104,16 +104,43 @@ public class DeviceSessionHandler {
      public void addFolder(String username,String dir, String nombre, Session session) {
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
-        usuario.getFileSystem().crearDirectorio(nombre);
-        changeFolder(username,dir, session);
+        if(usuario.getFileSystem().existeDirEnDir(dir, nombre)==false){
+            usuario.getFileSystem().crearDirectorio(nombre);
+            changeFolder(username,dir, session);
+        }else{
+            JsonProvider provider = JsonProvider.provider();
+            JsonObject removeMessage = provider.createObjectBuilder()
+                        .add("action", "verFolder")
+                        .add("username", username)
+                        .add("dir", dir)
+                        .add("nombre",nombre)
+                        .build();
+            System.out.println(removeMessage);
+            sendToSession(session, removeMessage);
+        }
+       
        
          
     }
     public void addFile(String username,String dir, String nombre, String ext, String cont,Session session) {
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
-        usuario.getFileSystem().crearArchivo(nombre,ext,cont);
-        changeFolder(username,dir,session);
+        if(usuario.getFileSystem().existeArchEnDir(dir, nombre+"."+ext)==false){
+            usuario.getFileSystem().crearArchivo(nombre,ext,cont);
+            changeFolder(username,dir,session);
+        }else{
+            JsonProvider provider = JsonProvider.provider();
+            JsonObject removeMessage = provider.createObjectBuilder()
+                        .add("action", "verFile")
+                        .add("username", username)
+                        .add("dir", dir)
+                        .add("nombre",nombre)
+                        .add("ext",ext)
+                        .add("cont",cont)
+                        .build();
+            System.out.println(removeMessage);
+            sendToSession(session, removeMessage);
+        }
        
          
     }
@@ -228,6 +255,7 @@ public class DeviceSessionHandler {
                     .add("ext", a.getExtension())
                     .add("size",a.getTamanio())
                     .add("cont",a.getContenido())
+                    .add("date",a.getCreacion().toString())
                     .build());
         }
 
@@ -238,6 +266,7 @@ public class DeviceSessionHandler {
             System.out.println(d.getNombre());
             folders.add(Json.createObjectBuilder()
                     .add("name",d.getNombre())
+                    .add("date","")
                     .build());
         }
 
@@ -266,6 +295,7 @@ public class DeviceSessionHandler {
                     .add("ext", a.getExtension())
                     .add("size",a.getTamanio())
                     .add("cont",a.getContenido())
+                    .add("date",a.getCreacion().toString())
                     .build());
         }
 
@@ -276,6 +306,7 @@ public class DeviceSessionHandler {
             System.out.println(d.getNombre());
             folders.add(Json.createObjectBuilder()
                     .add("name",d.getNombre())
+                    .add("date","")
                     .build());
         }
 
@@ -302,6 +333,7 @@ public class DeviceSessionHandler {
                     .add("ext", a.getExtension())
                     .add("size",a.getTamanio())
                     .add("cont",a.getContenido())
+                    .add("date",a.getCreacion().toString())
                     .build());
         }
 
@@ -312,6 +344,7 @@ public class DeviceSessionHandler {
             System.out.println(d.getNombre());
             folders.add(Json.createObjectBuilder()
                     .add("name",d.getNombre())
+                    .add("date","")
                     .build());
         }
 

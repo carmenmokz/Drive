@@ -16,7 +16,7 @@ function refreshFiles(json){
            var td4= document.createElement("td");
            td4.innerHTML=files[i].name;
            var td5= document.createElement("td");
-           td5.innerHTML=files[i].name;
+           td5.innerHTML=files[i].date;
            var td6= document.createElement("td");
            td6.innerHTML="<div class=\"checkbox\"><input id=\"ck"+files[i].name+"\" type=\"checkbox\"><label for=\"ck"+files[i].name+"\"></label></div>";
            tr1.appendChild(td1);
@@ -48,7 +48,7 @@ function refreshFolders(json){
            var td4= document.createElement("td");
            td4.innerHTML=folders[i].name;
            var td5= document.createElement("td");
-           td5.innerHTML=folders[i].name;
+           td5.innerHTML=folders[i].date;
            var td6= document.createElement("td");
            td6.innerHTML="<div class=\"checkbox\"><input id=\"ck"+folders[i].name+"\" type=\"checkbox\"><label for=\"ck"+folders[i].name+"\"></label></div>";
            tr1.appendChild(td1);
