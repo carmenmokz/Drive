@@ -65,6 +65,19 @@ function refreshFolder(usuario){
     alert("si me llamaron");
     document.getElementById("current-folder").innerHTML=usuario.dir;
 }
+function refreshView(usuario){
+
+    var json=usuario.file;
+    document.getElementById("name-info").innerHTML=json.nombre;
+    document.getElementById("ext-info").innerHTML=json.extension;
+
+    document.getElementById("size-info").innerHTML=json.tamanio;
+    document.getElementById("cont-info").innerHTML=json.contenido;
+    document.getElementById("modd-info").innerHTML=json.modificacion;
+    document.getElementById("initd-info").innerHTML=json.creacion;
+    
+    
+}
 $("#login-button").click(function(event){
         getUsers();
 	event.preventDefault();
@@ -200,6 +213,7 @@ btnShareFolders.onclick = function() {
 };
 btnViewFiles.onclick = function() {
   info.style.display = "block";  
+  viewFile();
  
 };
 btnEditFiles.onclick = function() {

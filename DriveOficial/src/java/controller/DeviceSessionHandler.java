@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import static java.lang.Integer.parseInt;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -480,7 +481,21 @@ public class DeviceSessionHandler {
         
         changeFolder(username, dir,session);
     }
-
+     public void view(String username,String dir, String file, Session session){
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        String fileStr=usuario.getFileSystem().verArchivo(dir, file);
+        
+        JsonObject body = Json.createReader(new StringReader(fileStr)).readObject();
+        
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject removeMessage = provider.createObjectBuilder()
+                    .add("action", "view")
+                    .add("file", body)
+                    .build();
+        System.out.println(removeMessage);
+        sendToSession(session, removeMessage);
+    }
     @Override
     public String toString() {
         return "DeviceSessionHandler{" + "usuarios=" + usuarios + '}';

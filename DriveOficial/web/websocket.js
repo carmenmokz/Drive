@@ -32,6 +32,11 @@ function onMessage(event) {
        refreshFolders(usuario);
        refreshFiles(usuario);
     }
+     if (usuario.action === "view") {
+      
+      alert("SI ENTRE");
+       refreshView(usuario);
+    }
 
 
 }
@@ -318,41 +323,7 @@ function shareDirectory(){
     };
     
 }
-function editFile(){
-   alert("Entro al move");
-   
-   var tbody = document.getElementById('file-system'); 
-   var rowLength = tbody.rows.length;
-   alert("Mo llega");
-   for(var i=0; i<rowLength; i+=1){   
-      alert("Entro al for");
-      var row = tbody.rows[i];
-      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
-      
-      var file=row.cells[1].innerHTML;
-        
-      
-    
-      if(state===true){
-            var UsuarioAction = {
-            action: "edit",
-            username: document.getElementById("menu-name").innerHTML,
-            dir:document.getElementById("current-folder").innerHTML,
-            oldfile: file,
-            file: document.getElementById("name-file-mod").value,
-            content: document.getElementById("cont-file-mod").value,
-            ext: document.getElementById("ext-file-mod").value
-        }
 
-        socket.send(JSON.stringify(UsuarioAction));
-     }
-    };
-  
-  
-    
-    alert("Sale");
-    edit.style.display = "none";
-}
 function shareFile(){
     alert("quak 1");
     var username = document.getElementById("menu-name").innerHTML; 
@@ -392,7 +363,75 @@ function shareFile(){
         }
     };   
 }
+function editFile(){
+   alert("Entro al move");
+   
+   var tbody = document.getElementById('file-system'); 
+   var rowLength = tbody.rows.length;
+   alert("Mo llega");
+   for(var i=0; i<rowLength; i+=1){   
+      alert("Entro al for");
+      var row = tbody.rows[i];
+      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+      var file=row.cells[1].innerHTML;
+        
+      
+    
+      if(state===true){
+            var UsuarioAction = {
+            action: "edit",
+            username: document.getElementById("menu-name").innerHTML,
+            dir:document.getElementById("current-folder").innerHTML,
+            oldfile: file,
+            file: document.getElementById("name-file-mod").value,
+            content: document.getElementById("cont-file-mod").value,
+            ext: document.getElementById("ext-file-mod").value
+        }
 
+        socket.send(JSON.stringify(UsuarioAction));
+     }
+    };
+  
+  
+    
+    alert("Sale");
+    edit.style.display = "none";
+}
+
+function viewFile(){
+   
+   
+   var tbody = document.getElementById('file-system'); 
+   var rowLength = tbody.rows.length;
+  
+   for(var i=0; i<rowLength; i+=1){   
+      alert("Entro al for");
+      var row = tbody.rows[i];
+      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+      var file=row.cells[1].innerHTML;
+        
+      
+    
+      if(state===true){
+            var UsuarioAction = {
+            action: "view",
+            username: document.getElementById("menu-name").innerHTML,
+            dir:document.getElementById("current-folder").innerHTML,
+            file: file,
+       
+        }
+
+        socket.send(JSON.stringify(UsuarioAction));
+     }
+    };
+  
+  
+    
+    alert("Sale");
+    
+}
 function shareAll(){
     alert(typeShare);
     switch(typeShare){    
