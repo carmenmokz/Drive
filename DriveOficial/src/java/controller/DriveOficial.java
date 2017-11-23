@@ -210,7 +210,7 @@ public class DriveOficial {
     }
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        prueba12(); 
+        prueba7(); 
         
     }
     
