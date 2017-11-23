@@ -39,11 +39,18 @@ public class DeviceSessionHandler {
     private Set<Usuario> usuarios = new HashSet<>();
 
     public DeviceSessionHandler() {
-        cargarUsuarios(); 
+        //cargarUsuarios(); 
     }
     
     
-    
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
     
       public void addSession(Session session) {
         sessions.add(session);
@@ -325,4 +332,78 @@ public class DeviceSessionHandler {
         return true; 
     }
     
+    
+    
+     public void sharedAllFiles(Directorio dirShared, RaizFS userWhoRecivies) {
+         System.out.println("entra a dir shared");
+         System.out.println(dirShared.getNombre());
+         ArrayList<Directorio> directorios = dirShared.getDirectorios(); 
+        ArrayList<Archivo> archivos = dirShared.getArchivos(); 
+        Directorio dirActual = userWhoRecivies.encontrarDirectorio(userWhoRecivies.getDirActual()); 
+        for (Archivo archivo : archivos) {
+            userWhoRecivies.cambiarDirActual(userWhoRecivies.getDirActual()+"/"+dirShared.getNombre());
+            shareFileSimplified(archivo, userWhoRecivies);
+        }
+        for (Directorio directorio : directorios) {
+            shareDirectory(directorio, userWhoRecivies);
+        }
+        
+        
+        
+    }
+    public void shareFileSimplified(Archivo arc, RaizFS filesystem){
+        System.out.println("file systen shared" + filesystem.getDirActual());
+       filesystem.crearArchivo(arc.getNombre(), arc.getExtension(), arc.getContenido()); 
+        
+    }
+    
+    public void shareFile(String user, String file, String path, String toUser, String toCopyPath){
+        Usuario usuarioManda = getUsuarioByUsername(user); 
+        Usuario usuarioRecibe = getUsuarioByUsername(toUser);
+        RaizFS FileSystem = usuarioRecibe.getFileSystem(); 
+        RaizFS FileSystemShared = usuarioManda.getFileSystem(); 
+        System.out.println(usuarioManda);
+        System.out.println(path);
+        System.out.println(FileSystemShared.getDirActual());
+        Archivo archivo = FileSystemShared.conseguirArchivo(path, file); 
+        if(toCopyPath.equals("")){
+            FileSystem.encontrarDirectorio("D/Compartido");
+            FileSystem.cambiarDirActual("D/Compartido");
+            FileSystem.copiarVVArchivo(archivo, FileSystem.getDirActual()); 
+        }
+    }
+    
+    public void shareDirectory(String user, String directory, String toUser, String toCopyPath){
+        Usuario usuarioManda = getUsuarioByUsername(user); 
+        Usuario usuarioRecibe = getUsuarioByUsername(toUser);
+        RaizFS FileSystemOf = usuarioManda.getFileSystem(); 
+        RaizFS FileSystemS = usuarioRecibe.getFileSystem();
+        Directorio dirShared = FileSystemOf.encontrarDirectorio(FileSystemOf.verificacionVirtual_a_Real(directory)); 
+        Directorio dirRecibe; 
+        String dirOriginalS = FileSystemS.getDirActual(); 
+        if(toCopyPath.equals("")){
+            dirRecibe = FileSystemS.encontrarDirectorio("D/Compartido"); 
+            FileSystemS.cambiarDirActual("D/Compartido");
+        }
+        else{
+            dirRecibe = FileSystemS.encontrarDirectorio(toCopyPath); 
+            FileSystemS.cambiarDirActual(toCopyPath);
+        }
+        FileSystemS.crearDirectorio(dirShared.getNombre());
+        sharedAllFiles(dirShared, FileSystemS);
+        FileSystemS.cambiarDirActual(dirOriginalS);
+        
+    }
+    
+    public void shareDirectory(Directorio directory, RaizFS filesystem){
+        String dirOriginalS = filesystem.getDirActual();
+        filesystem.crearDirectorio(directory.getNombre());
+        sharedAllFiles(directory, filesystem);
+        filesystem.cambiarDirActual(dirOriginalS);
+    }
+
+    @Override
+    public String toString() {
+        return "DeviceSessionHandler{" + "usuarios=" + usuarios + '}';
+    }
 }

@@ -190,12 +190,29 @@ public class DriveOficial {
         }
         
     }
+    public static void prueba12(){
+        //descomentar la linea del device session handler que tiene una vara de cargarusuarios
+        DeviceSessionHandler dev = new DeviceSessionHandler(); 
+        Usuario user = new Usuario("bermudezari", "1234", 50000);
+        Usuario user2 = new Usuario("q", "1234", 50000);
+        user.getFileSystem().cambiarDirActual("D/Compartido");
+        user.getFileSystem().crearDirectorio("nani"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/nani");
+        user.getFileSystem().crearArchivo("andres", "txt", "juega lol y ow");
+        user.getFileSystem().crearDirectorio("nani2"); 
+        user.getFileSystem().cambiarDirActual("D/Compartido/nani/nani2");
+        user.getFileSystem().crearArchivo("andres", "txt", "se comio un moco O: mentiras");
+        dev.getUsuarios().add(user);
+        dev.getUsuarios().add(user2);
+        
+        dev.shareDirectory("bermudezari", "D/Compartido", "q", "");
+        System.out.println(dev.toString());
+    }
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        prueba9(); 
+        prueba12(); 
         
     }
-    
     
     
 }

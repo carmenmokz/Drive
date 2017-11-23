@@ -103,10 +103,20 @@ public class DeviceWebSocketServer {
                 sessionHandler.addFolder(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"));
                 System.out.println("Salio");
             }
-            
-          
+            if("shareFile".equals(jsonMessage.getString("action"))) {
+                System.out.println("Share");
+                String username = jsonMessage.getString("username"); 
+                String nameFile = jsonMessage.getString("nameFile"); 
+                String currentPath = jsonMessage.getString("currentPath"); 
+                String toUser = jsonMessage.getString("toUser"); 
+            }
 
-            
         }
     }
+    
+    @Override
+    public String toString() {
+        return "DeviceWebSocketServer{" + "sessionHandler=" + sessionHandler + '}';
+    }
+    
 }

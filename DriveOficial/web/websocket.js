@@ -66,6 +66,22 @@ function getShareFolder(){
 
     socket.send(JSON.stringify(UsuarioAction));
 }
+
+function isUserAlready(username){
+    var userC=users;  
+    var i;
+    var exist = 0; 
+    for(i in userC){
+        if ((userC[i].username).localeCompare(username)===0){
+            alert("El Usuario Escogido, ya existe.");
+            exist=1;
+            break;
+        }
+    }    
+    return exist; 
+}
+
+
 function addUsuario(username, pass, bytes) {
     getUsers();
     var i;
@@ -73,15 +89,8 @@ function addUsuario(username, pass, bytes) {
     var userC=users;
    
   
-    for(i in userC){
-      
-        
-        if ((userC[i].username).localeCompare(username)===0){
-            alert("El Usuario Escogido, ya existe.");
-            exist=1;
-            break;
-        }
-    }
+ 
+    exist = isUserAlready(username); 
 
     if(exist===0||userC===null){
         var UsuarioAction = {
@@ -95,7 +104,6 @@ function addUsuario(username, pass, bytes) {
         alert("Se ha creado el Usuario: "+ username);
     }
 }
-
 function removeDevice(element) {
     var id = element;
     var DeviceAction = {
@@ -120,6 +128,27 @@ function changeFolder(name)
     
 }
 
+
+
+function shareFile(){
+    var username = document.getElementById("username").value; 
+    var nameFile = document.getElementById("nameFile").value; 
+    var currentPath = document.getElementById("currentPath").value; 
+    var toUser = document.getElementById("toUser").value; 
+    var exist = 0; 
+    exist = isUserAlready(toUser); 
+    if(exist===1){
+        var share = {
+            action: "shareFile",
+            username: username,
+            nameFile: nameFile, 
+            currentPath: currentPath, 
+            toUser: toUser
+        };
+        socket.send(JSON.stringify(share));
+        alert("Se solicitó compartir archivo: De: "+ username + " A:" + toUser+ " Archivo: " + nameFile + " Path: "+ currentPath);
+    }
+}
 
 
 
