@@ -439,6 +439,33 @@ public class DeviceSessionHandler {
         sharedAllFiles(directory, filesystem);
         filesystem.cambiarDirActual(dirOriginalS);
     }
+    public void deleteFile(String username,String dir,String file, String ext){
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        usuario.getFileSystem().eliminarArchivo(file, ext);
+        changeFolder(username, dir);
+        
+    }
+    public void deleteFolder(String username,String dir,String file){
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        usuario.getFileSystem().eliminarDirectorio(file);
+        changeFolder(username, dir);
+        
+    }
+    public void move(String username,int type, String file,String destiny){
+        Usuario usuario=getUsuarioByUsername(username);
+        switch(type){
+            case 0:
+                usuario.getFileSystem().moverArchivo(file, destiny);
+                break;
+            case 1:
+                usuario.getFileSystem().moverCarpeta(file, destiny);
+                break;
+        }
+        
+        changeFolder(username, destiny);
+    }
 
     @Override
     public String toString() {

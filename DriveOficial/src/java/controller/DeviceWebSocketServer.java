@@ -120,6 +120,18 @@ public class DeviceWebSocketServer {
                 System.out.println("LLegue aqui");
                 sessionHandler.copy(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("origin"),jsonMessage.getString("destiny"));
             }
+             else if("deleteFile".equals(jsonMessage.getString("action"))) {
+                System.out.println("LLegue aqui");
+                sessionHandler.deleteFile(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"), jsonMessage.getString("ext"));
+            }
+            else if("deleteFolder".equals(jsonMessage.getString("action"))) {
+                System.out.println("LLegue aqui");
+                sessionHandler.deleteFolder(jsonMessage.getString("username"), jsonMessage.getString("dir"),jsonMessage.getString("file"));
+            }
+             else if("move".equals(jsonMessage.getString("action"))) {
+                System.out.println("LLegue aqui");
+                sessionHandler.move(jsonMessage.getString("username"),jsonMessage.getInt("type"),jsonMessage.getString("dir")+"/"+jsonMessage.getString("file"),jsonMessage.getString("destiny"));
+            }
 
         }
     }

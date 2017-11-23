@@ -123,13 +123,23 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="pe-7s-next-2"></i>
                                 <p class="hidden-lg hidden-md">Mover</p>
+                                
                             </a>
+                            <ul class="dropdown-menu">
+                            <li><a href="#" id="btnMoveFiles" >Mover Archivo</a></li>
+                            <li><a href="#" id="btnMoveFolders" >Mover Carpeta</a></li>
+                            </ul>
 
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="pe-7s-trash"></i>
-                                <p class="hidden-lg hidden-md">Borrar</p>
+                                <p class="hidden-lg hidden-md" >Borrar</p>
+                                <ul class="dropdown-menu">
+                                <li><a href="#" id="btnDeleteFiles" >Borrar Archivos</a></li>
+                                <li><a href="#" id="btnDeleteFolders" >Borrar Folders</a></li>
+                                                     
+                            </ul>
                             </a>
 
                         </li>
@@ -227,6 +237,26 @@
               <div class="modal-footer">
                 
                   <button  type="submit" onclick="copyAll();" >Copiar</button><br>
+              </div>
+            </div>
+
+        </div>
+        <div id="moveWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Mover</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text"  id="destiny-move" placeholder="Carpeta Destino"><br><br>
+               
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit" onclick="moveAll();" >Mover</button><br>
               </div>
             </div>
 

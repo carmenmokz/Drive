@@ -190,6 +190,7 @@ function addFolder() {
     };
     
     socket.send(JSON.stringify(UsuarioAction));
+    addFolderDisp.style.display = "none";
 
 }
 function addFile() {
@@ -204,7 +205,7 @@ function addFile() {
     };
   
     socket.send(JSON.stringify(UsuarioAction));
-
+    addFileDisp.style.display = "none";
 }
 
 function copyAll(){
@@ -225,9 +226,112 @@ function copyAll(){
     };
     alert("Si la guarde:"+UsuarioAction.type);
     socket.send(JSON.stringify(UsuarioAction));
+    copy.style.display = "none";
+}
+function deleteFile(){
+    var tbody = document.getElementById('file-system');
+    var rowLength = tbody.rows.length;
+    alert(rowLength);
+    for(var i=0; i<rowLength; i+=1){   
+      var row = tbody.rows[i];
+      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+      if(state===true){
+        [file,ext]=row.cells[1].innerHTML.split(".");
+        alert(ext);
+        var UsuarioAction = {
+        action: "deleteFile",
+        username: document.getElementById("menu-name").innerHTML,
+        file: row.cells[2].innerHTML,
+        dir: document.getElementById("current-folder").innerHTML,
+        ext: ext
+    };
+    socket.send(JSON.stringify(UsuarioAction));
+          
+     }
+      
+   }
+    
+}
+
+function deleteFolder(){
+    var tbody = document.getElementById('file-system');
+    var rowLength = tbody.rows.length;
+    alert(rowLength);
+    for(var i=0; i<rowLength; i+=1){   
+      var row = tbody.rows[i];
+      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+      if(state===true){
+        var UsuarioAction = {
+        action: "deleteFolder",
+        username: document.getElementById("menu-name").innerHTML,
+        file: row.cells[2].innerHTML,
+        dir: document.getElementById("current-folder").innerHTML,
+        
+    };
+    socket.send(JSON.stringify(UsuarioAction));
+          
+     }
+      
+   }
+    
+}
+
+function moveAll(){
+   alert("Entro al move");
+   var destiny =document.getElementById("destiny-move").value;
+   var tbody = document.getElementById('file-system'); 
+   var rowLength = tbody.rows.length;
+    alert("Mo llega");
+    for(var i=0; i<rowLength; i+=1){   
+        alert("Entro al for");
+      var row = tbody.rows[i];
+      var state=document.getElementById("ck"+row.cells[2].innerHTML).checked;
+      
+    if(state===true){
+       
+        var file;
+        if(typeMove===0){
+            var file=row.cells[1].innerHTML;
+        }else{
+            var file=row.cells[2].innerHTML;
+        }
+    
+    
+        var UsuarioAction = {
+        action: "move",
+        username: document.getElementById("menu-name").innerHTML,
+        dir:document.getElementById("current-folder").innerHTML,
+        file: file,
+        destiny: destiny,
+        type: typeMove
+    }}
+     socket.send(JSON.stringify(UsuarioAction));
+    };
+  
+  
+    
+    alert("Sale");
+    move.style.display = "none";
 }
 function init() {
     
     //getUsers();
     //hideForm();
 }
+
+window.onclick = function(event) {
+     if (event.target === addFileDisp) {
+         addFileDisp.style.display = "none";
+     }
+     else if (event.target === addFolderDisp) {
+         addFolderDisp.style.display = "none";
+     }
+     else if (event.target === copy) {
+         copy.style.display = "none";
+     }
+     else if (event.target === move) {
+         move.style.display = "none";
+     }
+ };

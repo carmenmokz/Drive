@@ -1,5 +1,5 @@
 
-/* global False, users, prop, True, parseUri, current_user, value, key */
+/* global False, users, prop, True, parseUri, current_user, value, key, btnDeleteFiles, btnDeleteFolders */
 
 function refreshFiles(json){
     
@@ -44,7 +44,7 @@ function refreshFolders(json){
            td1.id="/"+folders[i].name;
            td1.setAttribute("onclick","changeFolder(this.id)");
            var td2= document.createElement("td");
-           td2.innerHTML="\\"+folders[i].name;
+           td2.innerHTML="/"+folders[i].name;
            var td4= document.createElement("td");
            td4.innerHTML=folders[i].name;
            var td5= document.createElement("td");
@@ -111,6 +111,7 @@ $("#mainFolder").click(function(event){
 		
 	 document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
 });
+
 function refresh_Page(){
     var mySearch =document.location.search.substring(1);
     [key, value] = mySearch.split("=");
@@ -139,14 +140,17 @@ function refresh_PageShareF(){
 var addFileDisp = document.getElementById('addFile');
 var addFolderDisp = document.getElementById('addFolder');
 var copy = document.getElementById('copyWindow');
+var move = document.getElementById('moveWindow');
 // Get the button that opens the modal
 var btnFile = document.getElementById("btnAddFile");
 var btnFolder = document.getElementById("btnAddFolder");
 var btnCopyVR = document.getElementById("btnCopyVR");
 var btnCopyRV = document.getElementById("btnCopyRV");
 var btnCopyVV = document.getElementById("btnCopyVV");
+var btnDelete= document.getElementById("btnDelete");
 // Get the <span> element that closes the modal
 var typeCopy=0;
+var typeMove=0;
 // When the user clicks the button, open the modal 
 btnFile.onclick = function() {
     addFileDisp.style.display = "block";
@@ -166,19 +170,28 @@ btnCopyVV.onclick = function() {
     copy.style.display = "block";
     typeCopy=2;
 };
+btnDeleteFiles.onclick = function() {
+   alert("Ya funco");
+   deleteFile();
+};
+btnDeleteFolders.onclick = function() {
+   alert("Ya funco");
+   deleteFolder();
+};
+btnMoveFiles.onclick = function() {
+   move.style.display = "block";
+   typeMove=0;
+};
+btnMoveFolders.onclick = function() {
+  move.style.display = "block";  
+  typeMove=1;
+};
+
+
 // When the user clicks on <span> (x), close the modal
 
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target === addFileDisp) {
-        addFileDisp.style.display = "none";
-    }
-    else if (event.target === addFolderDisp) {
-        addFolderDisp.style.display = "none";
-    }
-    else if (event.target === copy) {
-        copy.style.display = "none";
-    }
-};
+
+
+
 
