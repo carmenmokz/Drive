@@ -113,6 +113,11 @@
                                 <i class="pe-7s-copy-file"></i>
                                 <p class="hidden-lg hidden-md">Copiar</p>
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="btnCopyRV" >Copiar RV</a></li>
+                                <li><a href="#" id="btnCopyVR" >Copiar VR</a></li>
+                                <li><a href="#"id="btnCopyVV">Copiar VV</a></li>                            
+                            </ul>
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -201,6 +206,27 @@
               <div class="modal-footer">
                 
                   <button  type="submit" onclick="addFolder();" >Agregar</button><br>
+              </div>
+            </div>
+
+        </div>
+        
+        <div id="copyWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Copiar Archivo</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text"  id="name-folder" placeholder="Carpeta Origen"><br><br>
+                <input type="text"  id="name-folder" placeholder="Carpeta Destino"><br><br>
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit" onclick="addFolder();" >Copiar</button><br>
               </div>
             </div>
 

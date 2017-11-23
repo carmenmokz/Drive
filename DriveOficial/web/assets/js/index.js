@@ -136,20 +136,32 @@ function refresh_PageShareF(){
 // Get the modal
 var addFileDisp = document.getElementById('addFile');
 var addFolderDisp = document.getElementById('addFolder');
-
+var copy = document.getElementById('copyWindow');
 // Get the button that opens the modal
 var btnFile = document.getElementById("btnAddFile");
 var btnFolder = document.getElementById("btnAddFolder");
+var btnCopyVR = document.getElementById("btnCopyVR");
+var btnCopyRV = document.getElementById("btnCopyRV");
+var btnCopyVV = document.getElementById("btnCopyVV");
 // Get the <span> element that closes the modal
 
 
 // When the user clicks the button, open the modal 
 btnFile.onclick = function() {
     addFileDisp.style.display = "block";
-}
+};
 btnFolder.onclick = function() {
     addFolderDisp.style.display = "block";
-}
+};
+btnCopyVR.onclick = function() {
+    copy.style.display = "block";
+};
+btnCopyRV.onclick = function() {
+    copy.style.display = "block";
+};
+btnCopyVV.onclick = function() {
+    copy.style.display = "block";
+};
 // When the user clicks on <span> (x), close the modal
 
 
@@ -158,8 +170,11 @@ window.onclick = function(event) {
     if (event.target === addFileDisp) {
         addFileDisp.style.display = "none";
     }
-    if (event.target === addFolderDisp) {
+    else if (event.target === addFolderDisp) {
         addFolderDisp.style.display = "none";
+    }
+    else if (event.target === copy) {
+        copy.style.display = "none";
     }
 };
 
