@@ -136,6 +136,32 @@ function formSubmit() {
     
 }
 
+function addFolder() {
+   
+    var UsuarioAction = {
+        action: "addFolder",
+        username: document.getElementById("menu-name").innerHTML,
+        dir: document.getElementById("current-folder").innerHTML,
+        name:document.getElementById("name-folder").value
+    };
+    
+    socket.send(JSON.stringify(UsuarioAction));
+
+}
+function addFile() {
+   
+    var UsuarioAction = {
+        action: "addFile",
+        username: document.getElementById("menu-name").innerHTML,
+        dir:document.getElementById("current-folder").innerHTML,
+        name:document.getElementById("name-file").value,
+        cont:document.getElementById("cont-file").value,
+        ext:document.getElementById("ext-file").value
+    };
+  
+    socket.send(JSON.stringify(UsuarioAction));
+
+}
 function init() {
     
     //getUsers();

@@ -97,8 +97,16 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="pe-7s-plus"></i>
-								<p class="hidden-lg hidden-md">Crear</p>
+				<p class="hidden-lg hidden-md">Crear</p>
+                                
+                                
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="btnAddFile" >Agregar Archivo</a>
+                               
+                                </li>
+                                <li><a href="#"id="btnAddFolder">Agregar Carpeta</a></li>                            
+                            </ul>
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -155,7 +163,49 @@
             </div>
         </nav>
 
+         <div id="addFile" class="modal">
 
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+                
+                <h2>Agregar un Archivo</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text" id="name-file" placeholder="Nombre del Archivo"><br><br>
+                <input type="text" id="ext-file" placeholder="Extensión"><br><br>
+                <textarea rows="10"  id="cont-file" placeholder="Contenido"></textarea>
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit"  onclick="addFile();" >Agregar</button><br>
+              </div>
+            </div>
+
+        </div>
+        
+        <div id="addFolder" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+              
+                <h2>Agregar Carpeta</h2>
+              </div>
+              <div class="modal-body">
+                <input type="text"  id="name-folder" placeholder="Nombre de la Carpeta"><br><br>
+              
+                
+               </div>
+              <div class="modal-footer">
+                
+                  <button  type="submit" onclick="addFolder();" >Agregar</button><br>
+              </div>
+            </div>
+
+        </div>
+                                
         <div class="content">
             <div class="container-fluid">
                 <div class="row">

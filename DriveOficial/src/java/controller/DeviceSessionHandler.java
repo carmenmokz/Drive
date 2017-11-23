@@ -73,6 +73,22 @@ public class DeviceSessionHandler {
         sendToAllConnectedSessions(addMessage);
          
     }
+     public void addFolder(String username,String dir, String nombre) {
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        usuario.getFileSystem().crearDirectorio(nombre);
+        changeFolder(username,dir);
+       
+         
+    }
+      public void addFile(String username,String dir, String nombre, String ext, String cont) {
+        Usuario usuario=getUsuarioByUsername(username);
+        usuario.getFileSystem().cambiarDirActual(dir);
+        usuario.getFileSystem().crearArchivo(nombre,ext,cont);
+        changeFolder(username,dir);
+       
+         
+    }
 
     public void removeUsuario(String username) {
         Usuario usuario = getUsuarioByUsername(username);

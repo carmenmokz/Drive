@@ -93,6 +93,16 @@ public class DeviceWebSocketServer {
                 sessionHandler.changeFolder(jsonMessage.getString("username"),jsonMessage.getString("folder"));
                 System.out.println("Salio");
             }
+            if ("addFile".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.addFile(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"),jsonMessage.getString("ext"),jsonMessage.getString("cont"));
+                System.out.println("Salio");
+            }
+            if ("addFolder".equals(jsonMessage.getString("action"))) {
+                System.out.println("Entro");
+                sessionHandler.addFolder(jsonMessage.getString("username"),jsonMessage.getString("dir"),jsonMessage.getString("name"));
+                System.out.println("Salio");
+            }
             
           
 
