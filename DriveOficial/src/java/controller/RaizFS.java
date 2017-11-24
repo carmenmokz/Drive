@@ -92,12 +92,12 @@ public class RaizFS {
             borrarEnHijos(dir1); 
         }
         String dirOriginal = dirActual; 
-        System.out.println("dir antes: " + dirOriginal);
+        //System.out.println("dir antes: " + dirOriginal);
         ArrayList<Archivo> archivos = dir.getArchivos(); 
         for (int i = 0; i < archivos.size(); i++){
-            System.out.println("!");
+            //System.out.println("!");
             eliminarArchivo(archivos.get(i).getNombre(), archivos.get(i).getExtension()); 
-            System.out.println("?");
+            //System.out.println("?");
             archivos = dir.getArchivos();
         }
         cambiarDirActual(dirOriginal);
@@ -111,7 +111,7 @@ public class RaizFS {
         Archivo archivo = new Archivo(nombreArchivo, extension, contenido); 
         consumido += contenido.length(); 
         if (limiteTamanio < consumido){
-            System.out.println("Excede la cantidad de consumo de su drive");
+            //System.out.println("Excede la cantidad de consumo de su drive");
             consumido -= contenido.length(); 
             return false; 
         }
@@ -144,7 +144,7 @@ public class RaizFS {
       
         String dirVirtualProcesada = verificacionVirtual_a_Real(dirVirtual); 
         if(verificarDirectorioExiste(dirVirtualProcesada)){
-            System.out.println("dir real" + dirReal);
+            //System.out.println("dir real" + dirReal);
             Path path = Paths.get(dirReal); 
             File file = path.toFile(); 
             if(file.isDirectory()){
@@ -167,7 +167,7 @@ public class RaizFS {
     }
     public boolean copiarRVArchivo(String dirReal, String dirVirtual) {
         String dirOriginal = dirActual;
-        System.out.println("dirvirtual" + dirVirtual);
+        //System.out.println("dirvirtual" + dirVirtual);
         Path path = Paths.get(dirReal); 
         File file = path.toFile(); 
         String[] nombreArchivo = file.getName().split("\\.");
@@ -188,7 +188,7 @@ public class RaizFS {
             return false;
         }
         cambiarDirActual(dirVirtual);
-        System.out.println("dirVirtual: "+ dirVirtual + " \n Archivo: nombre: " + nombreDrive + " ext: " + nombreArchivo[nombreArchivo.length-1] + " contenido: "+ contenidoArchivo );
+        //System.out.println("dirVirtual: "+ dirVirtual + " \n Archivo: nombre: " + nombreDrive + " ext: " + nombreArchivo[nombreArchivo.length-1] + " contenido: "+ contenidoArchivo );
         boolean exito = crearArchivo(nombreDrive, nombreArchivo[nombreArchivo.length-1], contenidoArchivo); 
         if(exito){
             cambiarDirActual(dirOriginal);
@@ -206,12 +206,12 @@ public class RaizFS {
         File[] archivos = dirNuevo.listFiles(); 
         for (File archivo : archivos) {
             if(archivo.isDirectory()){
-                System.out.println("arhcivo abs" + dirActual);
+                //System.out.println("arhcivo abs" + dirActual);
                 boolean exito = copiarRVDirectorio(archivo.getAbsolutePath(), dirActual); 
                 if(!exito){return false;}               
             }
             else if(archivo.isFile()){
-                System.out.println("arhcivo abs" + dirActual);
+                //System.out.println("arhcivo abs" + dirActual);
                 boolean exito = copiarRVArchivo(archivo.getAbsolutePath(), dirActual); 
                 if(!exito){return false;}  
             }
@@ -220,7 +220,7 @@ public class RaizFS {
     }
     public boolean copiarRVDirectorio(String dirReal, String dirVirtual) {
         String dirOriginal = dirActual;
-        System.out.println("dir Actual 1:" + dirActual);
+        //System.out.println("dir Actual 1:" + dirActual);
         cambiarDirActual(dirVirtual);
         
         Path path = Paths.get(dirReal); 
@@ -303,8 +303,8 @@ public class RaizFS {
     }
     public boolean copiarVRArchivos(String dirReal) {
         boolean exito = false; 
-        System.out.println("cuando entro a archivos dirActual: "+ dirActual);
-        System.out.println("cuando entro a archivos dirReal: "+ dirReal);
+        //System.out.println("cuando entro a archivos dirActual: "+ dirActual);
+        //System.out.println("cuando entro a archivos dirReal: "+ dirReal);
         Directorio dirBase = encontrarDirectorio(dirActual); 
         ArrayList<Directorio> directorios = dirBase.getDirectorios(); 
         ArrayList<Archivo> archivos = dirBase.getArchivos(); 
@@ -321,9 +321,9 @@ public class RaizFS {
         String dirOriginal = dirActual;
         cambiarDirActual(dirVirtual);
         Directorio dirNuevo = encontrarDirectorio(dirActual); 
-        System.out.println("nombre de directorio creo q es el error: " + dirNuevo.getNombre());
+        //System.out.println("nombre de directorio creo q es el error: " + dirNuevo.getNombre());
         String dirRealNueva = dirReal+"\\"+dirNuevo.getNombre();
-        System.out.println("errorrrrrrrrrrrrrrrrrr 2 " + dirRealNueva);
+        //System.out.println("errorrrrrrrrrrrrrrrrrr 2 " + dirRealNueva);
         File carpeta = new File(dirRealNueva);
         carpeta.mkdirs(); 
         boolean exito = copiarVRArchivos(dirRealNueva); 
@@ -397,14 +397,14 @@ public class RaizFS {
         return true; 
     }
     public boolean copiarVVDirectorio(String dirInicio, String dirFinal){
-        System.out.println("jejejee");
+        //System.out.println("jejejee");
         Directorio dirInicioD = encontrarDirectorio(dirInicio); 
         Directorio dirFinalD = encontrarDirectorio(dirFinal); 
         if(dirInicioD != null && dirFinalD != null){
             String dirOriginal = dirActual; 
             cambiarDirActual(dirFinal);
             crearDirectorio(dirInicioD.getNombre());
-            System.out.println("crear dir de:" + dirInicioD.getNombre());
+            //System.out.println("crear dir de:" + dirInicioD.getNombre());
             cambiarDirActual(dirOriginal);
             copiarVVArchivos(dirInicio,dirFinal+"/"+dirInicioD.getNombre()); 
             return true; 
@@ -417,12 +417,12 @@ public class RaizFS {
         for (Archivo archivo : archivos) {
             if(archivo.getNombre().equals(nombre) && archivo.getExtension().equals(extension)){
                 
-                System.out.println(archivo.toString());
-                System.out.println("consumido " + consumido);
+                //System.out.println(archivo.toString());
+                //System.out.println("consumido " + consumido);
                 consumido = consumido - archivo.getTamanio(); 
-                System.out.println("consumido 2" + consumido);
+                //System.out.println("consumido 2" + consumido);
                 dir.quitarArchivo(archivo);
-                System.out.println("esto es lo que tira eeror");
+                //System.out.println("esto es lo que tira eeror");
                 return true;
             }
         }
@@ -432,7 +432,7 @@ public class RaizFS {
     
     
     public boolean eliminarDirectorio(String nombre){
-        System.out.println("llega a eliminar directorio");
+        //System.out.println("llega a eliminar directorio");
         Directorio dir = encontrarDirectorio(dirActual); 
         String dirOriginal = dirActual; 
         if(dir == null){
@@ -460,7 +460,7 @@ public class RaizFS {
         @sumary: es navegar al directorio que me piden, y devuelvo el  
         directorio para que ya con eso haga lo que ocupa, copiar, mover, etc 
     */ 
-        System.out.println("string solicitado: " + directorioSolicitado);
+        //System.out.println("string solicitado: " + directorioSolicitado);
         String[] carpetasDeDirSolicitado = directorioSolicitado.split("\\/"); // son las carpetas de la direccion separadas 
         Directorio temp = dir;                                                          // se situa en la pura raiz, con ese temp vamos a navegar 
         if(carpetasDeDirSolicitado.length == 1 && carpetasDeDirSolicitado[0].equals(dir.getNombre())){ 
@@ -541,7 +541,7 @@ public class RaizFS {
             return false;
         }
         copiarVV(vOrigen, vFinal, 1);
-        System.out.println("vOrigen: " + conseguirPadre(vOrigen) + "-" + conseguirUltimo(vOrigen));
+        //System.out.println("vOrigen: " + conseguirPadre(vOrigen) + "-" + conseguirUltimo(vOrigen));
         cambiarDirActual(conseguirPadre(vOrigen));
         eliminarDirectorio(conseguirUltimo(vOrigen)); 
         return true; 
@@ -577,7 +577,7 @@ public class RaizFS {
         if(dirOficial==null){return "error";}
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonEjemplo = gson.toJson(dirOficial);
-        System.out.println(jsonEjemplo); 
+        //System.out.println(jsonEjemplo); 
         return jsonEjemplo;
     }
     
@@ -602,7 +602,7 @@ public class RaizFS {
         if(archivo==null){return "Archivo vacio";}
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonEjemplo = gson.toJson(archivo);
-        System.out.println(jsonEjemplo); 
+        //System.out.println(jsonEjemplo); 
         return jsonEjemplo;
     }
     

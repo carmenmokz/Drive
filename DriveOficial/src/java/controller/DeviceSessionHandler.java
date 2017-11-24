@@ -114,6 +114,7 @@ public class DeviceSessionHandler {
                         .add("username", username)
                         .add("dir", dir)
                         .add("nombre",nombre)
+                        .add("sol",0)
                         .build();
             System.out.println(removeMessage);
             sendToSession(session, removeMessage);
@@ -154,11 +155,40 @@ public class DeviceSessionHandler {
                     destiny=origin; 
                     break;
                 case 1:
-                    usuario.getFileSystem().copiarRV(origin, destiny);
+                    if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+origin)==null){
+                        usuario.getFileSystem().copiarRV(origin, destiny);
+                    }else{
+                         JsonProvider provider = JsonProvider.provider();
+                         JsonObject removeMessage = provider.createObjectBuilder()
+                                        .add("action", "verFolder")
+                                        .add("username", username)
+                                        .add("typeCopy", type)
+                                        .add("origin",origin)
+                                        .add("destiny",destiny)
+                                        .add("sol",1)
+                                        .build();
+                            System.out.println(removeMessage);
+                            sendToSession(session, removeMessage);
+                    }
                     break;
                 case 2:
-                    System.out.println("Vine a copiar");
-                    System.out.println(usuario.getFileSystem().copiarVV(origin, destiny));
+                    
+                    if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+origin)==null){
+                        System.out.println("Vine a copiar");
+                        usuario.getFileSystem().copiarVV(origin, destiny);
+                    }else{
+                         JsonProvider provider = JsonProvider.provider();
+                         JsonObject removeMessage = provider.createObjectBuilder()
+                                        .add("action", "verFolder")
+                                        .add("username", username)
+                                        .add("typeCopy", type)
+                                        .add("origin",origin)
+                                        .add("destiny",destiny)
+                                        .add("sol",1)
+                                        .build();
+                            System.out.println(removeMessage);
+                            sendToSession(session, removeMessage);
+                    }
                     break;
         }  
         System.out.println(destiny);
@@ -365,8 +395,7 @@ public class DeviceSessionHandler {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonEjemplo = gson.toJson(usuarios);
         String basePath = new File("").getAbsolutePath() + "\\users.json" ;
-        System.out.println("this is? " + basePath);
-        System.out.println(jsonEjemplo); 
+      
         try (FileWriter file = new FileWriter(basePath)) {
 			file.write(jsonEjemplo);
 			System.out.println("Successfully Copied JSON Object to File...");		
@@ -446,6 +475,7 @@ public class DeviceSessionHandler {
     }
     
     public void shareDirectory(String user, String directory, String toUser, String toCopyPath,Session session){
+        
         System.out.println(user + directory+toUser);
         Usuario usuarioManda = getUsuarioByUsername(user); 
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
@@ -495,10 +525,35 @@ public class DeviceSessionHandler {
         Usuario usuario=getUsuarioByUsername(username);
         switch(type){
             case 0:
-                usuario.getFileSystem().moverArchivo(file, destiny);
+                
+                    System.out.println("No existe");;
+                    usuario.getFileSystem().moverArchivo(file, destiny);
+               
                 break;
             case 1:
-                usuario.getFileSystem().moverCarpeta(file, destiny);
+                String[] bits = file.split("/");
+                String lastOne = bits[bits.length-1];
+               
+               
+                if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+lastOne)==null){
+                    System.out.println("Si entro");
+                    System.out.println(file);
+                    System.out.println(destiny);
+                    usuario.getFileSystem().moverCarpeta(file, destiny);
+                 }else{
+                    System.out.println("Exist");
+                    JsonProvider provider = JsonProvider.provider();
+                         JsonObject removeMessage = provider.createObjectBuilder()
+                                        .add("action", "verFolder")
+                                        .add("username", username)
+                                        .add("typeMove", type)
+                                        .add("file",file)
+                                        .add("destiny",destiny)
+                                        .add("sol",2)
+                                        .build();
+                            
+                            sendToSession(session, removeMessage);
+                }
                 break;
         }
         

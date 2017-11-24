@@ -51,23 +51,75 @@ function onMessage(event) {
 
 function verFolder(usuario){
     if (confirm('El directorio ya existe. ¿Desea caerle encima?')) {
-            var UsuarioAction = {
+       
+        switch(usuario.sol){
+            case 0:
+                 var UsuarioAction = {
                 action: "deleteFolder",
                 username: document.getElementById("menu-name").innerHTML,
                 file: usuario.nombre,
                 dir: document.getElementById("current-folder").innerHTML,
 
             };
-            socket.send(JSON.stringify(UsuarioAction));
-             var UsuarioAction = {
-                action: "addFolder",
-                username: document.getElementById("menu-name").innerHTML,
-                dir: document.getElementById("current-folder").innerHTML,
-                name:usuario.nombre
-            };
+        socket.send(JSON.stringify(UsuarioAction));
+                var UsuarioAction = {
+                    action: "addFolder",
+                    username: document.getElementById("menu-name").innerHTML,
+                    dir: document.getElementById("current-folder").innerHTML,
+                    name:usuario.nombre
+                };
+                break;
+            case 1:
+                 var UsuarioAction = {
+                    action: "deleteFolder",
+                    username: document.getElementById("menu-name").innerHTML,
+                    file: usuario.nombre,
+                    dir: usuario.destiny
 
-            socket.send(JSON.stringify(UsuarioAction));
-        } else {
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                 var UsuarioAction = {
+                    action: "copy",
+                    username: document.getElementById("menu-name").innerHTML,
+                    origin: usuario.origin,
+                    destiny: usuario.destiny,
+                    type: usuario.typeCopy
+                };
+                break;
+            case 2:
+                var fileA=usuario.file.split("/");
+                
+                alert(fileA(fileA.length-1));
+                var UsuarioAction = {
+                action: "deleteFolder",
+                username: document.getElementById("menu-name").innerHTML,
+                file: fileA(fileA.length-1),
+                dir: usuario.destiny
+
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                var UsuarioAction = {
+                    action: "move",
+                    username: document.getElementById("menu-name").innerHTML,
+                    dir:document.getElementById("current-folder").innerHTML,
+                    file: usuario.file,
+                    destiny: usuario.destiny,
+                    type: usuario.typeMove
+                };
+                break;
+            case 3:
+                var UsuarioAction = {
+                action: "shareDir",
+                username: document.getElementById("menu-name").innerHTML,
+                path: usuario.finalpath, 
+                toUser: usuario.toUser
+
+            };
+                break;    
+            
+        }
+        socket.send(JSON.stringify(UsuarioAction));
+    }    else {
            
         }
 }
