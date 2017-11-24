@@ -54,8 +54,11 @@ function onMessage(event) {
 }
 function verTodos(usuario){
     if (confirm('El directorio o archivo ya existe. ¿Desea caerle encima?')) {
-       
+       if(usuario.c===1){
         var fileA=usuario.origin.split("/");
+    }else{
+         var fileA=usuario.origin.split("\\");
+    }
 
         var [del,ext]=fileA[fileA.length-1].split(".");
         var UsuarioAction = {
@@ -137,6 +140,14 @@ function verFolder(usuario){
                 
                 break;
             case 3:
+                var UsuarioAction = {
+                    action: "deleteFolder",
+                    username: usuario.toUser,
+                    file: fileA[fileA.length-1],
+                    dir: usuario.destiny
+
+                };
+                socket.send(JSON.stringify(UsuarioAction));
                 var UsuarioAction = {
                 action: "shareDir",
                 username: document.getElementById("menu-name").innerHTML,

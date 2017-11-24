@@ -157,8 +157,11 @@ public class DeviceSessionHandler {
                     destiny=origin; 
                     break;
                 case 1:
-                    
-                    if(usuario.getFileSystem().existeDirEnDir(destiny, lastOne)==false||usuario.getFileSystem().existeArchEnDir(destiny, lastOne)==false){
+                    bits = origin.split("\\\\");
+                    System.out.println(bits);
+                    lastOne = bits[bits.length-1];
+                    System.out.println(lastOne);
+                    if(usuario.getFileSystem().existeDirEnDir(destiny, lastOne)==false&& usuario.getFileSystem().existeArchEnDir(destiny, lastOne)==false){
                         usuario.getFileSystem().copiarRV(origin, destiny);
                     }else{
                          JsonProvider provider = JsonProvider.provider();
@@ -168,18 +171,16 @@ public class DeviceSessionHandler {
                                         .add("typeCopy", type)
                                         .add("origin",origin)
                                         .add("destiny",destiny)
-                                        
+                                        .add("c",0)
                                         .build();
                             System.out.println(removeMessage);
                             sendToSession(session, removeMessage);
                     }
                     break;
                 case 2:
-                    System.out.println(destiny);
-                    System.out.println(lastOne);
-                    System.out.println(usuario.getFileSystem().existeDirEnDir(destiny, lastOne));
-                    System.out.println(usuario.getFileSystem().existeArchEnDir(destiny, lastOne));
-                    
+                   bits = origin.split("/");
+                    System.out.println(bits);
+                   lastOne = bits[bits.length-1];
                     if(usuario.getFileSystem().existeDirEnDir(destiny, lastOne)==false&&usuario.getFileSystem().existeArchEnDir(destiny, lastOne)==false){
                         System.out.println("Vine a copiar");
                         usuario.getFileSystem().copiarVV(origin, destiny);
@@ -191,7 +192,7 @@ public class DeviceSessionHandler {
                                         .add("typeCopy", type)
                                         .add("origin",origin)
                                         .add("destiny",destiny)
-                                        
+                                        .add("c",1)
                                         .build();
                             System.out.println(removeMessage);
                             sendToSession(session, removeMessage);
