@@ -90,6 +90,7 @@ function verTodos(usuario){
            type: usuario.typeCopy
         };
         socket.send(JSON.stringify(UsuarioAction));
+        alert("¡Se ha copiado el Archivo o Carpeta!");
     }else{
 
     }
@@ -114,6 +115,7 @@ function verFolder(usuario){
                     dir: document.getElementById("current-folder").innerHTML,
                     name:usuario.nombre
                 };
+                 alert("¡Se ha agregado la Carpeta!");
                 break;
             
             case 2:
@@ -141,7 +143,7 @@ function verFolder(usuario){
                 };
                 
                 socket.send(JSON.stringify(UsuarioAction));
-                
+                 alert("¡Se ha movido la Carpeta!");
                 break;
             case 3:
                 var fileA=usuario.directory.split("/");
@@ -162,6 +164,7 @@ function verFolder(usuario){
                 };
                 socket.send(JSON.stringify(UsuarioAction));
                 document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
+                 alert("¡Se ha compartido la Carpeta!");
                 break;    
             
         }
@@ -370,7 +373,7 @@ function addFolder() {
     
     socket.send(JSON.stringify(UsuarioAction));
     addFolderDisp.style.display = "none";
-
+     alert("¡Se ha compartido la Carpeta!");
 }
 function addFile() {
    
@@ -385,6 +388,7 @@ function addFile() {
   
     socket.send(JSON.stringify(UsuarioAction));
     addFileDisp.style.display = "none";
+     alert("¡Se ha agregado el Archivo!");
 }
 
 function copyAll(){
@@ -403,6 +407,7 @@ function copyAll(){
    
     socket.send(JSON.stringify(UsuarioAction));
     copy.style.display = "none";
+     alert("¡Se ha copiado el Archivo o Carpeta!");
 }
 function deleteFile(){
     var tbody = document.getElementById('file-system');
@@ -427,7 +432,7 @@ function deleteFile(){
      }
       
    }
-    
+    alert("¡Se ha eliminado el Archivo!"); 
 }
 
 function deleteFolder(){
@@ -451,7 +456,7 @@ function deleteFolder(){
      }
       
    }
-    
+     alert("¡Se ha eliminado la Carpeta!");
 }
 
 function moveAll(){
@@ -491,6 +496,7 @@ function moveAll(){
     
 
     move.style.display = "none";
+     alert("¡Se ha movido el Archivo o Carpeta!");
 }
 
 function shareDirectory(){
@@ -609,6 +615,7 @@ function editFile(){
   
 
     edit.style.display = "none";
+     alert("¡Se ha modificado el Archivo!");
 }
 
 function viewFile(){
@@ -658,6 +665,7 @@ function shareAll(){
             break;
     }
     share.style.display = "none";
+    alert("¡Se ha compartido el Archivo o Carpeta!");
 }
 
 function init() {
