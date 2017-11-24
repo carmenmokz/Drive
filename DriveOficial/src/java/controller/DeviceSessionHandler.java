@@ -148,6 +148,8 @@ public class DeviceSessionHandler {
     public void copy(String username, int type,String origin,String destiny,Session session) {
         System.out.println("en copy" + " origin: "+ origin + " destiny: "+ destiny);
         Usuario usuario=getUsuarioByUsername(username);
+        String[] bits = origin.split("/");
+        String lastOne = bits[bits.length-1];
         switch(type){
                 case 0:
                    
@@ -155,36 +157,41 @@ public class DeviceSessionHandler {
                     destiny=origin; 
                     break;
                 case 1:
-                    if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+origin)==null){
+                    
+                    if(usuario.getFileSystem().existeDirEnDir(destiny, lastOne)==false||usuario.getFileSystem().existeArchEnDir(destiny, lastOne)==false){
                         usuario.getFileSystem().copiarRV(origin, destiny);
                     }else{
                          JsonProvider provider = JsonProvider.provider();
                          JsonObject removeMessage = provider.createObjectBuilder()
-                                        .add("action", "verFolder")
+                                        .add("action", "verTodos")
                                         .add("username", username)
                                         .add("typeCopy", type)
                                         .add("origin",origin)
                                         .add("destiny",destiny)
-                                        .add("sol",1)
+                                        
                                         .build();
                             System.out.println(removeMessage);
                             sendToSession(session, removeMessage);
                     }
                     break;
                 case 2:
+                    System.out.println(destiny);
+                    System.out.println(lastOne);
+                    System.out.println(usuario.getFileSystem().existeDirEnDir(destiny, lastOne));
+                    System.out.println(usuario.getFileSystem().existeArchEnDir(destiny, lastOne));
                     
-                    if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+origin)==null){
+                    if(usuario.getFileSystem().existeDirEnDir(destiny, lastOne)==false&&usuario.getFileSystem().existeArchEnDir(destiny, lastOne)==false){
                         System.out.println("Vine a copiar");
                         usuario.getFileSystem().copiarVV(origin, destiny);
                     }else{
                          JsonProvider provider = JsonProvider.provider();
                          JsonObject removeMessage = provider.createObjectBuilder()
-                                        .add("action", "verFolder")
+                                        .add("action", "verTodos")
                                         .add("username", username)
                                         .add("typeCopy", type)
                                         .add("origin",origin)
                                         .add("destiny",destiny)
-                                        .add("sol",1)
+                                        
                                         .build();
                             System.out.println(removeMessage);
                             sendToSession(session, removeMessage);
@@ -528,22 +535,23 @@ public class DeviceSessionHandler {
                 
                     System.out.println("No existe");;
                     usuario.getFileSystem().moverArchivo(file, destiny);
-               
+                    changeFolder(username, destiny,session);
                 break;
             case 1:
                 String[] bits = file.split("/");
                 String lastOne = bits[bits.length-1];
                
-               
-                if(usuario.getFileSystem().encontrarDirectorio(destiny+"/"+lastOne)==null){
+                System.out.println(usuario.getFileSystem().existeDirEnDir(destiny,lastOne));
+                if(usuario.getFileSystem().existeDirEnDir(destiny,lastOne)==false){
                     System.out.println("Si entro");
                     System.out.println(file);
                     System.out.println(destiny);
                     usuario.getFileSystem().moverCarpeta(file, destiny);
+                    changeFolder(username, destiny,session);
                  }else{
                     System.out.println("Exist");
                     JsonProvider provider = JsonProvider.provider();
-                         JsonObject removeMessage = provider.createObjectBuilder()
+                     JsonObject removeMessage = provider.createObjectBuilder()
                                         .add("action", "verFolder")
                                         .add("username", username)
                                         .add("typeMove", type)
@@ -552,12 +560,12 @@ public class DeviceSessionHandler {
                                         .add("sol",2)
                                         .build();
                             
-                            sendToSession(session, removeMessage);
+                    sendToSession(session, removeMessage);
                 }
                 break;
         }
         
-        changeFolder(username, destiny,session);
+        
     }
     
      public void edit(String username,String dir, String oldfile,String file,String ext,String cont, Session session){

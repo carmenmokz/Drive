@@ -45,10 +45,49 @@ function onMessage(event) {
         verFile(usuario);
 
     }
+     if(usuario.action==="verTodos"){
+        verTodos(usuario);
+
+    }
 
 
 }
+function verTodos(usuario){
+    if (confirm('El directorio o archivo ya existe. ¿Desea caerle encima?')) {
+       
+        var fileA=usuario.origin.split("/");
 
+        var [del,ext]=fileA[fileA.length-1].split(".");
+        var UsuarioAction = {
+            action: "deleteFile",
+            username: document.getElementById("menu-name").innerHTML,
+            file: del,
+            dir: usuario.destiny,
+            ext: ext
+        };
+        socket.send(JSON.stringify(UsuarioAction));
+         var UsuarioAction = {
+           action: "deleteFolder",
+           username: document.getElementById("menu-name").innerHTML,
+           file: fileA[fileA.length-1],
+           dir: usuario.destiny
+
+        };
+        socket.send(JSON.stringify(UsuarioAction));
+   
+        var UsuarioAction = {
+           action: "copy",
+           username: document.getElementById("menu-name").innerHTML,
+           origin: usuario.origin,
+           destiny: usuario.destiny,
+           type: usuario.typeCopy
+        };
+        socket.send(JSON.stringify(UsuarioAction));
+    }else{
+
+    }
+             
+}
 function verFolder(usuario){
     if (confirm('El directorio ya existe. ¿Desea caerle encima?')) {
        
@@ -61,7 +100,7 @@ function verFolder(usuario){
                 dir: document.getElementById("current-folder").innerHTML,
 
             };
-        socket.send(JSON.stringify(UsuarioAction));
+            socket.send(JSON.stringify(UsuarioAction));
                 var UsuarioAction = {
                     action: "addFolder",
                     username: document.getElementById("menu-name").innerHTML,
@@ -69,43 +108,33 @@ function verFolder(usuario){
                     name:usuario.nombre
                 };
                 break;
-            case 1:
-                 var UsuarioAction = {
+            
+            case 2:
+               
+                var fileA=usuario.file.split("/");
+              
+               
+               
+                var UsuarioAction = {
                     action: "deleteFolder",
                     username: document.getElementById("menu-name").innerHTML,
-                    file: usuario.nombre,
+                    file: fileA[fileA.length-1],
                     dir: usuario.destiny
 
                 };
                 socket.send(JSON.stringify(UsuarioAction));
-                 var UsuarioAction = {
-                    action: "copy",
-                    username: document.getElementById("menu-name").innerHTML,
-                    origin: usuario.origin,
-                    destiny: usuario.destiny,
-                    type: usuario.typeCopy
-                };
-                break;
-            case 2:
-                var fileA=usuario.file.split("/");
-                
-                alert(fileA(fileA.length-1));
-                var UsuarioAction = {
-                action: "deleteFolder",
-                username: document.getElementById("menu-name").innerHTML,
-                file: fileA(fileA.length-1),
-                dir: usuario.destiny
 
-                };
-                socket.send(JSON.stringify(UsuarioAction));
                 var UsuarioAction = {
                     action: "move",
                     username: document.getElementById("menu-name").innerHTML,
                     dir:document.getElementById("current-folder").innerHTML,
-                    file: usuario.file,
+                    file: fileA[fileA.length-1],
                     destiny: usuario.destiny,
                     type: usuario.typeMove
                 };
+                
+                socket.send(JSON.stringify(UsuarioAction));
+                
                 break;
             case 3:
                 var UsuarioAction = {
@@ -118,7 +147,7 @@ function verFolder(usuario){
                 break;    
             
         }
-        socket.send(JSON.stringify(UsuarioAction));
+       
     }    else {
            
         }
@@ -374,8 +403,10 @@ function moveAll(){
         file: file,
         destiny: destiny,
         type: typeMove
-    }}
-     socket.send(JSON.stringify(UsuarioAction));
+    };
+    socket.send(JSON.stringify(UsuarioAction));
+    }
+     
     };
   
   
