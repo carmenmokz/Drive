@@ -486,6 +486,7 @@ public class DeviceSessionHandler {
     public boolean cargarUsuarios(){
         Gson gson1 = new Gson();  
         String basePath = new File("").getAbsolutePath() + "\\users.json" ;
+        System.out.println(basePath);
         Path path = Paths.get(basePath);
         File file = path.toFile(); 
         List<String> contenido_a_copiar; 
