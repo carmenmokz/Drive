@@ -363,9 +363,10 @@ public class DeviceSessionHandler {
         }
 
         JsonArray arr2 = folders.build();
-    
+        String space=usuario.getFileSystem().getConsumido()+" bytes :" +usuario.getFileSystem().getLimiteTamanio()+" bytes";
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "getMainFolder")
+                .add("space",space)
                 .add("folders", arr2)
                 .add("archivos",arr)
                 .build();
@@ -403,9 +404,10 @@ public class DeviceSessionHandler {
         }
 
         JsonArray arr2 = folders.build();
-    
+        String space=usuario.getFileSystem().getConsumido()+" bytes :" +usuario.getFileSystem().getLimiteTamanio()+" bytes";
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "getMainFolder")
+                .add("space",space)
                 .add("folders", arr2)
                 .add("archivos",arr)
                 .build();
@@ -441,10 +443,11 @@ public class DeviceSessionHandler {
         }
 
         JsonArray arr2 = folders.build();
-    
+         String space=usuario.getFileSystem().getConsumido()+" bytes :" +usuario.getFileSystem().getLimiteTamanio()+" bytes";
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "changeFolder")
                 .add("dir", folder)
+                .add("space",space)
                 .add("folders", arr2)
                 .add("archivos",arr)
                 .build();
