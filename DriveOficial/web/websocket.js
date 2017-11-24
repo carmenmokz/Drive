@@ -143,21 +143,24 @@ function verFolder(usuario){
                 
                 break;
             case 3:
+                var fileA=usuario.directory.split("/");
                 var UsuarioAction = {
                     action: "deleteFolder",
                     username: usuario.toUser,
                     file: fileA[fileA.length-1],
-                    dir: usuario.destiny
+                    dir: "D/Compartido"
 
                 };
                 socket.send(JSON.stringify(UsuarioAction));
                 var UsuarioAction = {
-                action: "shareDir",
-                username: document.getElementById("menu-name").innerHTML,
-                path: usuario.finalpath, 
-                toUser: usuario.toUser
+                    action: "shareDir",
+                    username: document.getElementById("menu-name").innerHTML,
+                    path: usuario.directory, 
+                    toUser: usuario.toUser
 
-            };
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                document.location.href = 'shareFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
                 break;    
             
         }

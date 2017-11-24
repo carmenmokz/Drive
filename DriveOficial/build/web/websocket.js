@@ -7,14 +7,14 @@ function onMessage(event) {
     if (usuario.action === "add") {
         getUsers();
     }
-    if (usuario.action === "remove") {
+   else  if (usuario.action === "remove") {
         //document.getElementById(device.id).remove();
         //device.parentNode.removeChild(device);
     }
-    if (usuario.action === "getUsers") {
+    else if (usuario.action === "getUsers") {
         users = usuario.users;
     }
-    if (usuario.action === "getMainFolder") {
+   else  if (usuario.action === "getMainFolder") {
 
        refreshFolders(usuario);
        refreshFiles(usuario);
@@ -22,32 +22,35 @@ function onMessage(event) {
   
     }
     
-    if (usuario.action === "getShareFolder") {
+   else  if (usuario.action === "getShareFolder") {
        refreshFolders(usuario);
        refreshFiles(usuario);
     }
-    if (usuario.action === "changeFolder") {
+   else  if (usuario.action === "changeFolder") {
       
        refreshFolder(usuario);
        refreshFolders(usuario);
        refreshFiles(usuario);
     }
-     if (usuario.action === "view") {
+    else if (usuario.action === "view") {
       
       
        refreshView(usuario);
     }
-    if(usuario.action==="verFolder"){
+    else if(usuario.action==="verFolder"){
         verFolder(usuario);
 
     }
-    if(usuario.action==="verFile"){
+    else if(usuario.action==="verFile"){
         verFile(usuario);
 
     }
-     if(usuario.action==="verTodos"){
+     else if(usuario.action==="verTodos"){
         verTodos(usuario);
 
+    }
+    else if(usuario.action==="NoDisponible"){
+        alert("La cantidad de memoria disponible no permite hacer la accion que desea ):");
     }
 
 
@@ -140,21 +143,24 @@ function verFolder(usuario){
                 
                 break;
             case 3:
+                var fileA=usuario.directory.split("/");
                 var UsuarioAction = {
                     action: "deleteFolder",
                     username: usuario.toUser,
                     file: fileA[fileA.length-1],
-                    dir: usuario.destiny
+                    dir: "D/Compartido"
 
                 };
                 socket.send(JSON.stringify(UsuarioAction));
                 var UsuarioAction = {
-                action: "shareDir",
-                username: document.getElementById("menu-name").innerHTML,
-                path: usuario.finalpath, 
-                toUser: usuario.toUser
+                    action: "shareDir",
+                    username: document.getElementById("menu-name").innerHTML,
+                    path: usuario.directory, 
+                    toUser: usuario.toUser
 
-            };
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                document.location.href = 'shareFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
                 break;    
             
         }

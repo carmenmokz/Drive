@@ -6,6 +6,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import static java.lang.Integer.parseInt;
 import java.util.logging.Level;
@@ -47,7 +48,7 @@ public class DeviceWebSocketServer {
     }
 
     @OnMessage
-    public void handleMessage(String message, Session session) {
+    public void handleMessage(String message, Session session) throws IOException {
 
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
