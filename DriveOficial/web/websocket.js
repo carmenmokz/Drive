@@ -165,25 +165,54 @@ function verFolder(usuario){
 }
 function verFile(usuario){
     if (confirm('El archivo ya existe. ¿Desea caerle encima?')) {
-            var UsuarioAction = {
-                action: "deleteFile",
-                username: document.getElementById("menu-name").innerHTML,
-                file: usuario.nombre,
-                dir: document.getElementById("current-folder").innerHTML,
-                ext: usuario.ext
-            };
-            socket.send(JSON.stringify(UsuarioAction));
-              var UsuarioAction = {
-                    action: "addFile",
+        switch(usuario.sol){
+            case 0:
+                var UsuarioAction = {
+                    action: "deleteFile",
                     username: document.getElementById("menu-name").innerHTML,
-                    dir:document.getElementById("current-folder").innerHTML,
-                    name:usuario.nombre,
-                    cont:usuario.cont,
-                    ext:usuario.ext
+                    file: usuario.nombre,
+                    dir: document.getElementById("current-folder").innerHTML,
+                    ext: usuario.ext
                 };
-
                 socket.send(JSON.stringify(UsuarioAction));
-        } else {
+                  var UsuarioAction = {
+                        action: "addFile",
+                        username: document.getElementById("menu-name").innerHTML,
+                        dir:document.getElementById("current-folder").innerHTML,
+                        name:usuario.nombre,
+                        cont:usuario.cont,
+                        ext:usuario.ext
+                    };
+
+                    socket.send(JSON.stringify(UsuarioAction));
+                    break;
+            case 2:
+                var fileA=usuario.file.split("/");
+                var [name,ext]=fileA[fileA.length-1].split(".");
+              
+                var UsuarioAction = {
+                        action: "deleteFile",
+                        username: document.getElementById("menu-name").innerHTML,
+                        file:name,
+                        dir: usuario.destiny,
+                        ext: ext
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+           
+                var UsuarioAction = {
+                        action: "move",
+                        username: document.getElementById("menu-name").innerHTML,
+                        dir:document.getElementById("current-folder").innerHTML,
+                        file: fileA[fileA.length-1],
+                        destiny: usuario.destiny,
+                        type: usuario.typeMove
+                 };
+                socket.send(JSON.stringify(UsuarioAction));
+                break;
+                    
+                 
+            }
+    } else {
             
         }
 }

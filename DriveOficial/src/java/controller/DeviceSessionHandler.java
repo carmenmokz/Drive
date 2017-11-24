@@ -531,16 +531,36 @@ public class DeviceSessionHandler {
     }
     public void move(String username,int type, String file,String destiny,Session session){
         Usuario usuario=getUsuarioByUsername(username);
+        String[] bits ;
+        String lastOne ;
         switch(type){
             case 0:
-                
-                    System.out.println("No existe");;
+                bits = file.split("/");
+                lastOne = bits[bits.length-1];
+               
+                System.out.println(usuario.getFileSystem().existeDirEnDir(destiny,lastOne));
+                if(usuario.getFileSystem().existeArchEnDir(destiny,lastOne)==false){
+                    System.out.println("No existe");
                     usuario.getFileSystem().moverArchivo(file, destiny);
                     changeFolder(username, destiny,session);
+                }else{
+                    System.out.println("Exist");
+                    JsonProvider provider = JsonProvider.provider();
+                    JsonObject removeMessage = provider.createObjectBuilder()
+                                        .add("action", "verFile")
+                                        .add("username", username)
+                                        .add("typeMove", type)
+                                        .add("file",file)
+                                        .add("destiny",destiny)
+                                        .add("sol",2)
+                                        .build();
+                            
+                    sendToSession(session, removeMessage);
+                }
                 break;
             case 1:
-                String[] bits = file.split("/");
-                String lastOne = bits[bits.length-1];
+                bits = file.split("/");
+                lastOne = bits[bits.length-1];
                
                 System.out.println(usuario.getFileSystem().existeDirEnDir(destiny,lastOne));
                 if(usuario.getFileSystem().existeDirEnDir(destiny,lastOne)==false){
@@ -552,7 +572,7 @@ public class DeviceSessionHandler {
                  }else{
                     System.out.println("Exist");
                     JsonProvider provider = JsonProvider.provider();
-                     JsonObject removeMessage = provider.createObjectBuilder()
+                    JsonObject removeMessage = provider.createObjectBuilder()
                                         .add("action", "verFolder")
                                         .add("username", username)
                                         .add("typeMove", type)
