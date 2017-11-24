@@ -25,6 +25,7 @@ function onMessage(event) {
    else  if (usuario.action === "getShareFolder") {
        refreshFolders(usuario);
        refreshFiles(usuario);
+     
     }
    else  if (usuario.action === "changeFolder") {
       
@@ -160,7 +161,7 @@ function verFolder(usuario){
 
                 };
                 socket.send(JSON.stringify(UsuarioAction));
-                document.location.href = 'shareFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
+                document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
                 break;    
             
         }
@@ -215,6 +216,29 @@ function verFile(usuario){
                  };
                 socket.send(JSON.stringify(UsuarioAction));
                 break;
+            case 3:
+                var fileA=usuario.file.split("/");
+                var [name,ext]=usuario.fileA.split(".");
+                var UsuarioAction = {
+                    action: "deleteFile",
+                    username: usuario.toUser,
+                    file:name,
+                    dir: "D/Compartido",
+                    ext: ext
+
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                var UsuarioAction = {
+                    action: "shareFile",
+                    username: document.getElementById("menu-name").innerHTML,
+                    file: usuario.file, 
+                    currentPath: usuario.currentPath, 
+                    toUser: usuario.toUser
+
+                };
+                socket.send(JSON.stringify(UsuarioAction));
+                document.location.href = 'mainFolder.html?current_user='+document.getElementById("menu-name").innerHTML;
+                break;    
                     
                  
             }
@@ -259,10 +283,12 @@ function isUserAlready(username){
     for(i in userC){
         if ((userC[i].username).localeCompare(username)===0){
             alert("El Usuario Escogido, ya existe.");
+            
             exist=1;
             break;
         }
-    }    
+    }  
+    share.style.display = "none";
     return exist; 
 }
 
@@ -499,6 +525,7 @@ function shareDirectory(){
             }
         }
     };
+
     
 }
 
@@ -540,6 +567,7 @@ function shareFile(){
             }
         }
     };   
+   
 }
 function editFile(){
   
@@ -623,6 +651,7 @@ function shareAll(){
             shareDirectory();
             break;
     }
+    share.style.display = "none";
 }
 
 function init() {
