@@ -280,7 +280,9 @@ function isUserAlready(username){
     var userC=users;  
     var i;
     var exist = 0; 
+    alert("que pedo wey"); 
     for(i in userC){
+        
         if ((userC[i].username).localeCompare(username)===0){
             alert("El Usuario Escogido, ya existe.");
             
@@ -288,13 +290,16 @@ function isUserAlready(username){
             break;
         }
     }  
-    share.style.display = "none";
+   
+   alert(exist); 
     return exist; 
 }
 
 
 function addUsuario(username, pass, bytes) {
+    
     getUsers();
+    
     var i;
     var exist=0;
     var userC=users;
@@ -302,7 +307,7 @@ function addUsuario(username, pass, bytes) {
   
  
     exist = isUserAlready(username); 
-
+    
     if(exist===0||userC===null){
         var UsuarioAction = {
             action: "add",
@@ -344,10 +349,13 @@ function changeFolder(name)
 
 
 function formSubmit() {
+    
     var username = document.getElementById("username").value;
+    
     var pass = document.getElementById("pass").value;
+    
     var bytes=  document.getElementById("bytes").value;
-
+    
     document.location.href = 'index.html';
     addUsuario(username, pass, bytes);
     
