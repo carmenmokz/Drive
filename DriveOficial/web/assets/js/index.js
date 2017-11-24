@@ -31,6 +31,7 @@ function refreshFiles(json){
 }
 function refreshFolders(json){
      $("#file-system").empty();
+    document.getElementById("menu-space").innerHTML=json.space;
     var folders=json.folders;
 
     for (i in folders){
