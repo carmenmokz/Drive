@@ -280,7 +280,7 @@ function isUserAlready(username){
     var userC=users;  
     var i;
     var exist = 0; 
-    alert("que pedo wey"); 
+   
     for(i in userC){
         
         if ((userC[i].username).localeCompare(username)===0){
@@ -290,8 +290,6 @@ function isUserAlready(username){
             break;
         }
     }  
-   
-   alert(exist); 
     return exist; 
 }
 

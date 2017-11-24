@@ -216,9 +216,20 @@ public class DeviceSessionHandler {
                    bits = origin.split("/");
                     System.out.println(bits);
                    lastOne = bits[bits.length-1];
+                   String papa = "";
+                    for (int i = 0; i < bits.length-1; i++) {
+                        if(papa.equals("")){
+                            papa += bits[i];
+                        }
+                        else{
+                            papa +="/" + bits[i];
+                        }
+                        
+                    }
                    int tam = 0;
-                   if(usuario.getFileSystem().existeDirEnDir(origin, lastOne)){
-                       tam = usuario.getFileSystem().conseguirArchivo(origin, lastOne).getTamanio(); 
+                    System.out.println(papa);
+                   if(usuario.getFileSystem().existeArchEnDir(papa, lastOne)){
+                       tam = usuario.getFileSystem().conseguirArchivo(papa, lastOne).getTamanio(); 
                    }
                    else{
                        tam = usuario.getFileSystem().pesoDir(origin);
@@ -711,10 +722,12 @@ public class DeviceSessionHandler {
      public void edit(String username,String dir, String oldfile,String file,String ext,String cont, Session session){
         Usuario usuario=getUsuarioByUsername(username);
         usuario.getFileSystem().cambiarDirActual(dir);
+        Archivo arc = usuario.getFileSystem().conseguirArchivo(dir, oldfile); 
+        usuario.getFileSystem().setConsumido(usuario.getFileSystem().getConsumido() - arc.getTamanio());
         usuario.getFileSystem().modificarArchivo(oldfile, cont);
         usuario.getFileSystem().modificarArchivoExt(oldfile, ext);
         usuario.getFileSystem().modificarArchivoNombre(oldfile, file);
-        
+        usuario.getFileSystem().setConsumido(usuario.getFileSystem().getConsumido() + cont.length());
         changeFolder(username, dir,session);
     }
      public void view(String username,String dir, String file, Session session, int type){
