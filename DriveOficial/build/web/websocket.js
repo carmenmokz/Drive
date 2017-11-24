@@ -7,14 +7,14 @@ function onMessage(event) {
     if (usuario.action === "add") {
         getUsers();
     }
-   else  if (usuario.action === "remove") {
+    if (usuario.action === "remove") {
         //document.getElementById(device.id).remove();
         //device.parentNode.removeChild(device);
     }
-    else if (usuario.action === "getUsers") {
+    if (usuario.action === "getUsers") {
         users = usuario.users;
     }
-   else  if (usuario.action === "getMainFolder") {
+    if (usuario.action === "getMainFolder") {
 
        refreshFolders(usuario);
        refreshFiles(usuario);
@@ -22,35 +22,32 @@ function onMessage(event) {
   
     }
     
-   else  if (usuario.action === "getShareFolder") {
+    if (usuario.action === "getShareFolder") {
        refreshFolders(usuario);
        refreshFiles(usuario);
     }
-   else  if (usuario.action === "changeFolder") {
+    if (usuario.action === "changeFolder") {
       
        refreshFolder(usuario);
        refreshFolders(usuario);
        refreshFiles(usuario);
     }
-    else if (usuario.action === "view") {
+     if (usuario.action === "view") {
       
       
        refreshView(usuario);
     }
-    else if(usuario.action==="verFolder"){
+    if(usuario.action==="verFolder"){
         verFolder(usuario);
 
     }
-    else if(usuario.action==="verFile"){
+    if(usuario.action==="verFile"){
         verFile(usuario);
 
     }
-     else if(usuario.action==="verTodos"){
+     if(usuario.action==="verTodos"){
         verTodos(usuario);
 
-    }
-    else if(usuario.action==="NoDisponible"){
-        alert("La cantidad de memoria disponible no permite hacer la accion que desea ):");
     }
 
 
