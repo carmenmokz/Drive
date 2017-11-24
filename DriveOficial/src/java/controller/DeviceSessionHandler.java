@@ -526,37 +526,50 @@ public class DeviceSessionHandler {
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
         RaizFS FileSystem = usuarioRecibe.getFileSystem(); 
         RaizFS FileSystemShared = usuarioManda.getFileSystem(); 
+        System.out.println("KKK");
+        System.out.println(usuarioManda.getFileSystem().toString());
+        System.out.println("KKK");
         String altfile =FileSystem.conseguirUltimo(file); 
         Archivo archivo = FileSystemShared.conseguirArchivo(path, altfile); 
         System.out.println(file);
         System.out.println(usuarioRecibe.getFileSystem().existeArchEnDir("D/Compartido",file));
         String[] bits = file.split("/");
         String lastOne = bits[bits.length-1];
-        if(usuarioRecibe.getFileSystem().existeArchEnDir("D/Compartido",lastOne)==false){
-            if(toCopyPath.equals("")){
-                FileSystem.encontrarDirectorio("D/Compartido");
-                FileSystem.cambiarDirActual("D/Compartido");
-                FileSystem.copiarVVArchivo(archivo, FileSystem.getDirActual()); 
+        int total = archivo.getTamanio() + usuarioRecibe.getFileSystem().getConsumido();
+          if(total  <= usuarioRecibe.getFileSystem().getLimiteTamanio()){
+            if(usuarioRecibe.getFileSystem().existeArchEnDir("D/Compartido",lastOne)==false){
+                if(toCopyPath.equals("")){
+                    FileSystem.encontrarDirectorio("D/Compartido");
+                    FileSystem.cambiarDirActual("D/Compartido");
+                    FileSystem.copiarVVArchivo(archivo, FileSystem.getDirActual()); 
+                }
+                System.out.println(usuarios.toString());
+            }else {
+                System.out.println("Exist");
+                JsonProvider provider = JsonProvider.provider();
+                JsonObject removeMessage = provider.createObjectBuilder()
+                                    .add("action", "verFile")
+                                    .add("username", user)
+                                    .add("file", file)
+                                    .add("currentPath",path)
+                                    .add("toUser",toUser)
+                                    .add("sol",3)
+                                    .build();
+
+                sendToSession(session, removeMessage);
             }
-            System.out.println(usuarios.toString());
-        }else {
-            System.out.println("Exist");
+          }
+         else{
+            System.out.println("al chilee es mas grande");
             JsonProvider provider = JsonProvider.provider();
             JsonObject removeMessage = provider.createObjectBuilder()
-                                .add("action", "verFile")
-                                .add("username", user)
-                                .add("file", file)
-                                .add("currentPath",path)
-                                .add("toUser",toUser)
-                                .add("sol",3)
-                                .build();
-
+                    .add("action", "NoDisponible")
+                    .build();
             sendToSession(session, removeMessage);
         }
     }
     
     public void shareDirectory(String user, String directory, String toUser, String toCopyPath,Session session){
-        
         System.out.println(user + directory+toUser);
         Usuario usuarioManda = getUsuarioByUsername(user); 
         Usuario usuarioRecibe = getUsuarioByUsername(toUser);
@@ -567,31 +580,44 @@ public class DeviceSessionHandler {
         Directorio dirRecibe; 
         String[] bits = directory.split("/");
         String lastOne = bits[bits.length-1];
-               
-        if(usuarioRecibe.getFileSystem().encontrarDirectorio("D/Compartido"+"/"+lastOne)==null){
-            String dirOriginalS = FileSystemS.getDirActual(); 
-            if(toCopyPath.equals("")){
-                dirRecibe = FileSystemS.encontrarDirectorio("D/Compartido"); 
-                FileSystemS.cambiarDirActual("D/Compartido");
+        int tam = FileSystemOf.pesoDir(directory) + FileSystemS.getConsumido(); 
+        System.out.println("KKK");
+        System.out.println(usuarioManda.getFileSystem().toString());
+        System.out.println("KKK");
+        if(tam <= FileSystemS.getLimiteTamanio()){      
+            if(usuarioRecibe.getFileSystem().encontrarDirectorio("D/Compartido"+"/"+lastOne)==null){
+                String dirOriginalS = FileSystemS.getDirActual(); 
+                if(toCopyPath.equals("")){
+                    dirRecibe = FileSystemS.encontrarDirectorio("D/Compartido"); 
+                    FileSystemS.cambiarDirActual("D/Compartido");
+                }
+                else{
+                    dirRecibe = FileSystemS.encontrarDirectorio(toCopyPath); 
+                    FileSystemS.cambiarDirActual(toCopyPath);
+                }
+                FileSystemS.crearDirectorio(dirShared.getNombre());
+                sharedAllFiles(dirShared, FileSystemS, session);
+                FileSystemS.cambiarDirActual(dirOriginalS);
+            }else{
+                System.out.println("Exist");
+                JsonProvider provider = JsonProvider.provider();
+                JsonObject removeMessage = provider.createObjectBuilder()
+                                    .add("action", "verFolder")
+                                    .add("username", user)
+                                    .add("directory", directory)
+                                    .add("toUser",toUser)
+                                    .add("sol",3)
+                                    .build();
+
+                sendToSession(session, removeMessage);
             }
-            else{
-                dirRecibe = FileSystemS.encontrarDirectorio(toCopyPath); 
-                FileSystemS.cambiarDirActual(toCopyPath);
-            }
-            FileSystemS.crearDirectorio(dirShared.getNombre());
-            sharedAllFiles(dirShared, FileSystemS, session);
-            FileSystemS.cambiarDirActual(dirOriginalS);
-        }else{
-            System.out.println("Exist");
+        }
+        else{
+            System.out.println("al chilee es mas grande");
             JsonProvider provider = JsonProvider.provider();
             JsonObject removeMessage = provider.createObjectBuilder()
-                                .add("action", "verFolder")
-                                .add("username", user)
-                                .add("directory", directory)
-                                .add("toUser",toUser)
-                                .add("sol",3)
-                                .build();
-
+                    .add("action", "NoDisponible")
+                    .build();
             sendToSession(session, removeMessage);
         }
         

@@ -568,6 +568,7 @@ public class RaizFS {
         Archivo arc = conseguirArchivo(dirActual, nombreCompleto); 
         if(arc == null){return false;}
         arc.setContenido(contenido);
+        arc.setTamanio(contenido.length());
         arc.setModificacion(new Date());
         return true; 
     }

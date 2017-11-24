@@ -3,15 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/model/Archivo.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/model/Usuario.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/controller/RaizFS.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/web/assets/js/index.js</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/web/websocket.js</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/model/Directorio.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/controller/DriveOficial.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/controller/DeviceSessionHandler.java</file>
-            <file>file:/C:/Users/Ximena/Documents/II%20SEMESTRE/SISTEMAS%20OPERATIVOS/Drive/DriveOficial/src/java/controller/DeviceWebSocketServer.java</file>
+            <file>file:/C:/Users/bermu/OneDrive/Estudiantil/Materia/2017/segundo%20semestre/SO/Drive/DriveOficial/web/assets/js/index.js</file>
+            <file>file:/C:/Users/bermu/OneDrive/Estudiantil/Materia/2017/segundo%20semestre/SO/Drive/DriveOficial/src/java/controller/DeviceSessionHandler.java</file>
+            <file>file:/C:/Users/bermu/OneDrive/Estudiantil/Materia/2017/segundo%20semestre/SO/Drive/DriveOficial/src/java/controller/RaizFS.java</file>
+            <file>file:/C:/Users/bermu/OneDrive/Estudiantil/Materia/2017/segundo%20semestre/SO/Drive/DriveOficial/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/bermu/OneDrive/Estudiantil/Materia/2017/segundo%20semestre/SO/Drive/DriveOficial/web/websocket.js</file>
         </group>
     </open-files>
 </project-private>
