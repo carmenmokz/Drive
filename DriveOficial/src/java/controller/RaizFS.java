@@ -35,7 +35,7 @@ public class RaizFS {
     private int limiteTamanio; 
     private Directorio dir;         //a quien apunta ya para trabajar normal 
     private String dirActual;       //como pasare navegando en el FileSystem si quiero agregar una carpeta o archivo sera donde estoy
-
+    private int calc = 0; 
     public String getNombreRaiz() {
         return nombreRaiz;
     }
@@ -676,7 +676,35 @@ public class RaizFS {
         System.out.println(arc.toString());
     }
     
+      public void pesoAll(Directorio dir){
+        ArrayList<Directorio> dirs = dir.getDirectorios(); 
+        for (Directorio dir1 : dirs) {
+            pesoAll(dir1); 
+        }
+        String dirOriginal = dirActual; 
+        ArrayList<Archivo> archivos = dir.getArchivos(); 
+        for (Archivo archivo : archivos) {
+            calc += archivo.getTamanio(); 
+        }
+        cambiarDirActual(dirOriginal);
+    }
     
+    
+    
+    
+    public int pesoDir(String dir){
+        Directorio dirAPesar = encontrarDirectorio(dir);
+        calc = 0; 
+        if(dirAPesar != null){
+            String original = dirActual; 
+            cambiarDirActual(dir);
+            pesoAll(dirAPesar); 
+            cambiarDirActual(original);
+        }
+        int pesoFinal = calc; 
+        calc = 0; 
+        return pesoFinal; 
+    }
     
     @Override
     public String toString() {
